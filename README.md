@@ -6,4 +6,4 @@ Coming soon
 
 <br/>
 ## live at
-<a href="https://manandesai54.github.io/Cloud-Storage/">Cloud Storage</a>
+<a href="https://elastic-wescoff-1ae4e3.netlify.app/">Cloud Storage</a>
