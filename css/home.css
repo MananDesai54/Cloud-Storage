@@ -1,0 +1,37 @@
+main {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: minmax(40vw,1fr) 2fr;
+}
+.intro {
+    background-color: var(--dark-blue);
+    color: var(--light-white);
+    padding: 2rem 1.5rem;
+}
+.intro .logo {
+    display: flex;
+    align-items: center;
+}
+.logo__icon {
+    height: max(5vmax,40px);
+    width: max(6vmax,45px);
+}
+.logo__name {
+    font-weight: bold;
+    font-size: 2rem;
+}
+.intro .intro__title {
+    font-size: 2rem;
+    margin: 3rem 0;
+    font-weight: bold;
+}
+.intro .intro__description {
+    color: var(--light-grey);
+}
+.forms {
+    background: var(--light-white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

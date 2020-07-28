@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Noto Sans SC', sans-serif;
+}
+
+:root {
+    --light-white:#EAE6F6;
+    --dark-blue:#1E1E64;
+    --light-grey:#8B8CB2;
+    --light-blue:#24A5F4;
+    --dark-pink:#CA3185;
+    --dark-grey:#7C7C94;
+}
