@@ -30,8 +30,57 @@ main {
 }
 .forms {
     background: var(--light-white);
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* justify-content: center; */
+    /* align-items: center; */
+    padding: 6rem 4rem;
+    overflow: hidden;
+}
+.cards {
+    padding: 1.5rem 0;
+    transition: transform 400ms ease-in-out,opacity 400ms ease-in-out;
+}
+.card {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    width: 100%;
+    max-width: 600px;
+    align-items: center;
+    padding: 1.5rem 1rem;
+    margin: 1rem 0;
+    background: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background 400ms ease-in-out,box-shadow 400ms ease-in-out;
+}
+.card:hover {
+    /* background: rgba(0, 0, 0, 0.09); */
+    box-shadow: none;
+    transition: background 400ms ease-in-out,box-shadow 400ms ease-in-out;
+}
+.card p {
+    margin-left: 1.5rem;
+}
+.card .icon {
+    background: var(--light-white);
+    padding: 0.5rem;
+    border-radius: 5px;
+    font-size: 18px;
+    display: flex;
     align-items: center;
 }
+.go-left {
+    transform: translateX(-100vw);
+    opacity: 0;
+    transition: transform 400ms ease-in-out,opacity 400ms ease-in-out;
+}
+@media(max-width:650px) {
+    main {
+        grid-template-columns: 1fr;
+        height: 100%;
+    }
+    .forms {
+        padding-top: 1rem;
+    }
+} 
