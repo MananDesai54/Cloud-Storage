@@ -30,21 +30,23 @@ main {
 }
 .forms {
     background: var(--light-white);
-    /* display: flex; */
+    display: flex;
     /* flex-direction: column; */
-    /* justify-content: center; */
-    /* align-items: center; */
+    /* justify-content: space-between; */
+    align-items: center;
     padding: 6rem 4rem;
     overflow: hidden;
+    position: relative;
 }
 .cards {
     padding: 1.5rem 0;
-    transition: transform 400ms ease-in-out,opacity 400ms ease-in-out;
+    width: 100%;
+    transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),opacity 200ms cubic-bezier(.15,.3,.14,1.36),width 400ms cubic-bezier(.15,.3,.14,1.36);
 }
 .card {
     display: flex;
     width: 100%;
-    max-width: 600px;
+    max-width: 700px;
     align-items: center;
     padding: 1.5rem 1rem;
     margin: 1rem 0;
@@ -52,12 +54,12 @@ main {
     border-radius: 0.5rem;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
     cursor: pointer;
-    transition: background 400ms ease-in-out,box-shadow 400ms ease-in-out;
+    transition: background 600ms cubic-bezier(.15,.3,.14,1.36),box-shadow 600ms cubic-bezier(.15,.3,.14,1.36);
 }
 .card:hover {
     /* background: rgba(0, 0, 0, 0.09); */
     box-shadow: none;
-    transition: background 400ms ease-in-out,box-shadow 400ms ease-in-out;
+    transition: background 600ms cubic-bezier(.15,.3,.14,1.36),box-shadow 600ms cubic-bezier(.15,.3,.14,1.36);
 }
 .card p {
     margin-left: 1.5rem;
@@ -73,14 +75,80 @@ main {
 .go-left {
     transform: translateX(-100vw);
     opacity: 0;
-    transition: transform 400ms ease-in-out,opacity 400ms ease-in-out;
+    /* flex: 1; */
+    width: 0;
+    transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),opacity 200ms cubic-bezier(.15,.3,.14,1.36),width 600ms cubic-bezier(.15,.3,.14,1.36);
 }
+.signUp {
+    width: 100%;
+    transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),opacity 200ms cubic-bezier(.15,.3,.14,1.36),width 600ms cubic-bezier(.15,.3,.14,1.36);
+}
+.go-right {
+    transform: translateX(100vw);
+    height: 100%;
+    width: 0;
+    opacity: 0;
+    /* flex: 1; */
+    /* width: 100%; */
+    transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),opacity 200ms cubic-bezier(.15,.3,.14,1.36),width 600ms cubic-bezier(.15,.3,.14,1.36);
+}
+.signUp .form {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+}
+.signUp .form .form-input {
+    position: relative;
+}
+.form-input input {
+    padding:15px 20px;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 1.5rem;
+    outline: none;
+    font-size: 1rem;
+    transition: border 200ms cubic-bezier(.15,.3,.14,1.36);
+}
+.form-input input:focus {
+    border: 1px solid var(--dark-blue);
+    transition: border 200ms cubic-bezier(.15,.3,.14,1.36);
+}
+
+.signUp .form button {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: var(--dark-blue);
+    color: var(--light-white);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    transition: all 400ms cubic-bezier(.15,.3,.14,1.36);
+}
+.signUp .form button:hover {
+    background: rgba(29, 29, 98, 0.6);
+    transition: all 400ms cubic-bezier(.15,.3,.14,1.36);
+}
+.signUp .form button:active {
+    transform: scale(0.98);
+    transition: all 400ms cubic-bezier(.15,.3,.14,1.36);
+}
+.forms .help {
+    position: absolute;
+    bottom: 50px;
+    right: 30px;
+}
+
 @media(max-width:650px) {
     main {
         grid-template-columns: 1fr;
         height: 100%;
     }
     .forms {
-        padding-top: 1rem;
+        padding-top: 3rem;
+        height: 100%;
     }
 } 
