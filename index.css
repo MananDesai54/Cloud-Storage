@@ -5,6 +5,7 @@
     margin: 0;
     box-sizing: border-box;
     font-family: 'Noto Sans SC', sans-serif;
+    outline: none;
 }
 html {
     scroll-behavior: smooth;

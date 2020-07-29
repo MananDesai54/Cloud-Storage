@@ -2,6 +2,10 @@ main {
     display: grid;
     height: 100vh;
     grid-template-columns: minmax(40vw,1fr) 2fr;
+    position: relative;
+}
+html {
+    background: var(--light-white);
 }
 .intro {
     background-color: var(--dark-blue);
@@ -55,7 +59,6 @@ main {
     align-items: center;
     padding: 6rem 4rem;
     overflow: hidden;
-    position: relative;
 }
 .cards {
     padding: 1.5rem 0;
@@ -173,11 +176,64 @@ main {
     }
 } 
 
-.how-to-use {
-    margin: 2rem;
+#how-to-use {
+    padding:2rem 1rem ;
+    background: #fff;
+    width: 100%;
 }
 .feature {
+    max-width: 70%;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 1rem auto 2rem;
+}
+.feature .window {
+    height: 30vmax;
+    width: 30vmax;
+    margin-right: 4rem;
+    background: var(--light-white);
+    border-radius: 20px;
+    padding: 1rem;
+}
+.feature__detail {
+    text-align: center;
+}
+.feature .window .left {
+    height: 100%;
+    width: 40%;
+    background: #fff;
+    border-radius: 20px;
+}
+
+@media(max-width:1100px) {
+    .feature {
+        max-width: 100%;
+        padding: 0 2rem;
+    }
+}
+@media(max-width:700px) {
+    .feature {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .feature .window {
+        height: 50vmax;
+        width: 50vmax;
+        margin: auto;
+    }
+}
+@media(max-width:350px) {
+    .feature .window {
+        height: 200px;
+        width: 200px;
+    }
+    .forms .help {
+        top: 10px;
+        color: #fff;
+    }
+    .forms .help a {
+        color: orange;
+    }
 }
