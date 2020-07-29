@@ -6,6 +6,9 @@
     box-sizing: border-box;
     font-family: 'Noto Sans SC', sans-serif;
 }
+html {
+    scroll-behavior: smooth;
+}
 
 :root {
     --light-white:#EAE6F6;

@@ -28,6 +28,25 @@ main {
 .intro .intro__description {
     color: var(--light-grey);
 }
+.how-to-use-btn {
+    text-decoration: none;
+    background: var(--light-white);
+    padding: 10px;
+    border-radius: 5px;
+    color: var(--dark-blue);
+    display: block;
+    width: 150px;
+    text-align: center;
+    margin-top: 2rem;
+    transition: all 400ms ease-in-out;
+}
+.how-to-use-btn:hover {
+    background: #aaa;
+    transition: all 400ms ease-in-out;
+}
+.how-to-use-btn:active {
+    transform: scale(0.9);
+}
 .forms {
     background: var(--light-white);
     display: flex;
@@ -41,6 +60,7 @@ main {
 .cards {
     padding: 1.5rem 0;
     width: 100%;
+    /* height: 100%; */
     transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),opacity 200ms cubic-bezier(.15,.3,.14,1.36),width 400ms cubic-bezier(.15,.3,.14,1.36);
 }
 .card {
@@ -99,9 +119,6 @@ main {
     display: flex;
     flex-direction: column;
 }
-.signUp .form .form-input {
-    position: relative;
-}
 .form-input input {
     padding:15px 20px;
     width: 100%;
@@ -145,10 +162,22 @@ main {
 @media(max-width:650px) {
     main {
         grid-template-columns: 1fr;
-        height: 100%;
+        height: 180vh;
     }
     .forms {
         padding-top: 3rem;
         height: 100%;
     }
+    .forms .help {
+        bottom: 20px;
+    }
 } 
+
+.how-to-use {
+    margin: 2rem;
+}
+.feature {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
