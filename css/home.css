@@ -6,11 +6,15 @@ main {
 }
 html {
     background: var(--light-white);
+    width: 100vw;
+    overflow-x: hidden;
 }
 .intro {
     background-color: var(--dark-blue);
     color: var(--light-white);
     padding: 2rem 1.5rem;
+    height: 90%;
+    border-bottom-right-radius: 250px;
 }
 .intro .logo {
     display: flex;
@@ -158,7 +162,7 @@ html {
 }
 .forms .help {
     position: absolute;
-    bottom: 40px;
+    top: 40px;
     right: 30px;
 }
 
@@ -167,18 +171,63 @@ html {
         grid-template-columns: 1fr;
         height: 180vh;
     }
+    .intro {
+        height: 100%;
+        border-bottom-right-radius: 0;
+    }
     .forms {
         padding-top: 3rem;
         height: 100%;
     }
     .forms .help {
         bottom: 20px;
+        color: white;
+    }
+    .forms .help a {
+        color:var(--dark-pink)
     }
 } 
 
+
+
+
+.cards__info {
+    padding: 4rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(350px,1fr));
+    gap: 2rem;
+    /* background: var(--light-skin); */
+}
+.cards__info .card__data {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    /* background: var(--light-skin); */
+    background: #fff;
+    color: var(--light-black);
+    font-size: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+    transition: all 400ms ease-in-out;
+}
+.card__data:hover {
+    transform: translateY(5px);
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+    transition: all 400ms ease-in-out;
+}
+.card__data p {
+    font-size: 1rem;
+    margin: 2rem;
+}
+
+
+
+
 #how-to-use {
     padding:2rem 1rem ;
-    background: #fff;
+    background: var(--light-white);
     width: 100%;
 }
 .feature {
@@ -193,7 +242,7 @@ html {
     width: 30vmax;
     margin-right: 4rem;
     position: relative;
-    background: var(--light-white);
+    background: #fff;
     border-radius: 20px;
     padding: 1rem;
     display: grid;
@@ -207,7 +256,7 @@ html {
 }
 .feature .window .left , .feature .window .right {
     height: 100%;
-    background: #fff;
+    background: var(--light-white);
     border-radius: 20px;
     padding: 1rem;
 }
@@ -220,14 +269,14 @@ html {
     gap: 1rem;
 }
 .feature .window .right .data {
-    background: #eee;
+    background: #fff;
     border-radius: 20px;
 }
 .feature .window .left .profile {
     height: 5vmax;
     width: 5vmax;
     border-radius: 50%;
-    background: var(--light-white);
+    background: #fff;
     margin-left: 1rem;
 }
 .feature .window .left .data {
@@ -235,7 +284,7 @@ html {
     height: 20px;
     width: 80%;
     border-radius:20px;
-    background: #eee;
+    background: #fff;
 }
 .feature .window .download-file .data {
     background: rgba(0, 0, 0, 0.4);
@@ -387,4 +436,9 @@ html {
     .forms .help a {
         color: orange;
     }
+}
+
+
+footer {
+    
 }

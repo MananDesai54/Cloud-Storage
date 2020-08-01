@@ -3,67 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud Storage</title>
+    <title>Document</title>
+    <link rel="stylesheet" href="gd.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/1b8ba3dee0.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <nav>
-        <div>logo</div>
-        <input type="text" placeholder="Search">
-        <ul>
-            <li> <a href="./Html/login.html">login</a> </li>
-            <li> <a href="./Html/signup.html">signUp</a> </li>
-            <li> <a href="./index.html">logout</a> </li>
-            <li> <a href="./index.html">settings</a> </li>
-            <li> <a href="./index.html">profile photo</a> </li>
-            <li> <a href="./Html/home.html">Info Page</a> </li>
-        </ul>
-    </nav>
-    <hr>
-    <section>
-        <div>
-            sidebar
-            <a href="./Html/add.html">Add</a>
-            <ul>
-                <li>My Files</li>
-                <li>recent</li>
-                <li>starred</li>
-                <li>Bin</li>
-            </ul>
+    <header>
+        <a href="./Html/home.html" class="logo">
+            <i class="fab fa-google-drive"></i>
+            <h1>Drive</h1>
+        </a>
+        <div class="search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search Drive">
+            <i class="fas fa-sort-down"></i>
         </div>
-        <hr>
-        <div>
-            main section
-            <div>
-                files
-                <ul>
-                    <li>File1</li>
-                    <li>File2</li>
-                    <li>File3</li>
-                    <li>File5</li>
-                    <li>File5</li>
-                    <li>File6</li>
-                    <li>File7</li>
-                    <li>File8</li>
-                    <li>File9</li>
-                    <li>File10</li>
-                </ul>
+        <div class="help">
+            <i class="far fa-question-circle"></i>
+        </div>
+        <div class="setting">
+            <i class="fas fa-cog"></i>
+        </div>
+        <div class="more">
+            <i class="fas fa-ellipsis-h"></i>
+        </div>
+        <div class="profile">
+            
+        </div>
+    </header>
+    <main>
+        <div class="sidebar">
+            <button class="new active">
+                <i class="fas fa-plus"></i>
+                <h3>New</h3>
+            </button>
+            <div class="menu">
+                <div class="sec1 sec">
+                    <i class="fab fa-google-drive"></i>
+                    <h3>My Drive</h3>
+                </div>
+                <div class="sec2 sec">
+                    <i class="fas fa-user-friends"></i>
+                    <h3>Shared with me</h3>
+                </div>
+                <div class="sec3 sec">
+                    <i class="far fa-clock"></i>
+                    <h3>Recent</h3>
+                </div>
+                <div class="sec4 sec">
+                    <i class="far fa-clock"></i>
+                    <h3>Starred</h3>
+                </div>
+                <div class="sec5 sec">
+                    <i class="far fa-trash-alt"></i>
+                    <h3>Trash</h3>
+                </div>
             </div>
-            <div>
-                folders
-                <ul>
-                    <li>Folder1</li>
-                    <li>Folder2</li>
-                    <li>Folder3</li>
-                    <li>Folder5</li>
-                    <li>Folder5</li>
-                    <li>Folder6</li>
-                    <li>Folder7</li>
-                    <li>Folder8</li>
-                    <li>Folder9</li>
-                    <li>Folder10</li>
-                </ul>
+            <div class="storage">
+                <i class="fas fa-database"></i>
+                <div class="show-storage">
+                    <h4>Storage</h4>
+                    <a href="#">Buy storage</a>
+                </div>
             </div>
         </div>
-    </section>
+        <div class="content">
+            <div class="nav">
+                <div class="drive">
+                    <h3>My Drive</h3>
+                    <i class="fas fa-sort-down"></i>
+                </div>
+                <div class="info">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+            </div>
+             <div class="my-Content">
+
+             </div>
+        </div>
+    </main>
 </body>
+
+</div>
 </html>

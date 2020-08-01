@@ -1,0 +1,124 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto';
+}
+header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+}
+.logo {
+    display: flex;
+    justify-content:flex-start;
+    align-items: center;
+    width: 200px;
+    padding: 5px;
+}
+.logo i {
+    font-size: 25px;
+    margin-right: 10px;
+}
+.search {
+    background: #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 5px;
+}
+.search input {
+    background: none;
+    border: none;
+    padding: 10px;
+}
+.profile {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    background: #1a2b3c;
+}
+main{
+    display: flex;
+}
+.sidebar {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.new {
+    border: none;
+    background:none;
+    padding: 15px 10px;
+    display: flex;
+    align-items: center;
+    border-radius: 30px;
+    margin: 10px;
+    width: 100px;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6) , 
+                -2px -2px 4px rgba(255, 255, 255, 0.6);
+}
+.new i {
+    font-size: 25px;
+    margin: 0 10px;
+}
+.menu {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: 10px;
+    border-bottom: 1px solid #ccc;
+}
+.menu .sec {
+    margin: 2px 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom-right-radius: 20px;
+    border-top-right-radius:20px ;
+    padding: 10px;
+    width: 100%;
+}
+.menu .sec i {
+    margin: 0 10px;
+}
+.storage {
+    margin: 2px 30px 10px 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.storage .show-storage {
+    display: flex;
+    flex-direction: column;
+    margin: 0 10px;
+}
+i {
+    color: #333 !important;
+}
+a {
+    text-decoration: none !important;
+}
+.content {
+    width: 100%;
+    margin: 10px;
+}
+.content .nav {
+    display: flex;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+.drive {
+    display: flex;
+    justify-content: flex-start;
+    flex: 1 0 0;
+}
+.drive h3 {
+    margin:0 10px;
+}
