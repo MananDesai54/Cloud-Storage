@@ -24,9 +24,11 @@ function checkDisabled() {
         visibleSubmit = validated[val] && visibleSubmit;
     }
     if(visibleSubmit) {
-       submitBtn.disabled = false; 
+        submitBtn.disabled = false; 
+        submitBtn.title = 'Submit to Register';
     }else {
         submitBtn.disabled = true;
+        submitBtn.title = 'Please fill the form';
     }
 }
 

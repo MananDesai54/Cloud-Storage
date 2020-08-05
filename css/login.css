@@ -33,3 +33,7 @@ button:active {
     transform: scale(.9);
     transition: all 400ms;
 }
+button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
