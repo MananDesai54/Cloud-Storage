@@ -54,27 +54,45 @@
                     <i class="fas fa-arrow-left fa-2x" style="color: var(--dark-blue);"></i>
                 </div>
                 <h1>Create Your Account</h1>
-                <form class="form">
+                <form class="form" id="signUp-form">
                     <div class="form-input">
                         <label for="name">
                             Name
                         </label>
                         <input type="text" name="name" id="name" placeholder="Enter your name" required />
+                        <small>Name Must of 5 letters</small>
                     </div>
                     <div class="form-input">
                         <label for="email">
                             Email
                         </label>
-                        <input type="email" name="email" id="email" placeholder="Enter your email" required />
+                        <input type="email" name="email" id="emailId" placeholder="Enter your email" required />
+                        <small>Enter Valid Email</small>
                     </div>
                     <div class="form-input">
                         <label for="password">
                             Password
                         </label>
                         <input type="password" name="password" id="password" placeholder="Enter your password" style="margin-bottom: 0px;" required/>
-                        <small>Password must contain at least 8 letters including 1 capital letter , any from a-z , 1 number 0-9 and one special character (_-,@$%#)</small>
+                        <div class="password-format">
+                            <div class="validation" id="length-check">
+                                <small>Length must be between 8-16 letters</small> <i class="fas fa-check done"></i>
+                            </div>
+                            <div class="validation" id="capital-check">
+                                <small>At least 1 Capital Letter</small> <i class="fas fa-check done"></i>
+                            </div>
+                            <div class="validation" id="small-check">
+                                <small>At least 1 Small Letter</small>  <i class="fas fa-check done"></i>
+                            </div>
+                            <div class="validation" id="number-check">
+                                <small>At least 1 Number</small> <i class="fas fa-check done"></i>
+                            </div>
+                            <div class="validation" id="special-check">
+                                <small>At least 1 Special Character ( !,@#$%^&*_=+-/ )</small> <i class="fas fa-check done"></i>
+                            </div>
+                        </div>
                     </div>
-                    <button type="submit">
+                    <button id="signUpBtn" type="submit" title="Please Fill The Form">
                         Sign Up
                     </button>
                 </form>
@@ -84,7 +102,7 @@
         </div>
     </main>
 
-    <h1 style="text-align: center;">What can you do with it?</h1>
+    <h1 style="text-align: center;margin-top:5rem">What can you do with it?</h1>
     <div class="cards__info">
         <div class="card__data">
             <i class="fas fa-file-upload fa-2x"></i>
@@ -173,5 +191,6 @@
         
     </footer>
     <script src="../js/home.js"></script>
+    <script src="../js/signUp.js"></script>
 </body>
 </html>

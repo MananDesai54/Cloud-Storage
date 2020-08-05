@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rowdies&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Rowdies&display=swap');
+
 
 * {
     padding: 0;
@@ -9,6 +12,7 @@
 }
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 :root {

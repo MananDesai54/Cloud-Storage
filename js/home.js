@@ -1,3 +1,5 @@
+//change mode
+
 const signUpWithEmail = document.getElementById('email');
 const cards = document.querySelector('.cards');
 const signUpForm = document.querySelector('.signUp');
