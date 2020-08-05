@@ -499,6 +499,26 @@ html {
 }
 
 
+
+
 footer {
-    
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(400px,1fr));
+    gap: 1rem;
+    padding: 1rem;
+    padding-bottom: 2rem;
+    background: var(--dark-blue);
+    color: #eee;
+}
+footer .data {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+footer .data .data__title {
+    display: flex;
+    margin-bottom: 1rem;
+    align-items: center;
 }
