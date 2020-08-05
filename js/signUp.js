@@ -3,7 +3,7 @@ const nameInput = document.getElementById('name');
 const email = document.getElementById('emailId');
 const password = document.getElementById('password');
 const submitBtn = document.getElementById('signUpBtn');
-let disabled = true;
+let visible = true;
 
 const validated = {
     name:false,
@@ -20,8 +20,15 @@ const passwordCheck = {
 }
 
 function checkDisabled() {
+    let visibleSubmit;
     for(let val in validated) {
-        disabled = validated[val] && disabled;
+        console.log(validated[val])
+        visibleSubmit = validated[val] && visible;
+    }
+    if(visibleSubmit) {
+       submitBtn.disabled = false; 
+    }else {
+        submitBtn.disabled = true;
     }
 }
 
@@ -58,11 +65,11 @@ function validate(element,field) {
             success('email',element,errorBox);
         }
     }else if(field === 'password') {
-        const passwordTest = /[A-Z]+[a-z]+[0-9]+[!@#$%^&*_=+-/]+/
+        const passwordTest = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*_=+-/<>?`~:])[A-Za-z\d!@#$%^&*_=+-/<>?`~:]{8,10}$/g;
         const capitalTest = /[A-Z]+/;
         const smallTest = /[a-z]+/;
         const numberTest = /[0-9]+/;
-        const specialTest = /[!@#$%^&*_=+-/]+/;
+        const specialTest = /[!@#$%^&*_=+-/<>?`~:]+/;
 
         const lengthCheck = document.getElementById('length-check');
         //length check
@@ -89,9 +96,16 @@ function validate(element,field) {
         const specialCheck = document.getElementById('special-check');
         //Special check
         passwordValidate(specialTest,element,specialCheck,'special');
-
         if(passwordTest.test(element.value)) {
-            password.classList.add();
+            element.classList.add('success');
+            element.classList.remove('danger');
+            validated.password = true;
+            checkDisabled();
+        }else {
+            element.classList.remove('success');
+            element.classList.add('danger');
+            validated.password = false;
+            checkDisabled();
         }
     }
 }
