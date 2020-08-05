@@ -4,18 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../index.css">
+    <link rel="stylesheet" href="../css/signUp.css">
+    <link rel="stylesheet" href="../css/login.css">
 </head>
 <body>
     <h1>Login</h1>
-    <form action="">
-        <label for="">
-            Username : <input type="text" name="" id="" placeholder="username">
-        </label>
-        <label for="">
-            password : <input type="password" name="" id="" placeholder="password">
-        </label>
+    <form class="form login" id="signUp-form">
+        <div class="form-input">
+            <label for="email">
+                Email
+            </label>
+            <input type="email" name="email" id="emailId" placeholder="Enter your email" required />
+        </div>
+        <div class="form-input">
+            <label for="name">
+                Password
+            </label>
+            <input type="password" name="password" id="password" placeholder="Enter your Password" required />
+        </div>
+        <button id="signUpBtn" type="submit">
+            Sign Up
+        </button>
     </form>
-    <a href="./signup.html">Not registered? SignUp</a>
-    <a href="../index.html">Home</a>
+    <h4>
+        Not Registered ?    
+        <a href="./signup.html">SignUp</a>
+    </h4>
+    <h4>
+        <a href="../index.html">Home</a>
+    </h4>
 </body>
 </html>
