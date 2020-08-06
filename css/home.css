@@ -10,6 +10,7 @@ html {
     overflow-x: hidden;
 }
 
+
 .splash-screen {
     background-color: var(--splash-screen);
     position: fixed;
@@ -22,27 +23,55 @@ html {
     justify-content: center;
     align-items: center;
 }
-.splash-screen svg path:nth-of-type(1) {
-    stroke-dasharray: 10px;
-    stroke-dashoffset: 50px;
+.splash-screen #logo {
+    animation: fillSVG 1s ease-in-out 3s forwards;
 }
-.splash-screen svg path:nth-of-type(2) {
-
+.splash-screen svg > path:nth-of-type(1) {
+    stroke-dasharray: 327;
+    stroke-dashoffset: 327;
+    animation: drawSVG 2s ease-in-out forwards;
 }
-.splash-screen svg path:nth-of-type(3) {
-
+.splash-screen svg > path:nth-of-type(2) {
+    stroke-dasharray: 261;
+    stroke-dashoffset: 261;
+    animation: drawSVG 2s ease-in-out forwards 0.3s;
 }
-.splash-screen svg path:nth-of-type(4) {
-
+.splash-screen svg > path:nth-of-type(3) {
+    stroke-dasharray: 216;
+    stroke-dashoffset: 216;
+    animation: drawSVG 2s ease-in-out forwards 0.6s;
 }
-.splash-screen svg path:nth-of-type(5) {
-
+.splash-screen svg > path:nth-of-type(4) {
+    stroke-dasharray: 273;
+    stroke-dashoffset: 273;
+    animation: drawSVG 2s ease-in-out forwards 0.9s;
 }
-.splash-screen svg path:nth-of-type(6) {
-
+.splash-screen svg > path:nth-of-type(5) {
+    stroke-dasharray: 165;
+    stroke-dashoffset: 165;
+    animation: drawSVG 2s ease-in-out forwards 1.2s;
 }
-.splash-screen svg path:nth-of-type(7) {
-
+.splash-screen svg > path:nth-of-type(6) {
+    stroke-dasharray: 256;
+    stroke-dashoffset: 256;
+    animation: drawSVG 2s ease-in-out forwards 1.5s;
+}
+.splash-screen svg > path:nth-of-type(7) {
+    stroke-dasharray: 256;
+    stroke-dashoffset: 256;
+    animation: drawSVG 2s ease-in-out forwards 1.8s;
+}
+@keyframes drawSVG {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+@keyframes fillSVG {
+    from {
+        fill: transparent;
+    }to {
+        fill:var(--light-white);
+    }
 }
 
 
@@ -125,7 +154,7 @@ html {
     max-width: 700px;
     align-items: center;
     padding: 1.5rem 1rem;
-    margin: 1rem 0;
+    margin: 1rem 0 2rem;
     background: #fff;
     border-radius: 0.5rem;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);

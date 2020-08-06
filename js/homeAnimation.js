@@ -1,6 +1,6 @@
 const timeline = gsap.timeline({
     defaults:{
-        duration:0.5
+        duration:0.5,
     }
 });
 
@@ -9,6 +9,7 @@ timeline
         x:'-100%',
         borderRadius:'100%',
         opacity:0,
+        delay:4.2
     })
     .from('.intro__data',{
         opacity:0,
