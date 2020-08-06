@@ -262,12 +262,14 @@ html {
     font-size: 2rem;
     border-radius: 20px;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
-    transition: all 400ms ease-in-out;
+    transform: translateY(50px);
+    opacity: 0;
+    transition: all 400ms;
 }
-.card__data:hover {
-    transform: translateY(5px);
-    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
-    transition: all 400ms ease-in-out;
+.cards__info .card__data.show {
+    transform: none;
+    opacity: 1;
+    transition: all 400ms;
 }
 .card__data p {
     font-size: 1rem;
@@ -509,6 +511,7 @@ footer {
     padding-bottom: 2rem;
     background: var(--dark-blue);
     color: #eee;
+    overflow: hidden;
 }
 footer .data {
     display: flex;
