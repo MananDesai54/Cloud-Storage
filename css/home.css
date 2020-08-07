@@ -22,7 +22,17 @@ html {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
+/* .splash-screen img {
+    opacity: 0;
+    animation: imgShow 400ms ease-in-out forwards;
+} */
+/* @keyframes imgShow {
+    to {
+        opacity: 1;
+    }
+} */
 .splash-screen #logo {
     animation: fillSVG 1s ease-in-out 3s forwards;
 }
@@ -81,6 +91,18 @@ html {
     padding: 2rem 1.5rem;
     height: 90%;
     border-bottom-right-radius: 50%;
+    clip-path: circle(10px at 1% -15%);
+    -webkit-clip-path: circle(10px at 1% -15%);
+    -moz-clip-path: circle(10px at 1% -15%);
+    -o-clip-path: circle(10px at 1% -15%);
+    -ms-clip-path: circle(10px at 1% -15%);
+    animation: come-in 1000ms ease-in-out forwards;
+    animation-delay: 4.2s;
+}
+@keyframes come-in {
+    to {
+        clip-path: circle(1000px at 1% -15%);
+    }
 }
 .intro .logo {
     display: flex;
