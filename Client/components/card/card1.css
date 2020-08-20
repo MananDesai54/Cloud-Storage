@@ -158,6 +158,18 @@ img {
   border-radius: 50%;
   opacity: 0;
 }
+.back .streamer .icon::after {
+  content: '';
+  position: absolute;
+  top: -10;
+  left: -10;
+  background: var(--clr-accent-dark);
+  height: 2.5em;
+  width: 2.5em;
+  z-index: -1;
+  border-radius: 50%;
+  opacity: 0;
+}
 
 .background {
   background: #282e2c;
@@ -218,6 +230,11 @@ img {
 .back .streamer .icon:hover::before {
   opacity: 0.5;
   animation: beat 5000ms infinite;
+  transition: opacity 250ms;
+}
+.back .streamer .icon:hover::after {
+  opacity: 0.3;
+  animation: beat 6000ms infinite;
   transition: opacity 250ms;
 }
 
