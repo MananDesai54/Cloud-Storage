@@ -172,6 +172,7 @@ body {
     background: var(--background-secondary);
     margin-left: 1rem;
     overflow-y: scroll;
+    padding: 2rem;
 }
 .user .option-detail::-webkit-scrollbar-thumb {
     background: var(--interactive-muted);
@@ -180,4 +181,80 @@ body {
 .user .option-detail::-webkit-scrollbar {
     background: var(--background-tertiary);
     width: 10px;
+}
+.user .option-detail section > .title {
+    padding-top: 1rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: var(--light-white);
+    letter-spacing: 1px;
+}
+.user .option-detail .details {
+    display: flex;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: var(--background-tertiary);
+    border-radius: 10px;
+    width: 80%;
+    margin-bottom: 1rem;
+}
+.user .option-detail .details img {
+    height: 10vmax;
+    width: 10vmax;
+    border-radius: 50%;
+}
+.user .option-detail .details .basic {
+    flex: 1;
+    margin: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    color: #ddd;
+}
+.user .option-detail .details .basic .title {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: gray;
+}
+.user .option-detail .details .edit button {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    border: none;
+    background: var(--color-accent);
+    color: var(--light-white);
+    cursor: pointer;
+}
+.user .option-detail .details .edit button:active {
+    transform: scale(0.93);
+    transition: transform 100ms;
+}
+.user .option-detail .switch {
+    width: 60px;
+    height: 30px;
+    background: var(--background-tertiary);
+    margin-top: 1rem;
+    border-radius: 100vmax;
+    display: flex;
+    align-items: center;
+    position: relative;
+    transition: all 400ms;
+}
+.user .option-detail .switch.toggle-switch {
+    background: var(--color-success);
+    justify-content: flex-end;
+    transition: all 400ms;
+}
+.user .option-detail .switch.toggle-switch .roller {
+    left: 30px;
+    background: var(--background-tertiary);
+    transition: all 200ms;
+}
+.user .option-detail .switch .roller {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    background: gray;
+    position: absolute;
+    left: 0;
+    transition: all 200ms;
 }
