@@ -1,0 +1,112 @@
+body {
+    background: var(--background-primary);
+}
+.menu-toggle {
+    margin: 1rem 1rem 1rem 0;
+    background: var(--background-tertiary);
+    border-radius: 0 20px 20px 0;
+    color: var(--light-white);
+    font-size: 1.6vmax;
+    position: fixed;
+    top: 1.5rem;
+    left: 0;
+    transform: translateX(-25px);
+    cursor: pointer;
+    transition: all 400ms , transform 400ms ease-in-out 400ms;
+}
+.menu-toggle:hover {
+    transform: translateX(0);
+    transition: transform 400ms ease-in-out 400ms ,all 400ms;
+}
+.menu-toggle i {
+    padding: 0.5rem 0.8rem;
+    transition: all 400ms;
+}
+.toggle-move {
+    transform: translateX(0);
+    left: 75px;
+    transition: all 400ms;
+}
+.toggle-move i {
+    transform: rotate(-180deg);
+    transition: all 400ms;
+}
+.menu-toggle:hover i {
+    color: var(--color-accent);
+    transition: all 400ms;
+}
+.side-menu .menu {
+    transform: translateX(-75px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    width: 75px;
+    background:  var(--background-tertiary);
+    transition: all 400ms;
+}
+.side-menu .menu .logo {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+    color: var(--light-white);
+    height: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background: var(--background-secondary);
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+}
+.side-menu .menu .logo:hover {
+    border-radius: 20px;
+    background: var(--color-accent);
+    transition: all 200ms ease-in-out;
+}
+.middle{
+    margin: 1rem 0;
+    flex: 1;
+    border-top: 3px solid var(--background-primary);
+    border-bottom: 3px solid var(--background-primary);
+}
+.menu.menu-move {
+    transform: translateX(0px);
+    transition: all 400ms;
+}
+.menu .item {
+    position: relative;
+}
+.menu .item .title {
+    position: absolute;
+    background: var(--background-primary);
+    white-space: nowrap;
+    padding: 0.15rem;
+    border-radius: 2px;
+    color: var(--light-white);
+    top: 50%;
+    left: 110%;
+    transform: translateY(-50%);
+    opacity: 0;
+    pointer-events: none;
+}
+.menu .item:hover .title {
+    opacity: 1;
+    transition: opacity 200ms;
+}
+.menu .item.selected .logo{
+    background: var(--color-accent);
+    position: relative;
+}
+.menu .item.selected::before {
+    content: '';
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    background: var(--light-white);
+    top: 50%;
+    left: -18px;
+    transform: translateY(-50%);
+    border-radius: 0 10px 10px 0;
+}

@@ -4,86 +4,109 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./css/gd.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./index.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/1b8ba3dee0.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header>
-        <a href="./Html/home.html" class="logo">
-            <i class="fab fa-google-drive"></i>
-            <h1>Drive</h1>
-        </a>
-        <div class="search">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search Drive">
-            <i class="fas fa-sort-down"></i>
+    <div class="side-menu">
+        <div class="menu-toggle">
+            <i class="fas fa-angle-double-right"></i>
         </div>
-        <div class="help">
-            <i class="far fa-question-circle"></i>
-        </div>
-        <div class="setting">
-            <i class="fas fa-cog"></i>
-        </div>
-        <div class="more">
-            <i class="fas fa-ellipsis-h"></i>
-        </div>
-        <div class="profile">
-            
-        </div>
-    </header>
-    <main>
-        <div class="sidebar">
-            <button class="new active">
-                <i class="fas fa-plus"></i>
-                <h3>New</h3>
-            </button>
-            <div class="menu">
-                <div class="sec1 sec">
-                    <i class="fab fa-google-drive"></i>
-                    <h3>My Drive</h3>
+        <div class="menu">
+            <div class="top section">
+                <div class="item">
+                    <div class="logo">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="title">
+                        Home
+                    </div>
                 </div>
-                <div class="sec2 sec">
-                    <i class="fas fa-user-friends"></i>
-                    <h3>Shared with me</h3>
-                </div>
-                <div class="sec3 sec">
-                    <i class="far fa-clock"></i>
-                    <h3>Recent</h3>
-                </div>
-                <div class="sec4 sec">
-                    <i class="far fa-clock"></i>
-                    <h3>Starred</h3>
-                </div>
-                <div class="sec5 sec">
-                    <i class="far fa-trash-alt"></i>
-                    <h3>Trash</h3>
+                <div class="item selected">
+                    <div class="logo">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="title">
+                        User
+                    </div>
                 </div>
             </div>
-            <div class="storage">
-                <i class="fas fa-database"></i>
-                <div class="show-storage">
-                    <h4>Storage</h4>
-                    <a href="#">Buy storage</a>
+            <div class="middle section">
+                <div class="item">
+                    <div class="logo">
+                        All
+                    </div>
+                    <div class="title">
+                        All files
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="logo">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="title">
+                        Pdfs
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="logo">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <div class="title">
+                        Songs
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="logo">
+                        <i class="fas fa-file-word"></i>
+                    </div>
+                    <div class="title">
+                        Word files
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="logo">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="title">
+                        Videos
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="logo">
+                        <i class="fas fa-file-image"></i>
+                    </div>
+                    <div class="title">
+                        Images
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="logo">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="title">
+                        Other Files
+                    </div>
+                </div>
+            </div>
+            <div class="bottom section">
+                <div class="item" title="Help">
+                    <div class="logo">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                </div>
+                <div class="item" title="Logout">
+                    <div class="logo">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="content">
-            <div class="nav">
-                <div class="drive">
-                    <h3>My Drive</h3>
-                    <i class="fas fa-sort-down"></i>
-                </div>
-                <div class="info">
-                    <i class="fas fa-info-circle"></i>
-                </div>
-            </div>
-             <div class="my-Content">
-
-             </div>
-        </div>
-    </main>
+    </div>
+    <script src="./index.js"></script>
 </body>
-
 </div>
 </html>
