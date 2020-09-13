@@ -1,5 +1,6 @@
 body {
     background: var(--background-primary);
+    display: flex;
 }
 .menu-toggle {
     margin: 1rem 1rem 1rem 0;
@@ -42,9 +43,9 @@ body {
     justify-content: space-between;
     align-items: center;
     height: 100vh;
-    width: 75px;
+    width: 0px;
     background:  var(--background-tertiary);
-    transition: all 400ms;
+    transition: all 400ms, width 200ms ease-in-out 400ms;
 }
 .side-menu .menu .logo {
     font-size: 1.2rem;
@@ -72,8 +73,9 @@ body {
     border-bottom: 3px solid var(--background-primary);
 }
 .menu.menu-move {
+    width: 75px;
     transform: translateX(0px);
-    transition: all 400ms;
+    transition: all 400ms , width 100ms;
 }
 .menu .item {
     position: relative;
@@ -109,4 +111,73 @@ body {
     left: -18px;
     transform: translateY(-50%);
     border-radius: 0 10px 10px 0;
+}
+
+.user {
+    margin-left: 2rem;
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    padding-left: 2rem;
+}
+.user .options , .user .option-detail {
+    padding-top: 2rem;
+}
+.user .options section , .user .options section .settings {
+    display: flex;
+    flex-direction: column;
+    color: var(--light-white);
+}
+.user .options section {
+    border-bottom: 1px solid var(--background-accent);
+    padding: 1rem 0;
+    margin-left: 4rem;
+    cursor: pointer;
+}
+.user .options section .title {
+    margin-bottom: 1rem;
+    font-weight: bold;
+    color: var(--dark-grey);
+    text-transform: uppercase;
+}
+.user .options section .settings * , .user .options section .logout {
+    padding: 0.4rem;
+    border-radius: 5px;
+}
+.user .options section .settings *:hover {
+    background: var(--interactive-muted);
+}
+
+.user .options section .logout {
+    color: rgb(240, 71, 71);
+}
+.user .options section .logout:hover {
+    background: rgba(240, 71, 71,0.2);
+}
+.user .options section .social-media a{
+    color: var(--light-white);
+    margin: 0 0.5rem;
+    font-size: 1.2rem;
+}
+.user small {
+    font-size: 0.7rem;
+    opacity: 0.7;
+    font-weight: 100;
+    margin-top: 1rem;
+}
+
+.user .option-detail {
+    flex: 1;
+    height: 100vh;
+    background: var(--background-secondary);
+    margin-left: 1rem;
+    overflow-y: scroll;
+}
+.user .option-detail::-webkit-scrollbar-thumb {
+    background: var(--interactive-muted);
+    border-radius: 10px;    
+}
+.user .option-detail::-webkit-scrollbar {
+    background: var(--background-tertiary);
+    width: 10px;
 }
