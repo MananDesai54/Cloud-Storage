@@ -65,7 +65,7 @@ function validate(element,field) {
             success('email',element,errorBox);
         }
     }else if(field === 'password') {
-        const passwordTest = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*_=+-/<>?`~:])[A-Za-z\d!@#$%^&*_=+-/<>?`~:]{8,16}$/g;
+        const passwordTest = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*_=+-/<>?`~:])[A-Za-z\d!@#$%^&*_=+-/<>?`~:]{8,32}$/g;
         const capitalTest = /[A-Z]+/;
         const smallTest = /[a-z]+/;
         const numberTest = /[0-9]+/;
@@ -73,7 +73,7 @@ function validate(element,field) {
 
         const lengthCheck = document.getElementById('length-check');
         //length check
-        if(element.value.length >= 8 && element.value.length<=16) {
+        if(element.value.length >= 8 && element.value.length<=32) {
             lengthCheck.classList.add('success');
             passwordCheck.length = true;
         }else {

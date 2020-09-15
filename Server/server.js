@@ -5,11 +5,23 @@ const connectToDatabase = require('./config/config');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+connectToDatabase();
+
+app.use(express.json({
+    extended: false
+}));
+// app.use(bodyParser.urlencoded({
+//     extended: false
+// }))
 
 app.get('/',(req,res)=>{
-    res.send('SEE YOU SOON');
-})
+    res.send('API running.');
+});
 
-connectToDatabase();
+//router
+app.use('/api/auth',require('./routes/authRoutes'));
+app.use('/api/users',require('./routes/userRoutes'));
+app.use('/api/profile',require('./routes/profileRoutes'));
+app.use('/api/cloud',require('./routes/cloudRoutes'));
 
 app.listen(PORT,()=>console.log(`Server is running at 127.0.0.1:${PORT}/`));

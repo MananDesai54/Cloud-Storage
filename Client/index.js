@@ -7,7 +7,7 @@ menuToggle.click(() => {
 });
 
 const roller = $('.roller');
-const switchBtn = $('.switch')
+const switchBtn = $('.switch');
 roller.click(() => {
     switchBtn.toggleClass('toggle-switch');
 })
