@@ -3,6 +3,7 @@ const { check,validationResult } = require('express-validator');
 const User = require('../models/userModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const passport = require('passport');
 
 //@route    POST api/users
 //@desc     Register router
@@ -34,7 +35,10 @@ router.post('/', [
 
             user = new User({
                 username: username.toLowerCase(),
-                email,
+                email: {
+                    value: email,
+                    verified: false
+                },
                 password
             });
 
@@ -68,8 +72,20 @@ router.post('/', [
             res.status(500).json({
                 error: 'Server error'
             })
-        }
-        
+        }      
 })
+
+//@route    GET api/users/google
+//@desc     Auth with google
+//@access   Public
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+//@route    GET /api/users/google/callback
+//@desc     Google auth callback
+//@access   Public
+router.get('/google/callback',  passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
+    console.log(req.body);
+    res.redirect('/dashboard');
+});
 
 module.exports = router;

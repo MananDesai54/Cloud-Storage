@@ -4,19 +4,23 @@ const Model = new mongoose.Schema({
     username : {
         type: String,
         required: true,
-        unique: true
     },
     email : {
-        type: String,
+        type: {
+            value: {
+                type: String
+            },
+            verified: {
+                type: Boolean,
+                default: false
+            },
+        },
         required: true,
         unique: true
     },
     password: {
         type: String,
         required: true,
-    },
-    avatar: {
-        type: String
     },
     createdDate: {
         type: Date,

@@ -48,7 +48,7 @@ router.post('/', [
 
         try {
             
-            const user = await User.findOne({ email });
+            const user = await User.findOne({ email: { value: email } });
             if(!user) {
                 return res.status(404).json({
                     error: 'Invalid credential.E'
@@ -84,13 +84,6 @@ router.post('/', [
         }
 
     });
-
-//@route    POST api/auth/:username
-//@desc     check username exists
-//@access   Public
-router.get('/google', (req, res) => {
-    res.send('Google');
-})
 
 //@route    POST api/auth/:username
 //@desc     check username exists
