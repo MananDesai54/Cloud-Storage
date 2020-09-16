@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 //@desc     Register router
 //@access   Public
 router.post('/', [
-        check('username', 'username is required').not().isEmpty(),
+        check('username', 'username is required and username must not contain space.').not().isEmpty(),
         check('email', 'Email is not valid').isEmail(),
         check('password', 'Password must of length between 8-32, Contains capital letter , small letter , number and special character.').isLength({ min: 8, max: 32 })
         // .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*_=+-/<>?`~:])[A-Za-z\d!@#$%^&*_=+-/<>?`~:]{8,32}$/g)
@@ -33,7 +33,7 @@ router.post('/', [
             }
 
             user = new User({
-                username,
+                username: username.toLowerCase(),
                 email,
                 password
             });
