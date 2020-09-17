@@ -5,6 +5,7 @@ const connectToDatabase = require('./config/config');
 const morgan = require('morgan');
 const passport = require('passport');
 const expressSession = require('express-session');
+const cors= require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -12,6 +13,9 @@ connectToDatabase();
 
 //passport config
 require('./config/passport')(passport);
+
+//cors
+app.use(cors());
 
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));

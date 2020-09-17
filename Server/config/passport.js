@@ -4,7 +4,7 @@ const User = require('../models/userModel');
 const Profile = require('../models/profileModel');
 const { use } = require('../routes/userRoutes');
 
-module.exports = async function(passport, req, res) {
+module.exports = async function(passport) {
     passport.use(new GoogleStrategy({
         clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
         clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
@@ -19,18 +19,28 @@ module.exports = async function(passport, req, res) {
 
         try {
             
-            let user = await User.findOne({ email: { value: email } });
+            let user = await User.findOne({ "email.value": email });
             if (user) {
+                console.log('Already exist');
                 return done(null, user);
             }
             user = await User.create({
+                method: 'google',
                 username: displayName,
                 email: {
                     value: email,
                     verified: true
                 },
-                password: id
+                google: {
+                    googleId: id
+                }
             });
+            const profile = await Profile.create({
+                user: user.id,
+                firstname: firstname,
+                lastname: lastname,
+                avatar: avatar
+            })
             return done(null, user);
 
         } catch (error) {

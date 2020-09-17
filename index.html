@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button>Sign up with google</button>
+    <script>
+        document.querySelector('button').addEventListener('click', (e) => {
+            fetch('http://localhost:5000/api/users/google')
+                .then(res => res.json())
+                .then(data => console.log(data))
+                .catch(err => console.log(err));
+        });
+    </script>
+</body>
+</html>

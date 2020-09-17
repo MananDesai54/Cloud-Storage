@@ -5,6 +5,7 @@ const { check, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const bCrypt = require('bcryptjs');
 const nodeMailer = require('nodemailer');
+const passport = require('passport');
 
 //@route    GET api/auth
 //@desc     Auth router
@@ -12,7 +13,12 @@ const nodeMailer = require('nodemailer');
 router.get('/', auth, async (req,res) => {
     try {
      
-        const user = await User.findById(req.user.id).select('-password');
+        let user = await User.findById(req.user.id);
+        if(user.method === 'local') {
+            user = await User.findById(req.user.id).select('-local.password');
+        } else if(user.method === 'google') {
+            user = await User.findById(req.user.id).select('-google.googleId');
+        }
         if(!user) {
             return res.status(401).json({
                 error: 'Not authorized'
@@ -48,7 +54,7 @@ router.post('/', [
 
         try {
             
-            const user = await User.findOne({ email: { value: email } });
+            const user = await User.findOne({ "email.value": email });
             if(!user) {
                 return res.status(404).json({
                     error: 'Invalid credential.E'
@@ -84,6 +90,11 @@ router.post('/', [
         }
 
     });
+
+//@route    GET api/auth/google
+//@desc     Login with google
+//@access   Public
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 //@route    POST api/auth/:username
 //@desc     check username exists

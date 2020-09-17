@@ -1,9 +1,12 @@
 const router = require('express').Router();
 const { check,validationResult } = require('express-validator');
 const User = require('../models/userModel');
+const Profile = require('../models/profileModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
+const { request } = require('express');
+const generateToken = require('../config/generateToken');
 
 //@route    POST api/users
 //@desc     Register router
@@ -25,7 +28,7 @@ router.post('/', [
         const { username, email, password } = req.body;
         try {
             
-            let user = await User.findOne({ email });
+            let user = await User.findOne({ "email.value": email });
 
             if(user) {
                 return res.status(401).json({
@@ -34,38 +37,32 @@ router.post('/', [
             }
 
             user = new User({
+                method: 'local',
                 username: username.toLowerCase(),
                 email: {
                     value: email,
                     verified: false
                 },
-                password
+                local: {
+                    password: password
+                }
             });
 
             //encrypt Password
             const sault = await bcrypt.genSalt(10);
-            user.password = await bcrypt.hash(user.password, sault);
+            user.local.password = await bcrypt.hash(user.local.password, sault);
 
             await user.save();
+            await Profile.create({
+                user: user.id,
+            });
 
             //generate JWT token
-            const payload = {
-                user: {
-                    id: user.id
-                }
-            }
-            jwt.sign(payload, process.env.JWT_SECRET_KEY, {
-                        expiresIn: '24hr'
-                    },(err, token) => {
-                        if(err) return res.status(500).json({
-                            error: 'Server error'
-                        });
-
-                        return res.status(200).json({
-                            user,
-                            token
-                        });
-                    })
+            const token = generateToken(user);
+            return res.status(200).json({
+                user,
+                token
+            });
 
         } catch (error) {
             console.log(error.message);
@@ -84,8 +81,13 @@ router.get('/google', passport.authenticate('google', { scope: ['profile', 'emai
 //@desc     Google auth callback
 //@access   Public
 router.get('/google/callback',  passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
-    console.log(req.body);
-    res.redirect('/dashboard');
+
+    const token = generateToken(req.user);
+    console.log(token);
+    res.status(200).json({
+        user: req.user,
+        token
+    })
 });
 
 module.exports = router;

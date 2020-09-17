@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const Model = new mongoose.Schema({
+    method: {
+        type: String,
+        enum: ['local', 'google', 'facebook'],
+        required: true
+    },
     username : {
         type: String,
         required: true,
@@ -18,9 +23,20 @@ const Model = new mongoose.Schema({
         required: true,
         unique: true
     },
-    password: {
-        type: String,
-        required: true,
+    local: {
+        password: {
+            type: String,
+        },
+    },
+    google: {
+        googleId: {
+            type: String
+        },
+    },
+    facebook: {
+        facebookId: {
+            type: String
+        },
     },
     createdDate: {
         type: Date,
