@@ -61,7 +61,7 @@ router.post('/', [
                 })
             }
 
-            const isMatch = await bCrypt.compare(password, user.password);
+            const isMatch = await bCrypt.compare(password, user.local.password);
             if(!isMatch) {
                 return res.status(404).json({
                     error: 'Invalid credential.P'

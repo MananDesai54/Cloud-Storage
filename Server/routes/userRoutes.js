@@ -55,6 +55,7 @@ router.post('/', [
             await user.save();
             await Profile.create({
                 user: user.id,
+                avatar: 'https://library.kissclipart.com/20181001/wbw/kissclipart-gsmnet-ro-clipart-computer-icons-user-avatar-4898c5072537d6e2.png'
             });
 
             //generate JWT token

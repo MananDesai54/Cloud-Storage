@@ -5,7 +5,7 @@ module.exports = async function(req, res, next) {
 
     if(!token) {
         return res.status(401).json({
-            error: 'Not valid token'
+            error: 'Not authorized'
         });
     }
 
@@ -17,7 +17,7 @@ module.exports = async function(req, res, next) {
 
     } catch (error) {
         console.log(error.message);
-        return res.status(500).json({
+        return res.status(404).json({
             error: 'Not valid token.'
         })
     }
