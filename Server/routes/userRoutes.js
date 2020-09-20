@@ -93,6 +93,17 @@ router.get('/google/callback',  passport.authenticate('google', { failureRedirec
 //@route    POST api/users/google
 //@desc     Auth with google token
 //@access   Public
-router.post('/google', passport.authenticate('google-plus-token', { scope: ['profile', 'email'], session: false }));
+//not working check why
+// router.post('/google', passport.authenticate('google-plus-token'));
+
+/*
+    @Todo social Logins
+    do after done with Angular
+*/
+
+//@route    POST api/users/google
+//@desc     Auth with google token
+//@access   Public
+router.post('/google')
 
 module.exports = router;
