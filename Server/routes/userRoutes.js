@@ -90,4 +90,9 @@ router.get('/google/callback',  passport.authenticate('google', { failureRedirec
     })
 });
 
+//@route    POST api/users/google
+//@desc     Auth with google token
+//@access   Public
+router.post('/google', passport.authenticate('google-plus-token', { scope: ['profile', 'email'], session: false }));
+
 module.exports = router;

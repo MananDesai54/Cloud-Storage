@@ -1,10 +1,25 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const GoogleTokenStrategy = require('passport-google-plus-token');
 const mongoose = require('mongoose');
 const User = require('../models/userModel');
 const Profile = require('../models/profileModel');
-const { use } = require('../routes/userRoutes');
 
 module.exports = async function(passport) {
+    googleOAuth(passport);
+    googleAccessToken(passport);
+}
+
+function googleAccessToken(passport) {
+    passport.use(new GoogleTokenStrategy({
+        clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
+        passReqToCallback: true
+    }, async (accessToken, refreshToken, profile, done) => {
+        console.log(profile);
+    }));
+}
+
+function googleOAuth(passport) {
     passport.use(new GoogleStrategy({
         clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
         clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
@@ -16,6 +31,7 @@ module.exports = async function(passport) {
         const email = emails[0].value; //verified true 
         const avatar = photos[0].value;
         console.log(displayName, email, firstname, lastname, avatar);
+        console.log('Access token : ', accessToken);
 
         try {
             
