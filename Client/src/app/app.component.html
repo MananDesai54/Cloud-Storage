@@ -1,1 +1,6 @@
-<h1>Hello Cloud</h1>
+<app-splash-screen 
+    *ngIf="showSplashScreen"
+    (completeSplashScreen)="onCompleteSplashScreen()"
+></app-splash-screen>
+<h1 *ngIf="!showSplashScreen">Hello</h1>
+{{ showSplashScreen }}

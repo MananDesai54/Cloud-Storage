@@ -7,6 +7,7 @@ import { LoginComponent } from './components/home/login/login.component';
 import { SignupComponent } from './Components/home/signup/signup.component';
 import { CloudComponent } from './Components/cloud/cloud.component';
 import { SplashScreenComponent } from './Components/splash-screen/splash-screen.component';
+import { NavbarComponent } from './Components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { SplashScreenComponent } from './Components/splash-screen/splash-screen.
     LoginComponent,
     SignupComponent,
     CloudComponent,
-    SplashScreenComponent
+    SplashScreenComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule
