@@ -100,6 +100,7 @@ router.get('/google/callback',  passport.authenticate('google', { failureRedirec
 /*
     @Todo social Logins
     do after done with Angular
+    make update user route
 */
 
 //@route    POST api/users/google
