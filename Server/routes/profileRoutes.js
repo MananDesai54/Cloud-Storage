@@ -1,10 +1,12 @@
 const router = require('express').Router();
 const Profile = require('../models/profileModel');
+const User = require('../models/userModel');
 const auth = require('../middleware/auth');
 const aws = require('aws-sdk');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 const { v4: generateId } = require('uuid');
+const path = require('path');
 
 //aws & s3 configure
 aws.config.update({
@@ -14,32 +16,8 @@ aws.config.update({
 })
 
 const S3 = new aws.S3();
-const upload = multer({
-    storage: multerS3({
-        s3: S3,
-        bucket: 'cloud-storage-uploads',
-        metadata: (req, file, cb) => {
-            cb(null, { fieldName: file.fieldname });
-        },
-        key: (req, file, cb) => {
-            cb(null, `${req.s3Key}.${file}`);
-        }
-    })
-});
 
-const singleFileUpload = upload.single('image');
-
-const uploadToS3 = (req, res) => {
-    req.s3Key = generateId();
-    const downloadURL = `https://cloud-storage-uploads.s3.amazonaws.com/${req.s3Key}`;
-    return new Promise((resolve, reject) => {
-        return singleFileUpload(req, res, err => {
-            if(err) return reject(err);
-            return resolve(downloadURL);
-        })
-    })
-}
-
+//to get uploaded file details
 const storage = multer.memoryStorage({
     destination: (req, file, cb) => {
         cb(null, '');
@@ -73,19 +51,19 @@ router.get('/', auth, async (req,res) => {
 //@desc     add user data for local method
 //@access   Private
 router.post('/', auth, async (req, res) => {
-    const { firstname, lastname, avatar } = req.body;
+    const { firstname, lastname } = req.body;
     try {
         const user = req.user;
         const profile = await Profile.findOne({ user: user.id });
         if(!profile) {
-            return res.status(404).json({
-                message: 'Profile not found'
+            profile = await Profile.create({
+                firstname,
+                lastname
             });
+        } else {
+            if(firstname) profile.firstname = firstname;
+            if(lastname) profile.lastname = lastname;
         }
-
-        if(firstname) profile.firstname = firstname;
-        if(lastname) profile.lastname = lastname;
-        if(avatar) profile.avatar = avatar;
 
         await profile.save();
 
@@ -102,7 +80,7 @@ router.post('/', auth, async (req, res) => {
 //@route    PUT api/profile/update
 //@desc     Update user
 //@access   Private
-router.put('/', auth, async (req, res) => {
+router.put('/update', auth, async (req, res) => {
     const { firstname, lastname } = req.body;
     try {
         const user = req.user;
@@ -115,7 +93,7 @@ router.put('/', auth, async (req, res) => {
 
         if(firstname) profile.firstname = firstname;
         if(lastname) profile.lastname = lastname;
-
+        profile.updatedDate = Date.now();
         await profile.save();
 
         return res.status(200).json(profile);
@@ -131,21 +109,96 @@ router.put('/', auth, async (req, res) => {
 //@route    POST api/profile/avatar/upload
 //@desc     Update user
 //@access   Private
-router.post('/avatar/upload', localUpload, (req, res) => {
+router.post('/avatar/upload', auth, localUpload, async (req, res) => {
+    if(!req.file) {
+        return res.status(404).json({
+            error: 'Please attach file to upload'
+        })
+    }
     console.log(req.file);
-    console.log(req.body);
-    res.json('ok');
-    // uploadToS3(req, res)
-    //     .then(downloadURL => {
-    //         console.log(downloadURL);
-    //         return res.status(200).json({
-    //             downloadURL
-    //         })
-    //     })
-    //     .catch(err => {
-    //         console.log(err);
-    //         return res.redirect('/');
-    //     })
+    const image = req.file.originalname.split('.');
+    const fileType = image[image.length - 1];
+
+    const params = {
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: `${generateId()}.${fileType}`,
+        Body: req.file.buffer,
+        ContentType: req.file.mimetype
+    }
+    /*
+        Todo - Progress bar with s3
+    */
+    try {
+        
+        const profile = await Profile.findOne({ user: req.user.id });
+        if(!profile) {
+            return res.status(404).json({
+                error: 'Profile not found please create one.'
+            })
+        }
+        S3.upload(params, async (err, data) => {
+            if(err) return res.status(400).json({
+                error: err.message
+            })
+
+            const awsUploadURL = data.Location;
+            profile.avatar = awsUploadURL;
+            profile.updatedDate = Date.now();
+
+            await profile.save();
+
+            return res.status(200).json({
+                profile
+            })
+        }).on('httpUploadProgress', e => {
+            console.log(e.loaded);
+        })
+
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({
+            error: 'Server Error'
+        })
+    }
+    
 });
+
+//@route    DELETE api/profile
+//@desc     Delete user
+//@access   Private
+router.delete('/', auth, async (req,res) => {
+    try {
+        const profile = await Profile.findOne({ user: req.user.id });
+        if(!await Profile.findOne({ user: req.user.id })) {
+            return res.status(404).json({
+                error: 'User not found'
+            })
+        }
+        /*
+            Todo - Delete files of user from s3
+            this logic is not deleting
+        */
+        const profileUrl = profile.avatar;
+        
+        await User.findByIdAndDelete(req.user.id);
+        await Profile.findOneAndDelete({ user: req.user.id });
+
+        if(!profileUrl.includes('profile')) {
+            S3.deleteObject({ Bucket: process.env.AWS_BUCKET_NAME, Key: profileUrl }, (err, data) => {
+                if(err) return console.log(err.message);
+                console.log(data);
+            });
+        }
+        return res.status(200).json({
+            message: 'User Deleted'
+        })
+
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({
+            error: 'Server Error'
+        })
+    }
+})
 
 module.exports = router;

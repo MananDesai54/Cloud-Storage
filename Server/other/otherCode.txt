@@ -1,0 +1,38 @@
+//s3 upload other method
+const upload = multer({
+    storage: multerS3({
+        s3: S3,
+        bucket: process.env.AWS_BUCKET_NAME,
+        metadata: (req, file, cb) => {
+            cb(null, { fieldName: file.fieldname });
+        },
+        key: (req, file, cb) => {
+            cb(null, `${req.s3Key}.${path.extname(file.originalname)}`);
+        }
+    })
+});
+
+const singleFileUpload = upload.single('image');
+
+const uploadToS3 = (req, res) => {
+    req.s3Key = generateId();
+    const downloadURL = `https://cloud-storage-uploads.s3.amazonaws.com/${req.s3Key}`;
+    return new Promise((resolve, reject) => {
+        return singleFileUpload(req, res, err => {
+            if(err) return reject(err);
+            return resolve(downloadURL);
+        })
+    })
+}
+//s3 upload code inside route
+uploadToS3(req, res)
+     .then(downloadURL => {
+         console.log(downloadURL);
+         return res.status(200).json({
+             downloadURL
+         })
+     })
+     .catch(err => {
+         console.log(err);
+         return res.redirect('/');
+     })
