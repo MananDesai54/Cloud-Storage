@@ -7,29 +7,24 @@
 </head>
 <body>
     <form>
-        <input type="file" name="file">
+        <input type="file" name="image">
         <button>Upload</button>
     </form>
     <script>
-        let image;
-        document.querySelector('input').addEventListener('change', e => {
-            image = e.target.files[0];
-            console.log(image);
-        });
+        let input = document.querySelector('input');
         document.querySelector('button').addEventListener('click', (e) => {
             e.preventDefault();
             const fd = new FormData();
-            fd.append('image', image, image.name);
+            fd.append('image', input.files[0]);
             fetch('http://localhost:5000/api/profile/avatar/upload',{
-                method: 'PUT',
-                body: JSON.stringify({ 
-                    file: fd
-                }),
-                headers: {
-                    'Content-type': 'application/json',
+                method: 'POST',
+                body: fd,
+                /*headers: {
+                    'Content-type': 'multipart/form-data; boundary=<calculated when request is sent>',
                     "x-auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWY2NzQxY2QzOThkNzYyYzJjODczZWUyIn0sImlhdCI6MTYwMDYxNjQwNCwiZXhwIjoxNjAwNzAyODA0fQ.8-LUSuwzXVYKAxCjf6ytYtiVdY1LtxFQNuGu3ZK4leU"
-                }
-            }).then(res => console.log(res.json()));
+                }*/
+            }).then(res => res.json())
+            .then(data => console.log(data));
         });
     </script>
 </body>

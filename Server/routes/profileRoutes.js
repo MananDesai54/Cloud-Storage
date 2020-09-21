@@ -13,7 +13,7 @@ aws.config.update({
     region: process.env.AWS_REGION
 })
 
-const S3 = aws.S3();
+const S3 = new aws.S3();
 const upload = multer({
     storage: multerS3({
         s3: S3,
@@ -22,7 +22,7 @@ const upload = multer({
             cb(null, { fieldName: file.fieldname });
         },
         key: (req, file, cb) => {
-            cb(null, rq.s3Key);
+            cb(null, `${req.s3Key}.${file}`);
         }
     })
 });
@@ -40,6 +40,12 @@ const uploadToS3 = (req, res) => {
     })
 }
 
+const storage = multer.memoryStorage({
+    destination: (req, file, cb) => {
+        cb(null, '');
+    }
+})
+const localUpload = multer({ storage }).single('image');
 
 //@route    GET api/profile
 //@desc     get user profile
@@ -122,21 +128,24 @@ router.put('/', auth, async (req, res) => {
     }
 });
 
-//@route    PUT api/profile/avatar/upload
+//@route    POST api/profile/avatar/upload
 //@desc     Update user
 //@access   Private
-router.put('/avatar/upload', auth, (req, res) => {
+router.post('/avatar/upload', localUpload, (req, res) => {
+    console.log(req.file);
     console.log(req.body);
-    uploadToS3(req, res)
-        .then(downloadURL => {
-            return res.status(200).json({
-                downloadURL
-            })
-        })
-        .catch(err => {
-            console.log(err);
-            res.redirect('/');
-        })
+    res.json('ok');
+    // uploadToS3(req, res)
+    //     .then(downloadURL => {
+    //         console.log(downloadURL);
+    //         return res.status(200).json({
+    //             downloadURL
+    //         })
+    //     })
+    //     .catch(err => {
+    //         console.log(err);
+    //         return res.redirect('/');
+    //     })
 });
 
 module.exports = router;
