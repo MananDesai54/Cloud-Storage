@@ -6,7 +6,7 @@ import { Component, DoCheck } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements DoCheck {
-  showSplashScreen = true;
+  showSplashScreen = false;
 
   ngDoCheck() {
     // console.log(this.showSplashScreen);

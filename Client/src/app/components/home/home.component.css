@@ -1,0 +1,15 @@
+main {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: minmax(40vw,1fr) 2fr;
+    position: relative;
+    background: var(--light-white);
+}
+
+
+@media(max-width:650px) {
+    main {
+        grid-template-columns: 1fr;
+        height: 180vh;
+    }
+} 
