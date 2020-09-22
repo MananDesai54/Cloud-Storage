@@ -15,13 +15,9 @@ const Model = new mongoose.Schema({
                 type: String,
                 required: true
             },
-            createdDate: {
-                type: Date,
-                default: Date.now()
-            },
-            updatedDate: {
-                type: Date,
-                default: Date.now()
+            location: {
+                type: String,
+                required: true
             },
             sharable: {
                 type: Boolean,
@@ -33,14 +29,6 @@ const Model = new mongoose.Schema({
             },
             sharableLink: {
                 type: String
-            }
-        }
-    ],
-    folders: [
-        {
-            name: {
-                type: String,
-                required: true
             },
             createdDate: {
                 type: Date,
@@ -49,6 +37,21 @@ const Model = new mongoose.Schema({
             updatedDate: {
                 type: Date,
                 default: Date.now()
+            },
+        }
+    ],
+    folders: [
+        {
+            name: {
+                type: String,
+                required: true
+            },
+            files: {
+                type: [mongoose.Schema.Types.ObjectId]
+            },
+            location : {
+                type: String,
+                required: true
             },
             sharable: {
                 type: Boolean,
@@ -60,9 +63,14 @@ const Model = new mongoose.Schema({
             sharableLink: {
                 type: String
             },
-            files: {
-                type: [mongoose.Schema.Types.ObjectId]
-            }
+            createdDate: {
+                type: Date,
+                default: Date.now()
+            },
+            updatedDate: {
+                type: Date,
+                default: Date.now()
+            },
         }
     ],
     storage: {

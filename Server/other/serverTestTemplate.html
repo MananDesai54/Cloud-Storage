@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <input type="file" name="image">
+        <button>Upload</button>
+    </form>
+    <img src="" alt="Please upload to S3">
+    <script>
+        let input = document.querySelector('input');
+        document.querySelector('button').addEventListener('click', (e) => {
+            e.preventDefault();
+            const fd = new FormData();
+            fd.append('image', input.files[0]);
+            fetch('http://localhost:5000/api/profile/avatar/upload',{
+                method: 'POST',
+                body: fd,
+                headers: {
+                    /*'Content-type': 'multipart/form-data; boundary=<calculated when request is sent>',*/
+                    "x-auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWY2NzQxY2QzOThkNzYyYzJjODczZWUyIn0sImlhdCI6MTYwMDYxNjQwNCwiZXhwIjoxNjAwNzAyODA0fQ.8-LUSuwzXVYKAxCjf6ytYtiVdY1LtxFQNuGu3ZK4leU"
+                }
+            }).then(res => res.json())
+            .then(data => {
+                console.log(data.data.Location);
+                if(data.data.Location) {
+                    document.querySelector('img').src = data.data.Location;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+<!-- <button>Sign up with google</button>
+<script>
+    document.querySelector('button').addEventListener('click', (e) => {
+        fetch('http://localhost:5000/api/users/google')
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(err => console.log(err));
+    });
+</script> --->

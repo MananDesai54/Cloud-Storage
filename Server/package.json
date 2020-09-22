@@ -4,6 +4,7 @@
   "description": "Back end for Cloud Storage Angular App",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "server": "nodemon server.js"
   },
   "author": "Manan Desai",
