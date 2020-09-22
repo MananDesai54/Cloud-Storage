@@ -7,8 +7,7 @@ Web app that store your files and you can download them whenever you want.
 
 <br/>
 
-# Technology Stack
-## MEAN
+# Technology Stack ( MEAN + AWS(s3) )
 
 <br/>
 
