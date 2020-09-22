@@ -1,12 +1,12 @@
 .forms {
     background: var(--light-white);
     display: flex;
-    align-items: center;
-    padding: 6rem 4rem;
     overflow: hidden;
+    padding: 0 4rem;
+    height: 100vh;
 }
 .cards {
-    padding: 1.5rem 0;
+    padding-top: 8rem;
     width: 100%;
     transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),opacity 200ms cubic-bezier(.15,.3,.14,1.36),width 400ms cubic-bezier(.15,.3,.14,1.36);
 }
@@ -42,18 +42,19 @@
     transform: translateX(-100vw);
     opacity: 0;
     width: 0;
-    transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),opacity 200ms cubic-bezier(.15,.3,.14,1.36),width 600ms cubic-bezier(.15,.3,.14,1.36);
+    transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),width 600ms cubic-bezier(.15,.3,.14,1.36);
 }
 .signUp {
+    padding-top: 6rem;
     width: 100%;
     transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),opacity 200ms cubic-bezier(.15,.3,.14,1.36),width 600ms cubic-bezier(.15,.3,.14,1.36);
 }
 .go-right {
-    transform: translateX(100vw);
+    transform: translateX(110vw);
     height: 0;
     width: 0;
     opacity: 0;
-    transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),opacity 200ms cubic-bezier(.15,.3,.14,1.36),width 600ms cubic-bezier(.15,.3,.14,1.36);
+    transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),opacity 200ms cubic-bezier(.15,.3,.14,1.36),width 600ms cubic-bezier(.15,.3,.14,1.36),height 600ms ease;
 }
 .signUp .form {
     margin-top: 20px;
@@ -145,8 +146,7 @@
 
 @media(max-width:650px) {
     .forms {
-        padding-top: 3rem;
-        height: 100%;
+        padding: 1rem;
     }
     .forms .help {
         top: 20px;

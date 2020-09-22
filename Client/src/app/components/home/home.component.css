@@ -7,7 +7,7 @@ main {
 }
 
 
-@media(max-width:650px) {
+@media(max-width:850px) {
     main {
         grid-template-columns: 1fr;
         height: 180vh;

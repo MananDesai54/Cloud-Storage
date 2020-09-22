@@ -19,12 +19,6 @@ export class HomeComponent implements OnInit {
     });
     
     timeline
-        // .from('.intro',{
-        //     x:'-100%',
-        //     borderRadius:'100%',
-        //     opacity:0,
-        //     // delay:4.2
-        // })
         .from('.intro__data',{
             opacity:0,
             stagger:0.2

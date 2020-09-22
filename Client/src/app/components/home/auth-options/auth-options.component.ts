@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-auth-options',
@@ -6,25 +6,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./auth-options.component.css']
 })
 export class AuthOptionsComponent implements OnInit {
+  @ViewChild('cards', { static: true }) cards: ElementRef;
+  @ViewChild('signupForm', { static: true }) signupForm: ElementRef;
 
   constructor() { }
 
   ngOnInit(): void {
-    const signUpWithEmail = document.getElementById('email');
-    const cards = document.querySelector('.cards');
-    const signUpForm = document.querySelector('.signUp');
-    const backBtn = document.querySelector('.back-btn');
-
-    signUpWithEmail.addEventListener('click',()=>{
-        cards.classList.add('go-left');
-        signUpForm.classList.remove('go-right');
-    });
-
-    backBtn.addEventListener('click',()=>{
-        cards.classList.remove('go-left');
-        signUpForm.classList.add('go-right');
-    })
-
+  }
+  onEmailAndPassword() {
+    this.cards.nativeElement.classList.add('go-left');
+    this.signupForm.nativeElement.classList.remove('go-right');
+  }
+  onBackBtnClick() {
+    this.cards.nativeElement.classList.remove('go-left');
+    this.signupForm.nativeElement.classList.add('go-right');
   }
 
 }
