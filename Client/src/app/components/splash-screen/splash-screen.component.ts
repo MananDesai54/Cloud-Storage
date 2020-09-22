@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
+import { Component, ElementRef, OnInit, Output, ViewChild, EventEmitter, OnDestroy } from '@angular/core';
 import { gsap } from 'gsap';
 
 @Component({
@@ -6,10 +6,14 @@ import { gsap } from 'gsap';
   templateUrl: './splash-screen.component.html',
   styleUrls: ['./splash-screen.component.css']
 })
-export class SplashScreenComponent implements OnInit {
+export class SplashScreenComponent implements OnInit, OnDestroy {
   @ViewChild('splashScreen', { static: true }) splashScreen: ElementRef;
-  @Output() completeSplashScreen = new EventEmitter<void>();
-  constructor() { }
+  @Output() completeSplashScreen = new EventEmitter<string>();
+  constructor() {
+    setTimeout(() => {
+      this.completeSplashScreen.emit();
+    }, 4000);
+  }
 
   ngOnInit(): void {
     const timeline = gsap.timeline();
@@ -19,10 +23,13 @@ export class SplashScreenComponent implements OnInit {
       delay: 4
     }).to('.splash-screen', {
       zIndex: -100
-    }).then(() => {
-      console.log('hello');
-      this.completeSplashScreen.emit();
     })
+    .then(() => {
+      // console.log('hello');
+    })
+  }
+  ngOnDestroy() {
+    // console.log('destroy');
   }
 
 }

@@ -8,11 +8,11 @@ import { Component, DoCheck } from '@angular/core';
 export class AppComponent implements DoCheck {
   showSplashScreen = true;
 
-  onCompleteSplashScreen() {
-    console.log('Hello');
-    this.showSplashScreen = false;
-  }
   ngDoCheck() {
-    console.log(this.showSplashScreen);
+    // console.log(this.showSplashScreen);
+  }
+  onCompleteSplashScreen() {
+    // console.log(event);
+    this.showSplashScreen = false;
   }
 }

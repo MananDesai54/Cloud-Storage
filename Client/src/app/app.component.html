@@ -1,6 +1,8 @@
-<app-splash-screen 
-    *ngIf="showSplashScreen"
-    (completeSplashScreen)="onCompleteSplashScreen()"
-></app-splash-screen>
-<h1 *ngIf="!showSplashScreen">Hello</h1>
-{{ showSplashScreen }}
+<div *ngIf="showSplashScreen;else app">
+    <app-splash-screen 
+    (completeSplashScreen)="onCompleteSplashScreen()">
+    </app-splash-screen>
+</div>
+<ng-template #app>
+    <app-home></app-home>
+</ng-template>
