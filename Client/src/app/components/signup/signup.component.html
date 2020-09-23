@@ -1,1 +1,65 @@
-<p>signup works!</p>
+<div class="signUp" #signupForm>
+    <h1 *ngIf="!isHome">Create Your Account</h1>
+    <form class="form" id="signUp-form" [class.maxWidth]="!isHome">
+        <div class="form-input">
+            <label for="name">
+                Name
+            </label>
+            <input type="text" name="name" id="name" placeholder="Enter your name" required />
+            <small>Name Must of 5 letters</small>
+        </div>
+        <div class="form-input">
+            <label for="email">
+                Email
+            </label>
+            <input type="email" name="email" id="emailId" placeholder="Enter your email" required />
+            <small>Enter Valid Email( i.e - abc@xyz.pqr )</small>
+        </div>
+        <div class="form-input">
+            <label for="password">
+                Password
+            </label>
+            <input type="password" name="password" id="password" placeholder="Enter your password" style="margin-bottom: 0px;" required/>
+            <div class="password-format">
+                <div class="validation" id="length-check">
+                    <small> ▪ Length must be between 8-16 letters</small> <i class="fas fa-check done"></i>
+                </div>
+                <div class="validation" id="capital-check">
+                    <small> ▪ At least 1 Capital Letter</small> <i class="fas fa-check done"></i>
+                </div>
+                <div class="validation" id="small-check">
+                    <small> ▪ At least 1 Small Letter</small>  <i class="fas fa-check done"></i>
+                </div>
+                <div class="validation" id="number-check">
+                    <small> ▪ At least 1 Number</small> <i class="fas fa-check done"></i>
+                </div>
+                <div class="validation" id="special-check">
+                    <small> ▪ At least 1 Special Character</small> <i class="fas fa-check done"></i>
+                </div>
+            </div>
+        </div>
+        <button id="signUpBtn" type="submit" disabled title="Please Fill The Form">
+            Sign Up
+        </button>
+        <div style="display: flex; justify-content:space-around;">
+            <h4 style="margin-top: 1rem;">Already have an Account ? <a routerLink="login">Login</a></h4>
+            <h4 *ngIf="!isHome" style="margin: 1rem 0.5rem;text-align:center;"><a routerLink="/">Home</a></h4>
+        </div>
+        <div *ngIf="!isHome">
+            <div class="other-options">
+                <button class="card google">
+                    <span class="icon">
+                        <img src="https://img.icons8.com/color/48/000000/google-logo.png" height="20"/>
+                    </span>
+                    <p>SignUp with Google</p>
+                </button>
+                <button class="card facebook">
+                    <span class="icon">
+                        <img src="https://img.icons8.com/color/48/000000/facebook-circled.png" height="22"/>
+                    </span>
+                    <p>SignUp with Facebook</p>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

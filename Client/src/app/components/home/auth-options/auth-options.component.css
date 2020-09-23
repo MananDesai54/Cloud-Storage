@@ -44,109 +44,27 @@
     width: 0;
     transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),width 600ms cubic-bezier(.15,.3,.14,1.36);
 }
-.signUp {
-    padding-top: 6rem;
+.signupForm {
+    margin-top: 5rem;
     width: 100%;
     transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),opacity 200ms cubic-bezier(.15,.3,.14,1.36),width 600ms cubic-bezier(.15,.3,.14,1.36);
 }
 .go-right {
-    transform: translateX(110vw);
-    height: 0;
-    width: 0;
+    transform: translateX(100vw);
+    height: 100%;
+    width: 0 !important;
     opacity: 0;
-    transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),opacity 200ms cubic-bezier(.15,.3,.14,1.36),width 600ms cubic-bezier(.15,.3,.14,1.36),height 600ms ease;
-}
-.signUp .form {
-    margin-top: 20px;
-    width: 100%;
-    max-width: 700px;
-    display: flex;
-    flex-direction: column;
-}
-.form-input {
-    margin-top: 1rem;
-}
-.form-input small {
-    display: none;
-}
-.form-input small.danger {
-    display: block;
-    color: red;
-}
-.form-input input {
-    padding:15px 20px;
-    width: 100%;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    outline: none;
-    font-size: 1rem;
-    transition: border 200ms cubic-bezier(.15,.3,.14,1.36);
-}
-.form-input input.danger {
-    border-color: red;
-}
-.form-input input.success {
-    border-color: #22a722;
-}
-.signUp .form button {
-    margin-top: 1rem;
-    padding: 1rem;
-    background: var(--dark-blue);
-    color: var(--light-white);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    outline: none;
-    transition: all 400ms cubic-bezier(.15,.3,.14,1.36);
-}
-.signUp .form button:hover {
-    background: rgba(29, 29, 98, 0.6);
-    transition: all 400ms cubic-bezier(.15,.3,.14,1.36);
-}
-.signUp .form button:active {
-    transform: scale(0.98);
-    transition: all 400ms cubic-bezier(.15,.3,.14,1.36);
-}
-.signUp .form button:disabled {
-    background: #ccc;
-    cursor: not-allowed;
+    transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),opacity 200ms cubic-bezier(.15,.3,.14,1.36),width 600ms cubic-bezier(.15,.3,.14,1.36);
 }
 .forms .help {
     position: absolute;
     top: 40px;
     right: 30px;
 }
-.password-format {
-    display: inline-block;
-    padding: 1rem;
-    padding-top: 0.4rem;
-}
-.password-format .validation.success {
-    color: #22a722;
-    transition: all 400ms ease-in-out;
-}
-.password-format .validation.success .done {
-    opacity: 1;
-    transition: all 400ms ease-in-out;
-}
-.password-format .validation {
-    display: flex;
-    transition: all 400ms ease-in-out;
-}
-.password-format .validation .done {
-    opacity: 0;
-    color: #22a722;
-}
-.password-format small{
-    display: block;
-    flex: 1;
-    margin-right: 0.5rem;
-}
-
 
 @media(max-width:650px) {
     .forms {
-        padding: 1rem;
+        padding: 0 1rem;
     }
     .forms .help {
         top: 20px;
@@ -155,4 +73,4 @@
     .forms .help a {
         color:var(--dark-pink)
     }
-} 
+}

@@ -1,0 +1,147 @@
+.signUp {
+    width: 100%;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    padding: 2rem 0;
+    align-items: center;
+    background: var(--light-white);
+}
+.signUp .form {
+    border-radius: 10px;
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+}
+.signUp .form.maxWidth {
+    max-width: 500px;
+}
+.go-right {
+    transform: translateX(110vw);
+    height: 0;
+    width: 0;
+    opacity: 0;
+    transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),opacity 200ms cubic-bezier(.15,.3,.14,1.36),width 600ms cubic-bezier(.15,.3,.14,1.36),height 600ms ease;
+}
+.form-input {
+    margin-top: 1rem;
+}
+.form-input small {
+    display: none;
+}
+.form-input small.danger {
+    display: block;
+    color: red;
+}
+.form-input input {
+    padding:15px 20px;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    font-size: 1rem;
+    transition: border 200ms cubic-bezier(.15,.3,.14,1.36);
+}
+.form-input input.danger {
+    border-color: red;
+}
+.form-input input.success {
+    border-color: #22a722;
+}
+.signUp .form button {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: var(--dark-blue);
+    color: var(--light-white);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    transition: all 400ms cubic-bezier(.15,.3,.14,1.36);
+}
+.signUp .form button:hover {
+    background: rgba(29, 29, 98, 0.6);
+    transition: all 400ms cubic-bezier(.15,.3,.14,1.36);
+}
+.signUp .form button:active {
+    transform: scale(0.98);
+    transition: all 400ms cubic-bezier(.15,.3,.14,1.36);
+}
+.signUp .form button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+.password-format {
+    display: inline-block;
+    padding: 1rem;
+    padding-top: 0.4rem;
+}
+.password-format .validation.success {
+    color: #22a722;
+    transition: all 400ms ease-in-out;
+}
+.password-format .validation.success .done {
+    opacity: 1;
+    transition: all 400ms ease-in-out;
+}
+.password-format .validation {
+    display: flex;
+    transition: all 400ms ease-in-out;
+}
+.password-format .validation .done {
+    opacity: 0;
+    color: #22a722;
+}
+.password-format small{
+    display: block;
+    flex: 1;
+    margin-right: 0.5rem;
+}
+
+.other-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.card {
+    border: none;
+    display: flex;
+    align-items: center;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border-radius: 5px;
+    box-shadow: 0 0 2rem rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    position: relative;
+    width: 50%;
+    height: 50px;
+    transition: all 400ms;
+    overflow: hidden;
+    z-index: 1;
+}
+.card p {
+    margin-left: 1rem;
+}
+.card span {
+    display: flex;
+    align-items: center;
+    border-radius: 50%;
+    background: #fff;
+    padding: 2px;
+}
+.card.google {
+    background: #DD4B39 !important;
+    background-image: linear-gradient(#DD4B39, #e40404) !important;
+}
+.card.facebook {
+    background-color: #4C69BA !important;
+    background-image: linear-gradient(#4C69BA, #3B55A0) !important;
+    color: #eee;
+}
+.card:active {
+    transform: scale(0.95);
+    transition: all 400ms;
+}
+.card:hover {
+    filter: brightness(0.9);
+}

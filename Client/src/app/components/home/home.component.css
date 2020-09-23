@@ -4,12 +4,13 @@ main {
     grid-template-columns: minmax(40vw,1fr) 2fr;
     position: relative;
     background: var(--light-white);
+    overflow: hidden;
 }
 
 
 @media(max-width:850px) {
     main {
         grid-template-columns: 1fr;
-        height: 180vh;
+        height: 100%;
     }
 } 

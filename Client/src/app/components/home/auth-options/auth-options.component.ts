@@ -1,9 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-auth-options',
   templateUrl: './auth-options.component.html',
-  styleUrls: ['./auth-options.component.css']
+  styleUrls: ['./auth-options.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AuthOptionsComponent implements OnInit {
   @ViewChild('cards', { static: true }) cards: ElementRef;
