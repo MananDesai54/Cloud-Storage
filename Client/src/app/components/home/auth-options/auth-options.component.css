@@ -7,11 +7,10 @@
 .cards {
     padding-top: 8rem;
     width: 100%;
-    transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),opacity 200ms cubic-bezier(.15,.3,.14,1.36),width 400ms cubic-bezier(.15,.3,.14,1.36);
+    transition: transform 400ms var(--animation-function),opacity 400ms var(--animation-function),width 400ms var(--animation-function);
 }
 .card {
     color: var(--light-white);
-    
     background: var(--color-accent);
     display: flex;
     width: 100%;
@@ -20,13 +19,14 @@
     padding: 1.5rem 1rem;
     margin: 1rem 0 2rem;
     border-radius: 0.5rem;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 3px 5px rgba(114, 137, 218, 0.2);
     cursor: pointer;
-    transition: background 600ms cubic-bezier(.15,.3,.14,1.36),box-shadow 600ms cubic-bezier(.15,.3,.14,1.36);
+    transition: background 400ms var(--animation-function),box-shadow 400ms var(--animation-function);
 }
 .card:hover {
+    filter: brightness(0.9);
     box-shadow: none;
-    transition: background 600ms cubic-bezier(.15,.3,.14,1.36),box-shadow 600ms cubic-bezier(.15,.3,.14,1.36);
+    transition: background 400ms var(--animation-function),box-shadow 400ms var(--animation-function), filter var(--animation-function);
 }
 .card p {
     margin-left: 1.5rem;
@@ -43,19 +43,19 @@
     transform: translateX(-100vw);
     opacity: 0;
     width: 0;
-    transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),width 600ms cubic-bezier(.15,.3,.14,1.36);
+    transition: transform 400ms var(--animation-function),width 400ms var(--animation-function),opacity 400ms var(--animation-function);
 }
 .signupForm {
     margin-top: 2rem;
     width: 100%;
-    transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),opacity 200ms cubic-bezier(.15,.3,.14,1.36),width 600ms cubic-bezier(.15,.3,.14,1.36);
+    transition: transform 400ms var(--animation-function),opacity 400ms var(--animation-function),width 400ms var(--animation-function);
 }
 .go-right {
     transform: translateX(100vw);
     height: 100%;
     width: 0 !important;
     opacity: 0;
-    transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),opacity 200ms cubic-bezier(.15,.3,.14,1.36),width 600ms cubic-bezier(.15,.3,.14,1.36);
+    transition: transform 400ms var(--animation-function),opacity 400ms var(--animation-function),width 400ms var(--animation-function);
 }
 .forms .help {
     position: absolute;

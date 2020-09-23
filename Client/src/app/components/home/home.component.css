@@ -1,16 +1,43 @@
 main {
     display: grid;
-    height: 100vh;
     grid-template-columns: minmax(40vw,1fr) 2fr;
     position: relative;
     background: var(--background-primary);
     overflow: hidden;
+    height: 120vh;
+}
+section {
+    background: var(--background-secondary);
+    padding-top: 3rem;
+    position: relative;
+    z-index: 1;
+}
+section > img {
+    height: 300px;
+    width: 100%;
+    position: absolute;
+    top: -250px;
+    z-index: -1;
 }
 
-
-@media(max-width:850px) {
+/* @media(max-width: 460px) {
+    section > img {
+        top: -10px;
+    }
+} */
+@media(max-width: 850px) {
     main {
         grid-template-columns: 1fr;
         height: 100%;
     }
-} 
+}
+@media(max-width: 950px) {
+    section > img {
+        top: -200px;
+    }
+}
+/* @media(max-height: 660px) {
+    section > img {
+        top: -150px;
+    }
+} */

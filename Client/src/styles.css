@@ -51,4 +51,7 @@ a {
     --background-floating: #18191c;
     --background-mobile-primary: #36393f;
     --background-mobile-secondary: #2f3136;
+
+    /* --animation-function: cubic-bezier(.15,.3,.14,1.36); */
+    --animation-function: cubic-bezier(.15,.3,.04,1.09);
 }

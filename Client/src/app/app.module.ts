@@ -11,6 +11,7 @@ import { NavbarComponent } from './Components/navbar/navbar.component';
 import { AppRouterModule } from './app-router.module';
 import { AuthOptionsComponent } from './Components/home/auth-options/auth-options.component';
 import { IntroComponent } from './Components/home/intro/intro.component';
+import { FeaturesComponent } from './Components/home/features/features.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { IntroComponent } from './Components/home/intro/intro.component';
     NavbarComponent,
     AuthOptionsComponent,
     IntroComponent,
+    FeaturesComponent,
   ],
   imports: [
     BrowserModule,
