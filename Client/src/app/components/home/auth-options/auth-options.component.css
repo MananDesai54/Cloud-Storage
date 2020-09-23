@@ -3,7 +3,6 @@
     display: flex;
     overflow: hidden;
     padding: 0 4rem;
-    height: 100vh;
 }
 .cards {
     padding-top: 8rem;
@@ -45,7 +44,7 @@
     transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),width 600ms cubic-bezier(.15,.3,.14,1.36);
 }
 .signupForm {
-    margin-top: 5rem;
+    margin-top: 2rem;
     width: 100%;
     transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),opacity 200ms cubic-bezier(.15,.3,.14,1.36),width 600ms cubic-bezier(.15,.3,.14,1.36);
 }
@@ -65,9 +64,10 @@
 @media(max-width:650px) {
     .forms {
         padding: 0 1rem;
+        height: 120vh;
     }
     .forms .help {
-        top: 20px;
+        top: 10px;
         color: white;
     }
     .forms .help a {

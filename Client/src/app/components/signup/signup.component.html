@@ -1,27 +1,61 @@
 <div class="signUp" #signupForm>
     <h1 *ngIf="!isHome">Create Your Account</h1>
-    <form class="form" id="signUp-form" [class.maxWidth]="!isHome">
+    <form 
+        class="form" 
+        id="signUp-form" 
+        [class.maxWidth]="!isHome"
+        (submit)="onSubmit($event)"
+    >
         <div class="form-input">
             <label for="name">
                 Name
             </label>
-            <input type="text" name="name" id="name" placeholder="Enter your name" required />
+            <input 
+                type="text" 
+                name="name" 
+                id="name" 
+                placeholder="Enter your name" 
+                required
+                (input)="onInput($event)"
+            />
             <small>Name Must of 5 letters</small>
         </div>
         <div class="form-input">
             <label for="email">
                 Email
             </label>
-            <input type="email" name="email" id="emailId" placeholder="Enter your email" required />
+            <input 
+                type="email" 
+                name="email" 
+                id="email"
+                placeholder="Enter your email(abc@xyz.com)" 
+                required
+                (input)="onInput($event)"
+            />
             <small>Enter Valid Email( i.e - abc@xyz.pqr )</small>
         </div>
         <div class="form-input">
             <label for="password">
                 Password
             </label>
-            <input type="password" name="password" id="password" placeholder="Enter your password" style="margin-bottom: 0px;" required/>
+            <input 
+                type="password" 
+                name="password" 
+                id="password" 
+                placeholder="Enter your password" 
+                style="margin-bottom: 0px;" 
+                required
+                (input)="onInput($event)"
+            />
             <div class="password-format">
-                <div class="validation" id="length-check">
+                <div 
+                    *ngFor="let validation of validations"
+                    class="validation"
+                    [id]="validation.id"
+                >
+                    <small>{{ validation.name }}</small> <i class="fas fa-check done"></i>
+                </div>
+                <!-- <div class="validation" id="length-check">
                     <small> ▪ Length must be between 8-16 letters</small> <i class="fas fa-check done"></i>
                 </div>
                 <div class="validation" id="capital-check">
@@ -35,10 +69,16 @@
                 </div>
                 <div class="validation" id="special-check">
                     <small> ▪ At least 1 Special Character</small> <i class="fas fa-check done"></i>
-                </div>
+                </div> -->
             </div>
         </div>
-        <button id="signUpBtn" type="submit" disabled title="Please Fill The Form">
+        <button 
+            id="signUpBtn" 
+            type="submit" 
+            disabled 
+            title="Please Fill The Form"
+            #submitBtn
+        >
             Sign Up
         </button>
         <div style="display: flex; justify-content:space-around;">

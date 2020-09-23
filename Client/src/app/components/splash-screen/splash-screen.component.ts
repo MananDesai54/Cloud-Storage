@@ -26,6 +26,7 @@ export class SplashScreenComponent implements OnInit, OnDestroy {
     })
     .then(() => {
       // console.log('hello');
+      // this.completeSplashScreen.emit();
     })
   }
   ngOnDestroy() {
