@@ -7,7 +7,8 @@ html {
     flex-direction: column;
     padding-top: 4rem;
     align-items: center;
-    background: var(--light-white);
+    background: var(--background-primary);
+    color: var(--light-white);
 }
 .login {
     width: calc(100% - 2rem);
@@ -20,13 +21,13 @@ button {
     padding: 0.8rem;
     border-radius: 5px;
     border: none;
-    background: var(--dark-blue);
+    background: var(--color-accent);
     color: #eee;
     cursor: pointer;
     transition: all 400ms;
 }
 button:hover {
-    background: rgba(29, 29, 98, 0.6);
+    background: rgba(114, 136, 218, 0.8);
     transition: all 400ms;
 }
 button:active {
@@ -34,7 +35,7 @@ button:active {
     transition: all 400ms;
 }
 button:disabled {
-    background: #ccc;
+    filter: brightness(0.5);
     cursor: not-allowed;
 }
 .password-input {

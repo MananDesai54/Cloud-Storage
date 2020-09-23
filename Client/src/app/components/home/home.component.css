@@ -3,7 +3,7 @@ main {
     height: 100vh;
     grid-template-columns: minmax(40vw,1fr) 2fr;
     position: relative;
-    background: var(--light-white);
+    background: var(--background-primary);
     overflow: hidden;
 }
 

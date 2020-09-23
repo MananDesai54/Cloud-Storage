@@ -3,7 +3,7 @@
         <h1>Get Started</h1>
         <div class="card" (click)="onEmailAndPassword()">
             <span class="icon">
-                <i class="far fa-envelope email"></i>
+                <i class="far fa-envelope email" style="color: var(--color-danger);"></i>
             </span>
             <p>SignUp with Email</p>
         </div>
@@ -24,10 +24,10 @@
     <div class="signupForm go-right" #signupForm>
         <div 
             class="back-btn" 
-            style="cursor: pointer;margin-top:10px;display:inline-block"
+            style="cursor: pointer;margin-top:10px;display:inline-block;"
             (click)="onBackBtnClick()"
         >
-            <i class="fas fa-arrow-left fa-2x" style="color: var(--dark-blue);"></i>
+            <i class="fas fa-arrow-left fa-2x" style="color: var(--color-accent);"></i>
         </div>
         <h1>Create Your Account</h1>
         <app-signup [isHome]="true"></app-signup>

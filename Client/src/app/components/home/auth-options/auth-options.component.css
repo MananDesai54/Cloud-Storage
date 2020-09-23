@@ -1,8 +1,8 @@
 .forms {
-    background: var(--light-white);
     display: flex;
     overflow: hidden;
     padding: 0 4rem;
+    color: var(--light-white);
 }
 .cards {
     padding-top: 8rem;
@@ -10,13 +10,15 @@
     transition: transform 600ms cubic-bezier(.15,.3,.14,1.36),opacity 200ms cubic-bezier(.15,.3,.14,1.36),width 400ms cubic-bezier(.15,.3,.14,1.36);
 }
 .card {
+    color: var(--light-white);
+    
+    background: var(--color-accent);
     display: flex;
     width: 100%;
     max-width: 700px;
     align-items: center;
     padding: 1.5rem 1rem;
     margin: 1rem 0 2rem;
-    background: #fff;
     border-radius: 0.5rem;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
     cursor: pointer;

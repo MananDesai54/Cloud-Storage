@@ -10,9 +10,20 @@
     font-family: 'Noto Sans SC', sans-serif;
     outline: none;
 }
+*::-webkit-scrollbar-thumb {
+    background: var(--interactive-muted);
+    border-radius: 10px;    
+}
+*::-webkit-scrollbar {
+    background: var(--background-tertiary);
+    width: 10px;
+}
 html {
     scroll-behavior: smooth;
     overflow-x: hidden;
+}
+a {
+    color: var(--color-accent);
 }
 
 :root {
@@ -29,6 +40,7 @@ html {
     --splash-screen: #202225;
     --color-accent: #7289da;
     --color-success: #43b581;
+    --color-danger: #f04747;
 
     --interactive-muted: #4f545c;
     --background-primary: #36393f;

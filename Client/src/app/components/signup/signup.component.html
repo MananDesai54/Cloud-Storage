@@ -1,4 +1,8 @@
-<div class="signUp" #signupForm>
+<div 
+    class="signUp" 
+    #signupForm
+    [ngClass]="{ dark: !isHome }"
+>
     <h1 *ngIf="!isHome">Create Your Account</h1>
     <form 
         class="form" 

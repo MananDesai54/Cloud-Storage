@@ -1,5 +1,5 @@
 .intro {
-    background-color: var(--dark-blue);
+    background-color: var(--background-tertiary);
     color: var(--light-white);
     padding: 2rem 1.5rem;
     height: 700px;
@@ -10,7 +10,6 @@
     -o-clip-path: circle(10px at 1% -15%);
     -ms-clip-path: circle(10px at 1% -15%);
     animation: come-in 1000ms ease-in-out forwards;
-    /* animation-delay: 4.2s; */
 }
 @keyframes come-in {
     to {
@@ -41,10 +40,10 @@
 }
 .how-to-use-btn {
     text-decoration: none;
-    background: var(--light-white);
+    background: var(--color-accent);
     padding: 10px;
     border-radius: 5px;
-    color: var(--dark-blue);
+    color: var(--background-secondary);
     display: block;
     width: 150px;
     text-align: center;
@@ -52,7 +51,7 @@
     transition: all 400ms ease-in-out;
 }
 .how-to-use-btn:hover {
-    background: #aaa;
+    filter: brightness(0.8);
     transition: all 400ms ease-in-out;
 }
 .how-to-use-btn:active {
