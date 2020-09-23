@@ -133,5 +133,4 @@ function passwordValidate(re,element,messageBox,type) {
         messageBox.classList.remove('success');
         passwordCheck[type] = false;
     }
-
 }

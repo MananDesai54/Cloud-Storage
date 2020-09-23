@@ -97,6 +97,28 @@
     flex: 1;
     margin-right: 0.5rem;
 }
+.password-input {
+    position: relative;
+}
+.eyes {
+    position: absolute;
+    top: 38px;
+    right: 15px;
+}
+.eyes .close {
+    display: none;
+    pointer-events: none;
+}
+.eyes .open {
+    display: inline;
+    pointer-events: none;
+}
+.eyes.hide .open {
+    display: none;
+}
+.eyes.hide .close {
+    display: inline;
+}
 
 .other-options {
     display: flex;

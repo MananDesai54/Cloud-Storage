@@ -3,28 +3,31 @@ import { Validation } from './validation.model';
 
 @Injectable()
 export class SignupService {
-    validated = {
+    private validated = {
         name: false,
         email: false,
         password: false
     };
-    passwordCheck = {
+    private passwordCheck = {
         length: false,
         capital: false,
         small: false,
         number: false,
         special: false
     };
-    validations = [
+    private validations = [
         new Validation(' ▪ Length must be between 8-16 letters', false, 'length-check'),
         new Validation(' ▪ At least 1 Capital Letter', false, 'capital-check'),
         new Validation(' ▪ At least 1 Small Letter', false, 'small-check'),
         new Validation(' ▪ At least 1 Number', false, 'number-check'),
         new Validation(' ▪ At least 1 Special Character', false, 'special-check')
     ];
-    submitBtn: ElementRef;
+    private submitBtn: ElementRef;
     setSubmitBtn(submitBtn: ElementRef) {
         this.submitBtn = submitBtn;
+    }
+    getValidations() {
+        return this.validations.slice();
     }
 
     validate(element: HTMLInputElement, field: string) {
@@ -52,33 +55,26 @@ export class SignupService {
             const numberTest = /[0-9]+/;
             const specialTest = /[!@#$%^&*_=+-/<>?`~:]+/;
 
-            const lengthCheck = document.getElementById('length-check');
             //length check
             if(element.value.length >= 8 && element.value.length<=32) {
-                lengthCheck.classList.add('success');
                 this.passwordCheck.length = true;
                 this.validations.find((validation: Validation) => validation.id === 'length-check').done = true;
             }else {
-                lengthCheck.classList.remove('success');
                 this.passwordCheck.length = false;
                 this.validations.find((validation: Validation) => validation.id === 'length-check').done = false;
             }
 
-            const capitalCheck = document.getElementById('capital-check');
             //Capital check
-            this.passwordValidate(capitalTest,element,capitalCheck,'capital');
+            this.passwordValidate(capitalTest,element,'capital');
             
-            const smallCheck = document.getElementById('small-check');
             //Small check
-            this.passwordValidate(smallTest,element,smallCheck,'small');
+            this.passwordValidate(smallTest,element,'small');
             
-            const numberCheck = document.getElementById('number-check');
             //Number check
-            this.passwordValidate(numberTest,element,numberCheck,'number');
+            this.passwordValidate(numberTest,element,'number');
             
-            const specialCheck = document.getElementById('special-check');
             //Special check
-            this.passwordValidate(specialTest,element,specialCheck,'special');
+            this.passwordValidate(specialTest,element,'special');
             if(passwordTest.test(element.value)) {
                 element.classList.add('success');
                 element.classList.remove('danger');
@@ -107,15 +103,13 @@ export class SignupService {
         }
     }
 
-    passwordValidate(re,element,messageBox,type) {
+    passwordValidate(re,element,type) {
         if(re.test(element.value)) {
-            messageBox.classList.add('success');
             this.passwordCheck[type] = true;
             this.validations.find((validation: Validation) => validation.id === `${type}-check`).done = true;
         }else {
-            messageBox.classList.remove('success');
             this.passwordCheck[type] = false;
-            this.validations.find((validation: Validation) => validation.id === `${type}-check`).done = true;
+            this.validations.find((validation: Validation) => validation.id === `${type}-check`).done = false;
         }
     }
     danger(ele,element,errorBox) {

@@ -15,13 +15,14 @@ import { Validation } from './validation.model';
 export class SignupComponent implements OnInit {
   @Input() isHome: boolean;
   @ViewChild('submitBtn') submitBtn: ElementRef;
+  @ViewChild('passwordInput') passwordInput: ElementRef;
   validations: Validation[];
 
   constructor(private signupService: SignupService) {
   }
 
   ngOnInit(): void {
-    this.validations = this.signupService.validations;
+    this.validations = this.signupService.getValidations();
   }
 
   onSubmit(event: Event) {
@@ -30,5 +31,13 @@ export class SignupComponent implements OnInit {
   onInput(event: any) {
     this.signupService.setSubmitBtn(this.submitBtn);
     this.signupService.validate(event.target, event.target.id);
+  }
+  showHide(event: any) {
+    event.target.classList.toggle('hide');
+    if(this.passwordInput.nativeElement.type === 'text') {
+      this.passwordInput.nativeElement.type = 'password';
+    } else {
+      this.passwordInput.nativeElement.type = 'text';
+    }
   }
 }
