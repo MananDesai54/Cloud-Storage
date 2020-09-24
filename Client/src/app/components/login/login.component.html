@@ -31,6 +31,7 @@
                 #passwordInput
                 (input)="onInput($event)"
             />
+            <a routerLink="/login" style="font-size: 0.8rem;">Forgot your password?</a>
             <div class="eyes" (click)="showHide($event)">
                 <i class="fas fa-eye open" title="Show Password"></i>
                 <i class="fas fa-eye-slash close" title="Hide Password"></i>
@@ -45,11 +46,8 @@
             Login
         </button>
     </form>
-    <h4>
-        Not Registered ?    
-        <a routerLink="/signup">SignUp</a>
-    </h4>
-    <h4>
-        <a routerLink="/">Home</a>
+    <h4>   
+        Need an Account?
+        <a routerLink="/signup">signup</a>
     </h4>
 </div>

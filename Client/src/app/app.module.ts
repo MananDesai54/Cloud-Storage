@@ -12,6 +12,8 @@ import { AppRouterModule } from './app-router.module';
 import { AuthOptionsComponent } from './Components/home/auth-options/auth-options.component';
 import { IntroComponent } from './Components/home/intro/intro.component';
 import { FeaturesComponent } from './Components/home/features/features.component';
+import { FooterComponent } from './Components/home/footer/footer.component';
+import { WrapUpComponent } from './Components/home/wrap-up/wrap-up.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { FeaturesComponent } from './Components/home/features/features.component
     AuthOptionsComponent,
     IntroComponent,
     FeaturesComponent,
+    FooterComponent,
+    WrapUpComponent,
   ],
   imports: [
     BrowserModule,

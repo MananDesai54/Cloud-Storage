@@ -6,22 +6,37 @@ main {
     overflow: hidden;
     height: 120vh;
 }
-section {
-    background: var(--background-secondary);
+section , .wrap-up {
     padding-top: 3rem;
+    padding-bottom: 3rem;
     position: relative;
     z-index: 1;
+}
+section {
+    background: var(--background-secondary);
 }
 section > img {
     width: 100vw;
     position: absolute;
     top: -120px;
+    left: 0;
+}
+.wrap-up {
+    background-color: var(--background-tertiary);
+}
+.wrap-up > img {
+    position: absolute;
+    top: -70px;
+    z-index: -1;
 }
 
 @media(max-width: 850px) {
     main {
         grid-template-columns: 1fr;
         height: 100%;
+    }
+    .wrap-up > img {
+        top: -40px;
     }
 }
 @media(max-width: 600px) {

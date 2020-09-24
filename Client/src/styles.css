@@ -1,13 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rowdies&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Rowdies&display=swap');
-
 
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: 'Noto Sans SC', sans-serif;
+    font-family: 'Whitney', 'Whitney SSm B', 'Noto Sans SC', sans-serif;
     outline: none;
 }
 *::-webkit-scrollbar-thumb {
@@ -31,7 +28,8 @@ a {
 }
 
 :root {
-    --light-white:#eae6f6;
+    --light-white:#e3def3;
+    --dark-white:#8e9297;
     --dark-blue:#1E1E64;
     --light-grey:#8B8CB2;
     --light-blue:#24A5F4;
