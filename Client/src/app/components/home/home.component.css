@@ -30,6 +30,11 @@ section > img {
     z-index: -1;
 }
 
+@media(max-width: 1200px) {
+    section > img {
+        height: 300px;
+    }
+}
 @media(max-width: 850px) {
     main {
         grid-template-columns: 1fr;
@@ -41,11 +46,9 @@ section > img {
 }
 @media(max-width: 600px) {
     section > img {
-        top: -120px;
+        display: none;
     }
-}
-@media(max-width: 1200px) {
-    section > img {
-        height: 300px;
+    .wrap-up > img {
+        display: none;
     }
 }
