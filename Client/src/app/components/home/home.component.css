@@ -13,31 +13,24 @@ section {
     z-index: 1;
 }
 section > img {
-    height: 300px;
-    width: 100%;
+    width: 100vw;
     position: absolute;
-    top: -250px;
-    z-index: -1;
+    top: -120px;
 }
 
-/* @media(max-width: 460px) {
-    section > img {
-        top: -10px;
-    }
-} */
 @media(max-width: 850px) {
     main {
         grid-template-columns: 1fr;
         height: 100%;
     }
 }
-@media(max-width: 950px) {
+@media(max-width: 600px) {
     section > img {
-        top: -200px;
+        top: -120px;
     }
 }
-/* @media(max-height: 660px) {
+@media(max-width: 1200px) {
     section > img {
-        top: -150px;
+        height: 300px;
     }
-} */
+}
