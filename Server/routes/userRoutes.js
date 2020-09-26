@@ -3,10 +3,9 @@ const { check,validationResult } = require('express-validator');
 const User = require('../models/userModel');
 const Profile = require('../models/profileModel');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const passport = require('passport');
-const { request } = require('express');
 const generateToken = require('../config/generateToken');
+const auth = require('../middleware/auth');
 
 //@route    POST api/users
 //@desc     Register router
@@ -91,21 +90,62 @@ router.get('/google/callback',  passport.authenticate('google', { failureRedirec
     })
 });
 
+/*
+    @Todo social Logins
+    do after done with Angular
+    make update user route
+*/
+//@route    PUT api/users
+//@desc     Update user
+//@access   Private
+router.put('/', auth, async (req, res) => {
+    const { email, username, password } = req.body;
+    if(!password) {
+        return res.status(400).json({
+            error: 'Please provide password.'
+        })
+    }
+    try {
+        
+        const user = await User.findById(req.user.id);
+        if(!user) {
+            res.status(404).json({
+                error: 'User not found.'
+            })
+        }
+        const isMatch = await bcrypt.compare(password, user.local.password);
+        if(!isMatch) {
+            return res.status(400).json({
+                'error': 'Invalid Password'
+            })
+        }
+
+        if(email) user.email.value = email;
+        if(username) user.username = username;
+
+        await user.save();
+        return res.status(200).json({
+            user: user
+        })
+
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({
+            error: 'Server Error'
+        })
+    }
+    res.json('Done');
+});
+
 //@route    POST api/users/google
 //@desc     Auth with google token
 //@access   Public
 //not working check why
 // router.post('/google', passport.authenticate('google-plus-token'));
 
-/*
-    @Todo social Logins
-    do after done with Angular
-    make update user route
-*/
-
 //@route    POST api/users/google
 //@desc     Auth with google token
 //@access   Public
-router.post('/google')
+// router.post('/google')
 
 module.exports = router;
