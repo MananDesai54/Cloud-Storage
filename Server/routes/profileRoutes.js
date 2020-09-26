@@ -210,8 +210,8 @@ router.delete('/', auth, async (req,res) => {
         */
         const profileUrl = profile.avatar;
         
-        // await User.findByIdAndDelete(req.user.id);
-        // await Profile.findOneAndDelete({ user: req.user.id });
+        await User.findByIdAndDelete(req.user.id);
+        await Profile.findOneAndDelete({ user: req.user.id });
 
         if(profileUrl.includes('profile')) {
             console.log('Deleted from s3');

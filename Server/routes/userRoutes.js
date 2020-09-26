@@ -43,13 +43,15 @@ router.post('/', [
                     verified: false
                 },
                 local: {
-                    password: password
+                    password: password,
+                    oldPasswords: []
                 }
             });
 
             //encrypt Password
             const sault = await bcrypt.genSalt(10);
             user.local.password = await bcrypt.hash(user.local.password, sault);
+            user.local.oldPasswords.push(user.local.password);
 
             await user.save();
             await Profile.create({
@@ -99,7 +101,7 @@ router.get('/google/callback',  passport.authenticate('google', { failureRedirec
 //@desc     Update user
 //@access   Private
 router.put('/', auth, async (req, res) => {
-    const { email, username, password } = req.body;
+    const { email, username, password, newPassword } = req.body;
     if(!password) {
         return res.status(400).json({
             error: 'Please provide password.'
@@ -122,6 +124,20 @@ router.put('/', auth, async (req, res) => {
 
         if(email) user.email.value = email;
         if(username) user.username = username;
+        if(newPassword) {
+            const sault = await bcrypt.genSalt(10); 
+            if(user.local.oldPasswords.find(pswd => {
+                return bcrypt.compareSync(newPassword, pswd)
+            })) {
+                return res.status(400).json({
+                    error: 'You cannot use the password that you have used before.'
+                });
+            }
+            user.local.oldPasswords.push(bcrypt.hashSync(newPassword, sault));
+            user.local.password = newPassword;
+            user.local.password = await bcrypt.hash(user.local.password, sault);
+        } 
+
 
         await user.save();
         return res.status(200).json({

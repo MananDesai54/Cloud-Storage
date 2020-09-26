@@ -27,6 +27,10 @@ const Model = new mongoose.Schema({
         password: {
             type: String,
         },
+        oldPasswords: {
+            type: [String],
+            default: []
+        }
     },
     google: {
         googleId: {
