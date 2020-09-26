@@ -78,7 +78,7 @@ router.post('/', auth, async (req, res) => {
 router.put('/update', [auth, verifyItsYou], async (req, res) => {
     const { firstname, lastname, password } = req.body;
     try {
-        const user = await User.findById(req.user.id);
+        // const user = await User.findById(req.user.id);
         
         const profile = await Profile.findOne({ user: req.user.id });
         if(!profile) {
@@ -163,10 +163,10 @@ router.post('/avatar/upload', auth, localUpload, async (req, res) => {
 //@desc     Delete user
 //@access   Private
 router.delete('/', [auth, verifyItsYou], async (req,res) => {
-    const { password } = req.body;
+    // const { password } = req.body;
     try {
         
-        const user = await User.findById(req.user.id);
+        // const user = await User.findById(req.user.id);
 
         const profile = await Profile.findOne({ user: req.user.id });
         if(!await Profile.findOne({ user: req.user.id })) {
