@@ -7,6 +7,7 @@ const multerS3 = require('multer-s3');
 const { v4: generateId } = require('uuid');
 const path = require('path');
 const bcrypt = require('bcryptjs');
+const verifyItsYou = require('../middleware/verifyItsYou');
 
 //aws & s3 configure
 const S3 = require('../config/aws');
@@ -74,26 +75,11 @@ router.post('/', auth, async (req, res) => {
 //@route    PUT api/profile/update
 //@desc     Update user
 //@access   Private
-router.put('/update', auth, async (req, res) => {
+router.put('/update', [auth, verifyItsYou], async (req, res) => {
     const { firstname, lastname, password } = req.body;
-    if(!password) {
-        return res.status(400).json({
-            error: 'Please provide password'
-        })
-    }
     try {
         const user = await User.findById(req.user.id);
-        if(!user) {
-            return res.status(404).json({
-                error: 'User not found'
-            })
-        }
-        const isMatch = await bcrypt.compare(password, user.local.password);
-        if(!isMatch) {
-            return res.status(400).json({
-                error: 'Invalid password'
-            })
-        }
+        
         const profile = await Profile.findOne({ user: req.user.id });
         if(!profile) {
             return res.status(404).json({
@@ -176,27 +162,11 @@ router.post('/avatar/upload', auth, localUpload, async (req, res) => {
 //@route    DELETE api/profile
 //@desc     Delete user
 //@access   Private
-router.delete('/', auth, async (req,res) => {
+router.delete('/', [auth, verifyItsYou], async (req,res) => {
     const { password } = req.body;
-    if(!password) {
-        return res.status(404).json({
-            error: 'Please provide password.'
-        })
-    }
     try {
         
         const user = await User.findById(req.user.id);
-        if(!user) {
-            return res.status(404).json({
-                error: 'User not found'
-            })
-        }
-        const isMatch = await bcrypt.compare(password, user.local.password);
-        if(!isMatch) {
-            return res.status(400).json({
-                error: 'Invalid password'
-            })
-        }
 
         const profile = await Profile.findOne({ user: req.user.id });
         if(!await Profile.findOne({ user: req.user.id })) {
@@ -213,7 +183,7 @@ router.delete('/', auth, async (req,res) => {
         await User.findByIdAndDelete(req.user.id);
         await Profile.findOneAndDelete({ user: req.user.id });
 
-        if(profileUrl.includes('profile')) {
+        if(!profileUrl.includes('profile')) {
             console.log('Deleted from s3');
             // S3.deleteObject({ Bucket: process.env.AWS_BUCKET_NAME, Key: profileUrl }, (err, data) => {
             //     if(err) return console.log(err.message);

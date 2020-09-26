@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const generateToken = require('../config/generateToken');
 const auth = require('../middleware/auth');
+const verifyItsYou = require('../middleware/verifyItsYou');
 
 //@route    POST api/users
 //@desc     Register router
@@ -92,35 +93,14 @@ router.get('/google/callback',  passport.authenticate('google', { failureRedirec
     })
 });
 
-/*
-    @Todo social Logins
-    do after done with Angular
-    make update user route
-*/
 //@route    PUT api/users
 //@desc     Update user
 //@access   Private
-router.put('/', auth, async (req, res) => {
+router.put('/', [auth, verifyItsYou], async (req, res) => {
     const { email, username, password, newPassword } = req.body;
-    if(!password) {
-        return res.status(400).json({
-            error: 'Please provide password.'
-        })
-    }
     try {
         
         const user = await User.findById(req.user.id);
-        if(!user) {
-            res.status(404).json({
-                error: 'User not found.'
-            })
-        }
-        const isMatch = await bcrypt.compare(password, user.local.password);
-        if(!isMatch) {
-            return res.status(400).json({
-                'error': 'Invalid Password'
-            })
-        }
 
         if(email) user.email.value = email;
         if(username) user.username = username;
@@ -138,7 +118,6 @@ router.put('/', auth, async (req, res) => {
             user.local.password = await bcrypt.hash(user.local.password, sault);
         } 
 
-
         await user.save();
         return res.status(200).json({
             user: user
@@ -150,9 +129,13 @@ router.put('/', auth, async (req, res) => {
             error: 'Server Error'
         })
     }
-    res.json('Done');
 });
 
+
+/*
+    @Todo social Logins
+    do after done with Angular
+*/
 //@route    POST api/users/google
 //@desc     Auth with google token
 //@access   Public

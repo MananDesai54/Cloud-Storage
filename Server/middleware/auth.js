@@ -13,7 +13,7 @@ module.exports = async function(req, res, next) {
         
         const decoded = jwt.decode(token, process.env.JWT_SECRET_KEY);
         req.user = decoded.user;
-        next();
+        return next();
 
     } catch (error) {
         console.log(error.message);
