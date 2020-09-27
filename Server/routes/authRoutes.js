@@ -15,7 +15,7 @@ router.get('/', auth, async (req,res) => {
      
         let user = await User.findById(req.user.id);
         if(user.method === 'local') {
-            user = await User.findById(req.user.id).select('-local.password');
+            user = await User.findById(req.user.id).select('-local');
         } else if(user.method === 'google') {
             user = await User.findById(req.user.id).select('-google.googleId');
         }

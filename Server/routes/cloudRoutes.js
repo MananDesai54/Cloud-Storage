@@ -2,7 +2,7 @@ const router = require('express').Router();
 const Cloud = require('../models/cloudModel');
 const auth = require('../middleware/auth');
 
-//@route    GET api/cloud/folder
+//@route    POST api/cloud/folder
 //@desc     create folder
 //@access   Private
 router.post('/folder', auth, async (req,res) => {
@@ -45,4 +45,63 @@ router.post('/folder', auth, async (req,res) => {
     }
 });
 
+//@route    GET api/cloud
+//@desc     get files & folder at root level
+//@access   Private
+router.get('/', auth, async (req, res) => {
+    try {
+        
+        const cloud = await Cloud.findOne({ user: req.user.id });
+        if(!cloud) {
+            return res.status(404).json({
+                error: 'Cloud not found !!!'
+            })
+        }
+        const data = {
+            storage: cloud.storage,
+            files: cloud.files,
+            folders: cloud.folders
+        }
+
+        return res.status(200).json({
+            data
+        })
+
+    } catch (error) {
+        console.log(error.message);
+        return res.status({
+            error: 'Server error'
+        })
+    }
+})
+
+//@route    GET api/cloud/folders/:id
+//@desc     get any folder data
+//@access   Private
+router.get('/folders/:id', auth, async (req, res) => {
+    const { id } = req.params;
+    try {
+
+        const cloud = await Cloud.findOne({ user: req.user.id });
+        if(!cloud) {
+            return res.status(404).json({
+                error: 'Cloud not found.'
+            });
+        }
+        const folder = await cloud.folders.find(folder => folder.id === id);
+        if(!folder) {
+            return res.status(404).json({
+                error: 'Folder not found.'
+            })
+        }
+        return res.status(200).json({
+            data: folder
+        })
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({
+            error: 'Server error'
+        })
+    }
+})
 module.exports = router;

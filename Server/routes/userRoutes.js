@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { check,validationResult } = require('express-validator');
 const User = require('../models/userModel');
 const Profile = require('../models/profileModel');
+const Cloud = require('../models/cloudModel');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const generateToken = require('../config/generateToken');
@@ -58,6 +59,9 @@ router.post('/', [
             await Profile.create({
                 user: user.id,
                 avatar: 'https://cloud-storage-uploads.s3.amazonaws.com/profile.png'
+            });
+            await Cloud.create({
+                user: user.id
             });
 
             //generate JWT token

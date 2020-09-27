@@ -1,0 +1,8 @@
+PUT http://localhost:5000/api/users
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWY2ZjFlMWM2MmIxNDczZTBjNzg2NjM3In0sImlhdCI6MTYwMTExNzcyNSwiZXhwIjoxNjAxMjA0MTI1fQ.cwgvXGI8yKRnvdxDQYIaKugZhTokG1pGaqrz2HE9YL8
+Content-Type: application/json
+
+{
+    "username": "John",
+    "email": "john@gamil.com",
+}
