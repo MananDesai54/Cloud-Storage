@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const bCrypt = require('bcryptjs');
 const nodeMailer = require('nodemailer');
 const passport = require('passport');
+const showError = require('../config/showError');
 
 //@route    GET api/auth
 //@desc     Auth router
@@ -27,10 +28,7 @@ router.get('/', auth, async (req,res) => {
         return res.status(200).json(user);
 
     } catch (error) {
-        console.log(error.message);
-        return res.status(500).json({
-            error: 'Server error'
-        })
+        showError(res, error);
     }
 });
 
@@ -83,10 +81,7 @@ router.post('/', [
             })
 
         } catch (error) {
-            console.log(error.message);
-            return res.status(500).json({
-                error: 'Server Error'
-            })
+            showError(res, error);
         }
 
     });
@@ -102,18 +97,20 @@ router.get('/google', passport.authenticate('google', { scope: ['profile', 'emai
 router.get('/:username', async (req, res) => {
 
     const username = req.params.username.toLowerCase();
-    
-    const user = await User.findOne({ username });
-    if (user) {
-        return res.status(400).json({
-            error: 'User with that username already exist',
-            succuss: false
+    try {
+        const user = await User.findOne({ username });
+        if (user) {
+            return res.status(400).json({
+                error: 'User with that username already exist',
+                succuss: false
+            })
+        }
+        return res.status(200).json({
+            succuss: true
         })
+    } catch (error) {
+        showError(res, error);
     }
-    return res.status(200).json({
-        succuss: true
-    })
-
 });
 
 module.exports = router;

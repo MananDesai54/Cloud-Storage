@@ -1,12 +1,14 @@
 const router = require('express').Router();
 const Profile = require('../models/profileModel');
 const User = require('../models/userModel');
+const Cloud = require('../models/cloudModel');
 const auth = require('../middleware/auth');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 const { v4: generateId } = require('uuid');
 const path = require('path');
 const verifyItsYou = require('../middleware/verifyItsYou');
+const showError = require('../config/showError');
 
 //aws & s3 configure
 const S3 = require('../config/aws');
@@ -34,10 +36,7 @@ router.get('/', auth, async (req,res) => {
         return res.status(200).json(profile);
         
     } catch (error) {
-        console.log(error.message);
-        return res.status(500).json({
-            error: 'Server Error'
-        })
+        showError(res, error);  
     }
 });
 
@@ -64,10 +63,7 @@ router.post('/', auth, async (req, res) => {
         return res.status(200).json(profile);
         
     } catch (error) {
-        console.log(error.message);
-        return res.status(500).json({
-            error: 'Server Error'
-        })
+        showError(res, error);  
     }
 });
 
@@ -94,10 +90,7 @@ router.put('/update', [auth, verifyItsYou], async (req, res) => {
         return res.status(200).json(profile);
         
     } catch (error) {
-        console.log(error.message);
-        return res.status(500).json({
-            error: 'Server Error'
-        })
+        showError(res, error);  
     }
 });
 
@@ -150,10 +143,7 @@ router.post('/avatar/upload', auth, localUpload, async (req, res) => {
         })
 
     } catch (error) {
-        console.log(error.message);
-        return res.status(500).json({
-            error: 'Server Error'
-        })
+        showError(res, error);  
     }
     
 });
@@ -181,6 +171,7 @@ router.delete('/', [auth, verifyItsYou], async (req,res) => {
         
         await User.findByIdAndDelete(req.user.id);
         await Profile.findOneAndDelete({ user: req.user.id });
+        await Cloud.findOneAndDelete({ user: req.user.id });
 
         if(!profileUrl.includes('profile')) {
             console.log('Deleted from s3');
@@ -194,10 +185,7 @@ router.delete('/', [auth, verifyItsYou], async (req,res) => {
         })
 
     } catch (error) {
-        console.log(error.message);
-        return res.status(500).json({
-            error: 'Server Error'
-        })
+        showError(res, error);  
     }
 })
 
