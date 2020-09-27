@@ -77,3 +77,9 @@ jwt.sign(payload, process.env.JWT_SECRET_KEY, {
 //         'error': 'Invalid Password'
 //     })
 // }
+
+//s3 download list objects
+// S3.deleteObject({ Bucket: process.env.AWS_BUCKET_NAME, Key: 'billyImage.jpg' }).promise().then((res) => console.log(res));
+
+// S3.listObjectsV2({ Bucket: process.env.AWS_BUCKET_NAME }).promise()
+//     .then(res => console.log(res));

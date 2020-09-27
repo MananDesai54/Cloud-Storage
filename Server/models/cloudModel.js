@@ -49,6 +49,9 @@ const Model = new mongoose.Schema({
             files: {
                 type: [mongoose.Schema.Types.ObjectId]
             },
+            folders: {
+                type: [mongoose.Schema.Types.ObjectId]
+            },
             location : {
                 type: String,
                 required: true

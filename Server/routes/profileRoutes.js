@@ -6,7 +6,6 @@ const multer = require('multer');
 const multerS3 = require('multer-s3');
 const { v4: generateId } = require('uuid');
 const path = require('path');
-const bcrypt = require('bcryptjs');
 const verifyItsYou = require('../middleware/verifyItsYou');
 
 //aws & s3 configure
