@@ -120,7 +120,8 @@ router.post('/avatar/upload', auth, localUpload, async (req, res) => {
             })
 
             const awsUploadURL = data.Location;
-            profile.avatar = awsUploadURL;
+            profile.avatar.url = awsUploadURL;
+            profile.avatar.key = data.Key;
             profile.updatedDate = Date.now();
 
             await profile.save();

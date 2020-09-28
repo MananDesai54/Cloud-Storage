@@ -16,9 +16,10 @@
         let input = document.querySelector('input');
         document.querySelector('form').addEventListener('submit', (e) => {
             e.preventDefault();
+            console.log(input.files[0]);
             const fd = new FormData();
             fd.append('image', input.files[0]);
-            fetch('http://localhost:5000/api/cloud/file',{
+            fetch('http://localhost:5000/api/cloud/file/5f70557e3577d30e4cb8f0fe',{
                 method: 'POST',
                 body: fd,
                 headers: {

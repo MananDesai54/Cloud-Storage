@@ -58,7 +58,10 @@ router.post('/', [
             await user.save();
             await Profile.create({
                 user: user.id,
-                avatar: 'https://cloud-storage-uploads.s3.amazonaws.com/profile.png'
+                avatar: {
+                    url: 'https://cloud-storage-uploads.s3.amazonaws.com/profile.png',
+                    key: 'profile.png'
+                }
             });
             await Cloud.create({
                 user: user.id

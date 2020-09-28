@@ -12,7 +12,12 @@ const Model = new mongoose.Schema({
         type: String
     },
     avatar: {
-        type: String
+        url: {
+            type: String
+        },
+        key: {
+            type: String
+        }
     },
     createdDate: {
         type: Date,

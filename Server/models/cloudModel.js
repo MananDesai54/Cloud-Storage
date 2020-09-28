@@ -23,6 +23,16 @@ const Model = new mongoose.Schema({
                 type: String,
                 required: true
             },
+            awsData: {
+                url: {
+                    type: String,
+                    required: true
+                },
+                key: {
+                    type: String,
+                    required: true
+                }
+            },
             sharable: {
                 type: Boolean,
                 default: false

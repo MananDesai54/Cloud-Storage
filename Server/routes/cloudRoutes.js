@@ -4,6 +4,7 @@ const auth = require('../middleware/auth');
 const cloudMiddleware = require('../middleware/cloud');
 const showError = require('../config/showError');
 const deleteFolder = require('../config/deleteFolder');
+const { v4: generateId } = require('uuid');
 
 const fileDetails = require('../config/fileData');
 const S3 = require('../config/aws');
@@ -153,26 +154,53 @@ router.delete('/folders/:id', auth, cloudMiddleware, async (req, res) => {
     }
 })
 
-//@route    POST api/cloud/file
+//@route    POST api/cloud/file/:folderId
 //@desc     Upload folder
 //@access   Private
-router.post('/file', auth, cloudMiddleware, fileDetails, async (req, res) => {
+router.post('/file/:folderId', auth, cloudMiddleware, fileDetails, async (req, res) => {
     const file = req.file;
+    const { folderId } = req.params;
     if(!file) {
         return res.status(404).json({
             error: 'Please upload a file'
         });
     }
-    const { fieldname, originalname, mimetype, buffer, size } = req.file;
-    console.log(fieldname, originalname, mimetype, buffer, size);
+    const { originalname, mimetype, buffer, size } = req.file;
+    const fileData = originalname.split('.');
+    const fileType = fileData[fileData.length - 1];
+    const fileName = fileData.slice(0,fileData.length - 1).join();
     try {
-        // const params = {
-        //     Bucket: process.env.AWS_BUCKET_NAME,
-        //     Key: `${generateId()}.${fileType}`,
-        //     Body: req.file.buffer,
-        //     ContentType: req.file.mimetype
-        // }
-        res.json('Done');
+        const params = {
+            Bucket: process.env.AWS_BUCKET_NAME,
+            Key: `${generateId()}.${fileType}`,
+            Body: buffer,
+            ContentType: mimetype
+        }
+        S3.upload(params, async (err, data) => {
+            if(err) return res.status(400).json({
+                error: err.message
+            })
+
+            const { Location, key } = data;
+            const cloud = req.cloud;
+            const uploadedData = {
+                name: fileName,
+                fileType,
+                mimeType: mimetype,
+                location: folderId,
+                awsData: {
+                    url: Location,
+                    key
+                }
+            }
+            cloud.files.push(uploadedData);
+            await cloud.save();
+
+            return res.status(200).json({
+                cloud,
+                uploadedData
+            });
+        });
     } catch (error) {
         showError(res, error);
     }
@@ -182,5 +210,6 @@ router.post('/file', auth, cloudMiddleware, fileDetails, async (req, res) => {
 /*
     Todo on Folder Delete files delete remain
     file upload loading
+    decrease available space out of 15 gb
 */
 module.exports = router;
