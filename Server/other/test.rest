@@ -6,3 +6,7 @@ Content-Type: application/json
     "username": "John",
     "email": "john@gamil.com",
 }
+
+###
+
+DELETE http://localhost:5000/api/cloud/folders/5f7057703577d30e4cb8f102

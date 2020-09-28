@@ -3,23 +3,13 @@ const Profile = require('../models/profileModel');
 const User = require('../models/userModel');
 const Cloud = require('../models/cloudModel');
 const auth = require('../middleware/auth');
-const multer = require('multer');
-const multerS3 = require('multer-s3');
 const { v4: generateId } = require('uuid');
-const path = require('path');
 const verifyItsYou = require('../middleware/verifyItsYou');
 const showError = require('../config/showError');
 
 //aws & s3 configure
 const S3 = require('../config/aws');
-
-//to get uploaded file details
-const storage = multer.memoryStorage({
-    destination: (req, file, cb) => {
-        cb(null, '');
-    }
-})
-const localUpload = multer({ storage }).single('image');
+const localUpload = require('../config/fileData');
 
 //@route    GET api/profile
 //@desc     get user profile

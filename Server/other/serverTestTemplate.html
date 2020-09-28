@@ -8,28 +8,30 @@
 <body>
     <form>
         <input type="file" name="image">
-        <button>Upload</button>
+        <button type="submit">Upload</button>
     </form>
+    <input type="file" name="folder" webkitdirectory mozdirectory msdirectory odirectory directory multiple />
     <img src="" alt="Please upload to S3">
     <script>
         let input = document.querySelector('input');
-        document.querySelector('button').addEventListener('click', (e) => {
+        document.querySelector('form').addEventListener('submit', (e) => {
             e.preventDefault();
             const fd = new FormData();
             fd.append('image', input.files[0]);
-            fetch('http://localhost:5000/api/profile/avatar/upload',{
+            fetch('http://localhost:5000/api/cloud/file',{
                 method: 'POST',
                 body: fd,
                 headers: {
                     /*'Content-type': 'multipart/form-data; boundary=<calculated when request is sent>',*/
-                    "x-auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWY2NzQxY2QzOThkNzYyYzJjODczZWUyIn0sImlhdCI6MTYwMDYxNjQwNCwiZXhwIjoxNjAwNzAyODA0fQ.8-LUSuwzXVYKAxCjf6ytYtiVdY1LtxFQNuGu3ZK4leU"
+                    "x-auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWY2ZjcyZTljMjAwZDMzZmRjZGZlMjkyIn0sImlhdCI6MTYwMTIwNDMyNSwiZXhwIjoxNjAxMjkwNzI1fQ.WBjn9GrkZJkrYxs5ke8Xudwur0svqOAECgvXXbDtQl8"
                 }
             }).then(res => res.json())
             .then(data => {
-                console.log(data.data.Location);
-                if(data.data.Location) {
-                    document.querySelector('img').src = data.data.Location;
-                }
+                console.log(data);
+                //console.log(data.data.Location);
+                //if(data.data.Location) {
+                 //   document.querySelector('img').src = data.data.Location;
+                //}
             });
         });
     </script>

@@ -3,6 +3,34 @@ const Cloud = require('../models/cloudModel');
 const auth = require('../middleware/auth');
 const cloudMiddleware = require('../middleware/cloud');
 const showError = require('../config/showError');
+const deleteFolder = require('../config/deleteFolder');
+
+const fileDetails = require('../config/fileData');
+const S3 = require('../config/aws');
+
+
+//@route    GET api/cloud
+//@desc     get files & folder at root level
+//@access   Private
+router.get('/', auth, cloudMiddleware, (req, res) => {
+    try {
+        
+        const cloud = req.cloud;
+        console.log(cloud);
+        const data = {
+            storage: cloud.storage,
+            files: cloud.files,
+            folders: cloud.folders
+        }
+
+        return res.status(200).json({
+            data
+        })
+
+    } catch (error) {
+        showError(res, error)   
+    }
+})
 
 //@route    POST api/cloud/folder
 //@desc     create folder
@@ -43,29 +71,6 @@ router.post('/folder', auth, async (req,res) => {
         showError(res, error)   
     }
 });
-
-//@route    GET api/cloud
-//@desc     get files & folder at root level
-//@access   Private
-router.get('/', auth, cloudMiddleware, (req, res) => {
-    try {
-        
-        const cloud = req.cloud;
-        console.log(cloud);
-        const data = {
-            storage: cloud.storage,
-            files: cloud.files,
-            folders: cloud.folders
-        }
-
-        return res.status(200).json({
-            data
-        })
-
-    } catch (error) {
-        showError(res, error)   
-    }
-})
 
 //@route    GET api/cloud/folders/:id
 //@desc     get any folder data
@@ -127,9 +132,38 @@ router.delete('/folders/:id', auth, cloudMiddleware, async (req, res) => {
                 error: 'Folder not found.'
             })
         }
+        const folderLocation = folder.location;
+        if(folderLocation !== 'root') {
+            const parent = cloud.folders.find(folder => folder.id === folderLocation);
+            const inParentIndex = parent.folders.findIndex(folderId => {
+                return folderId.toString() === id
+            });
+            parent.folders.splice(inParentIndex, 1);
+        }
+        deleteFolder(folder, cloud, res);
+        const folderIndex = cloud.folders.findIndex(Folder => Folder.id === folder.id);
+        cloud.folders.splice(folderIndex, 1);
+        
+        await cloud.save();
+        return res.status(200).json({
+            data: cloud
+        });
     } catch (error) {
         showError(res, error);
     }
 })
 
+//@route    POST api/cloud/file
+//@desc     Upload folder
+//@access   Private
+router.post('/file', auth, cloudMiddleware, fileDetails, async (req, res) => {
+    console.log(req.file);
+    res.json('Done');
+})
+
+
+/*
+    Todo on Folder Delete files delete remain
+    file upload loading
+*/
 module.exports = router;
