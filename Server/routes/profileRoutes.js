@@ -159,18 +159,19 @@ router.delete('/', [auth, verifyItsYou], async (req,res) => {
             this logic is not deleting
         */
         const profileUrl = profile.avatar;
+        console.log(profileUrl);
         
         await User.findByIdAndDelete(req.user.id);
         await Profile.findOneAndDelete({ user: req.user.id });
         await Cloud.findOneAndDelete({ user: req.user.id });
 
-        if(!profileUrl.includes('profile')) {
-            console.log('Deleted from s3');
+        // if(!profileUrl.includes('profile')) {
+        //     console.log('Deleted from s3');
             // S3.deleteObject({ Bucket: process.env.AWS_BUCKET_NAME, Key: profileUrl }, (err, data) => {
             //     if(err) return console.log(err.message);
             //     console.log(data);
             // });
-        }
+        // }
         return res.status(200).json({
             message: 'User Deleted'
         })
