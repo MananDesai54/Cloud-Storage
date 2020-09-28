@@ -15,6 +15,10 @@ const Model = new mongoose.Schema({
                 type: String,
                 required: true
             },
+            mimeType: {
+                type: String,
+                required: true
+            },
             location: {
                 type: String,
                 required: true

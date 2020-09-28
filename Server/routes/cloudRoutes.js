@@ -157,8 +157,25 @@ router.delete('/folders/:id', auth, cloudMiddleware, async (req, res) => {
 //@desc     Upload folder
 //@access   Private
 router.post('/file', auth, cloudMiddleware, fileDetails, async (req, res) => {
-    console.log(req.file);
-    res.json('Done');
+    const file = req.file;
+    if(!file) {
+        return res.status(404).json({
+            error: 'Please upload a file'
+        });
+    }
+    const { fieldname, originalname, mimetype, buffer, size } = req.file;
+    console.log(fieldname, originalname, mimetype, buffer, size);
+    try {
+        // const params = {
+        //     Bucket: process.env.AWS_BUCKET_NAME,
+        //     Key: `${generateId()}.${fileType}`,
+        //     Body: req.file.buffer,
+        //     ContentType: req.file.mimetype
+        // }
+        res.json('Done');
+    } catch (error) {
+        showError(res, error);
+    }
 })
 
 
