@@ -262,23 +262,42 @@ router.delete('/files/:fileId', auth, cloudMiddleware, async (req, res) => {
     try {
         const { cloud } = req;
         const fileIndex = await cloud.files.findIndex(file => file.id.toString() === fileId);
-        console.log(fileIndex);
         if(!cloud.files[fileIndex]) {
             return res.status(404).json({
                 error: 'File not found'
             });
         }
-        cloud.files.splice(fileIndex, 1);
-        //delete file from folder ref and aws
-        await cloud.save();
-        return res.status(200).json({
-            data: 'File Deleted'
-        })
+        const params = { 
+            Bucket: process.env.AWS_BUCKET_NAME, 
+            Key: cloud.files[fileIndex].awsData.key
+        }
+        S3.deleteObject(params).promise()
+            .then(async (data) => {
+                console.log(data);
+                if(cloud.files[fileIndex].location !== 'root') {
+                    const folder = cloud.folders
+                            .find(folder => folder.id.toString() === cloud.files[fileIndex].location);
+                    const inFolderIndex = folder.files.findIndex(file => file.id.toString() === fileId);
+                    folder.files.splice(inFolderIndex, 1);
+                }
+                cloud.files.splice(fileIndex, 1);
+                await cloud.save();
+                return res.status(200).json({
+                    data: 'File Deleted'
+                });
+            })
+            .catch(error => {
+                console.log(error.message);
+                return res.status(400).json({
+                    data: 'Something went wrong'
+                });
+            })
 
     } catch (error) {
         showError(res, error);
     }
-})
+});
+
 
 /*
     Todo on Folder Delete files delete remain
