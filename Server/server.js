@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const connectToDatabase = require('./config/config');
+const connectToDatabase = require('./config/dbConfig');
 const morgan = require('morgan');
 const passport = require('passport');
 const expressSession = require('express-session');

@@ -3,7 +3,7 @@ const Cloud = require('../models/cloudModel');
 const auth = require('../middleware/auth');
 const cloudMiddleware = require('../middleware/cloud');
 const showError = require('../config/showError');
-const deleteFolder = require('../config/deleteFolder');
+const { deleteSubFolders } = require('../config/deleteFolder');
 const { v4: generateId } = require('uuid');
 const { check, validationResult } = require('express-validator');
 
@@ -164,14 +164,18 @@ router.delete('/folders/:id', auth, cloudMiddleware, async (req, res) => {
             });
             parent.folders.splice(inParentIndex, 1);
         }
-        deleteFolder(folder, cloud, res);
-        const folderIndex = cloud.folders.findIndex(Folder => Folder.id === folder.id);
-        cloud.folders.splice(folderIndex, 1);
+        deleteSubFolders(folder, cloud)
+            .then(async data => {
+                const folderIndex = cloud.folders.findIndex(Folder => Folder.id === folder.id);
+                cloud.folders.splice(folderIndex, 1);
+                console.log('Done');
+                await cloud.save();
+                return res.status(200).json({
+                    message: 'Folder Deleted'
+                });
+            })
+            .catch(error => console.log(error.message));
         
-        await cloud.save();
-        return res.status(200).json({
-            message: 'Folder deleted'
-        });
     } catch (error) {
         showError(res, error);
     }
@@ -192,7 +196,17 @@ router.post('/file/:folderId', auth, cloudMiddleware, fileDetails, async (req, r
     const fileData = originalname.split('.');
     const fileType = fileData[fileData.length - 1];
     const fileName = fileData.slice(0,fileData.length - 1).join();
+    const cloud = req.cloud;
     try {
+        let folder;
+        if(folderId !== 'root') {
+            folder = cloud.folders.find(folder => folder.id === folderId);
+            if(!folder) {
+                return res.status(404).json({
+                    error: 'Folder not found'
+                })
+            }
+        }
         const params = {
             Bucket: process.env.AWS_BUCKET_NAME,
             Key: `${generateId()}.${fileType}`,
@@ -205,7 +219,6 @@ router.post('/file/:folderId', auth, cloudMiddleware, fileDetails, async (req, r
             })
 
             const { Location, key } = data;
-            const cloud = req.cloud;
             const uploadedData = {
                 name: originalname,
                 fileType,
@@ -218,7 +231,6 @@ router.post('/file/:folderId', auth, cloudMiddleware, fileDetails, async (req, r
             }
             cloud.files.push(uploadedData);
             if(folderId !== 'root') {
-                const folder = cloud.folders.find(folder => folder.id === folderId);
                 folder.files.push(cloud.files[cloud.files.length - 1].id);
             }
             await cloud.save();
@@ -336,7 +348,6 @@ router.delete('/files/:fileId', auth, cloudMiddleware, async (req, res) => {
 
 
 /*
-    Todo on Folder Delete files delete remain
     file upload loading
     decrease available space out of 15 gb
 */
