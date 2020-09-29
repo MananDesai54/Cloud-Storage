@@ -23,7 +23,9 @@ router.get('/', auth, async (req,res) => {
                 message: 'Profile not found'
             });
         }
-        return res.status(200).json(profile);
+        return res.status(200).json({ 
+            data: profile
+        });
         
     } catch (error) {
         showError(res, error);  
@@ -50,7 +52,9 @@ router.post('/', auth, async (req, res) => {
 
         await profile.save();
 
-        return res.status(200).json(profile);
+        return res.status(200).json({
+            data: profile
+        });
         
     } catch (error) {
         showError(res, error);  
@@ -77,7 +81,9 @@ router.put('/update', [auth, verifyItsYou], async (req, res) => {
         profile.updatedDate = Date.now();
         await profile.save();
 
-        return res.status(200).json(profile);
+        return res.status(200).json({
+            data: profile
+        });
         
     } catch (error) {
         showError(res, error);  
@@ -127,8 +133,8 @@ router.post('/avatar/upload', auth, localUpload, async (req, res) => {
             await profile.save();
 
             return res.status(200).json({
-                profile
-            })
+                data: profile
+            });
         }).on('httpUploadProgress', e => {
             console.log(e.loaded);
         })
@@ -143,11 +149,8 @@ router.post('/avatar/upload', auth, localUpload, async (req, res) => {
 //@desc     Delete user
 //@access   Private
 router.delete('/', [auth, verifyItsYou], async (req,res) => {
-    // const { password } = req.body;
     try {
         
-        // const user = await User.findById(req.user.id);
-
         const profile = await Profile.findOne({ user: req.user.id });
         if(!await Profile.findOne({ user: req.user.id })) {
             return res.status(404).json({
@@ -158,20 +161,21 @@ router.delete('/', [auth, verifyItsYou], async (req,res) => {
             Todo - Delete files of user from s3
             this logic is not deleting
         */
-        const profileUrl = profile.avatar;
+        const profileUrl = profile.avatar.url;
+        const key = profile.avatar.key
         console.log(profileUrl);
         
         await User.findByIdAndDelete(req.user.id);
         await Profile.findOneAndDelete({ user: req.user.id });
         await Cloud.findOneAndDelete({ user: req.user.id });
 
-        // if(!profileUrl.includes('profile')) {
-        //     console.log('Deleted from s3');
-            // S3.deleteObject({ Bucket: process.env.AWS_BUCKET_NAME, Key: profileUrl }, (err, data) => {
-            //     if(err) return console.log(err.message);
-            //     console.log(data);
-            // });
-        // }
+        if(!profileUrl.includes('profile')) {
+            console.log('Deleted from s3');
+            S3.deleteObject({ Bucket: process.env.AWS_BUCKET_NAME, Key: key }, (err, data) => {
+                if(err) return console.log(err.message);
+                console.log(data);
+            });
+        }
         return res.status(200).json({
             message: 'User Deleted'
         })

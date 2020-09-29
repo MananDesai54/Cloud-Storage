@@ -25,7 +25,9 @@ router.get('/', auth, async (req,res) => {
                 error: 'Not authorized'
             });
         }
-        return res.status(200).json(user);
+        return res.status(200).json({
+            data: user
+        });
 
     } catch (error) {
         showError(res, error);
@@ -77,7 +79,9 @@ router.post('/', [
                     error: 'Server Error'
                 });
 
-                return res.status(200).json({ token });
+                return res.status(200).json({
+                    token
+                });
             })
 
         } catch (error) {

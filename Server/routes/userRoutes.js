@@ -70,7 +70,6 @@ router.post('/', [
             //generate JWT token
             const token = generateToken(user);
             return res.status(200).json({
-                user,
                 token
             });
 
@@ -95,7 +94,7 @@ router.get('/google/callback',  passport.authenticate('google', { failureRedirec
     const token = generateToken(req.user);
     console.log(token);
     res.status(200).json({
-        user: req.user,
+        data: req.user,
         token
     })
 });
@@ -127,7 +126,8 @@ router.put('/', [auth, verifyItsYou], async (req, res) => {
 
         await user.save();
         return res.status(200).json({
-            user: user
+            data: user,
+            message: 'User updated'
         })
 
     } catch (error) {

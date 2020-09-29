@@ -5,6 +5,7 @@ const cloudMiddleware = require('../middleware/cloud');
 const showError = require('../config/showError');
 const deleteFolder = require('../config/deleteFolder');
 const { v4: generateId } = require('uuid');
+const { check, validationResult } = require('express-validator');
 
 const fileDetails = require('../config/fileData');
 const S3 = require('../config/aws');
@@ -35,7 +36,19 @@ router.get('/', auth, cloudMiddleware, (req, res) => {
 //@route    POST api/cloud/folder
 //@desc     create folder
 //@access   Private
-router.post('/folder', auth, async (req,res) => {
+router.post('/folder', [
+    auth,
+    check('name', 'Name is required').not().isEmpty(),
+    check('location', 'Location of file is required').not().isEmpty()
+], async (req,res) => {
+
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        return res.json({
+            errors: errors.array()
+        })
+    }
+
     const { name, location } = req.body;
     try {
         
@@ -64,7 +77,7 @@ router.post('/folder', auth, async (req,res) => {
         }
         await cloud.save();
         return res.status(200).json({
-            cloud
+            data: cloud.folders[cloud.folders.length-1]
         })
 
     } catch (error) {
@@ -97,7 +110,19 @@ router.get('/folders/:id', auth, cloudMiddleware, async (req, res) => {
 //@route    PUT api/cloud/folders
 //@desc     Update folder(rename)
 //@access   Private
-router.put('/folders', auth, cloudMiddleware, async (req, res) => {
+router.put('/folders', [
+    auth,
+    cloudMiddleware,
+    check('name', 'Name is required').not().isEmpty(),
+    check('id', 'Id is required').not().isEmpty()
+], async (req, res) => {
+
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        return res.json({
+            errors: errors.array()
+        })
+    }
     const { name, id } = req.body;
     try {
         const cloud = req.cloud;
@@ -145,7 +170,7 @@ router.delete('/folders/:id', auth, cloudMiddleware, async (req, res) => {
         
         await cloud.save();
         return res.status(200).json({
-            data: cloud
+            message: 'Folder deleted'
         });
     } catch (error) {
         showError(res, error);
@@ -153,7 +178,7 @@ router.delete('/folders/:id', auth, cloudMiddleware, async (req, res) => {
 })
 
 //@route    POST api/cloud/file/:folderId
-//@desc     Upload folder
+//@desc     Upload file
 //@access   Private
 router.post('/file/:folderId', auth, cloudMiddleware, fileDetails, async (req, res) => {
     const file = req.file;
@@ -199,8 +224,7 @@ router.post('/file/:folderId', auth, cloudMiddleware, fileDetails, async (req, r
             await cloud.save();
 
             return res.status(200).json({
-                cloud,
-                uploadedData
+                data: cloud.files[cloud.files.length - 1]
             });
         });
     } catch (error) {
@@ -209,7 +233,7 @@ router.post('/file/:folderId', auth, cloudMiddleware, fileDetails, async (req, r
 });
 
 //@route    GET api/cloud/files/:fileId
-//@desc     Upload folder
+//@desc     get file
 //@access   Private
 router.get('/files/:fileId', auth, cloudMiddleware, async (req, res) => {
     const { fileId } = req.params;
@@ -233,7 +257,19 @@ router.get('/files/:fileId', auth, cloudMiddleware, async (req, res) => {
 //@route    PUT api/cloud/files
 //@desc     update file(Rename)
 //@access   Private
-router.put('/files', auth, cloudMiddleware, async (req, res) => {
+router.put('/files', [
+    auth,
+    cloudMiddleware,
+    check('name', 'Name is required').not().isEmpty(),
+    check('id', 'Id is required').not().isEmpty()
+], async (req, res) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        return res.json({
+            errors: errors.array()
+        })
+    }
+
     const { name, id } = req.body;
     try {
         const { cloud } = req;
@@ -255,7 +291,7 @@ router.put('/files', auth, cloudMiddleware, async (req, res) => {
 })
 
 //@route    DELETE api/cloud/files/:fileId
-//@desc     update file(Rename)
+//@desc     delete file
 //@access   Private
 router.delete('/files/:fileId', auth, cloudMiddleware, async (req, res) => {
     const { fileId } = req.params;
@@ -283,7 +319,7 @@ router.delete('/files/:fileId', auth, cloudMiddleware, async (req, res) => {
                 cloud.files.splice(fileIndex, 1);
                 await cloud.save();
                 return res.status(200).json({
-                    data: 'File Deleted'
+                    message: 'File Deleted'
                 });
             })
             .catch(error => {
