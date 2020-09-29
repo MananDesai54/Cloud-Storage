@@ -7,24 +7,24 @@
 </head>
 <body>
     <form>
-        <input type="file" name="image">
+        <input type="file" name="file" id="file">
         <button type="submit">Upload</button>
     </form>
     <input type="file" name="folder" webkitdirectory mozdirectory msdirectory odirectory directory multiple />
     <img src="" alt="Please upload to S3">
     <script>
-        let input = document.querySelector('input');
+        let input = document.querySelector('#file');
         document.querySelector('form').addEventListener('submit', (e) => {
             e.preventDefault();
             console.log(input.files[0]);
             const fd = new FormData();
-            fd.append('image', input.files[0]);
-            fetch('http://localhost:5000/api/cloud/file/5f70557e3577d30e4cb8f0fe',{
+            fd.append('file', input.files[0]);
+            fetch('http://localhost:5000/api/cloud/file/root',{
                 method: 'POST',
                 body: fd,
                 headers: {
                     /*'Content-type': 'multipart/form-data; boundary=<calculated when request is sent>',*/
-                    "x-auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWY2ZjcyZTljMjAwZDMzZmRjZGZlMjkyIn0sImlhdCI6MTYwMTIwNDMyNSwiZXhwIjoxNjAxMjkwNzI1fQ.WBjn9GrkZJkrYxs5ke8Xudwur0svqOAECgvXXbDtQl8"
+                    "x-auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWY3MWU4NTI5NWU1ZjEwOTBjMzlkYTY3In0sImlhdCI6MTYwMTMxMzQ1NCwiZXhwIjoxNjAxMzk5ODU0fQ.WQBc5wCohhbSJ_N8dNpXu0v09sNV1zPYwXlYupJ6CNk"
                 }
             }).then(res => res.json())
             .then(data => {

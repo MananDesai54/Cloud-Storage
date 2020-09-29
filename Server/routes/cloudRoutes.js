@@ -17,7 +17,6 @@ router.get('/', auth, cloudMiddleware, (req, res) => {
     try {
         
         const cloud = req.cloud;
-        console.log(cloud);
         const data = {
             storage: cloud.storage,
             files: cloud.files,
@@ -95,12 +94,11 @@ router.get('/folders/:id', auth, cloudMiddleware, async (req, res) => {
     }
 })
 
-//@route    PUT api/cloud/folders/:id
+//@route    PUT api/cloud/folders
 //@desc     Update folder(rename)
 //@access   Private
-router.put('/folders/:id', auth, cloudMiddleware, async (req, res) => {
-    const { name } = req.body;
-    const { id } = req.params;
+router.put('/folders', auth, cloudMiddleware, async (req, res) => {
+    const { name, id } = req.body;
     try {
         const cloud = req.cloud;
         const folder = await cloud.folders.find(folder => folder.id === id);
@@ -184,7 +182,7 @@ router.post('/file/:folderId', auth, cloudMiddleware, fileDetails, async (req, r
             const { Location, key } = data;
             const cloud = req.cloud;
             const uploadedData = {
-                name: fileName,
+                name: originalname,
                 fileType,
                 mimeType: mimetype,
                 location: folderId,
@@ -194,6 +192,10 @@ router.post('/file/:folderId', auth, cloudMiddleware, fileDetails, async (req, r
                 }
             }
             cloud.files.push(uploadedData);
+            if(folderId !== 'root') {
+                const folder = cloud.folders.find(folder => folder.id === folderId);
+                folder.files.push(cloud.files[cloud.files.length - 1].id);
+            }
             await cloud.save();
 
             return res.status(200).json({
@@ -204,8 +206,79 @@ router.post('/file/:folderId', auth, cloudMiddleware, fileDetails, async (req, r
     } catch (error) {
         showError(res, error);
     }
+});
+
+//@route    GET api/cloud/files/:fileId
+//@desc     Upload folder
+//@access   Private
+router.get('/files/:fileId', auth, cloudMiddleware, async (req, res) => {
+    const { fileId } = req.params;
+    try {
+        const cloud = req.cloud;
+        const file = await cloud.files.find(file => file.id === fileId);
+        if(!file) {
+            return res.status(404).json({
+                error: 'File not found'
+            });
+        }
+        return res.json({
+            data: file
+        })
+
+    } catch (error) {
+        showError(res, error);
+    }
+});
+
+//@route    PUT api/cloud/files
+//@desc     update file(Rename)
+//@access   Private
+router.put('/files', auth, cloudMiddleware, async (req, res) => {
+    const { name, id } = req.body;
+    try {
+        const { cloud } = req;
+        const file = await cloud.files.find(file => file.id === id);
+        if(!file) {
+            return res.status(404).json({
+                error: 'File not found'
+            });
+        }
+        file.name = name;
+        await cloud.save();
+        return res.status(200).json({
+            data: file
+        })
+
+    } catch (error) {
+        showError(res, error);
+    }
 })
 
+//@route    DELETE api/cloud/files/:fileId
+//@desc     update file(Rename)
+//@access   Private
+router.delete('/files/:fileId', auth, cloudMiddleware, async (req, res) => {
+    const { fileId } = req.params;
+    try {
+        const { cloud } = req;
+        const fileIndex = await cloud.files.findIndex(file => file.id.toString() === fileId);
+        console.log(fileIndex);
+        if(!cloud.files[fileIndex]) {
+            return res.status(404).json({
+                error: 'File not found'
+            });
+        }
+        cloud.files.splice(fileIndex, 1);
+        //delete file from folder ref and aws
+        await cloud.save();
+        return res.status(200).json({
+            data: 'File Deleted'
+        })
+
+    } catch (error) {
+        showError(res, error);
+    }
+})
 
 /*
     Todo on Folder Delete files delete remain
