@@ -12,6 +12,10 @@ const { hasAccessToFolder } = require("../middleware/hasPermission");
 const fileDetails = require("../config/fileData");
 const S3 = require("../config/aws");
 
+/*
+  Folder things
+*/
+
 //@route    GET api/cloud
 //@desc     get files & folder at root level
 //@access   Private
@@ -98,19 +102,13 @@ router.get(
   auth,
   cloudMiddleware,
   hasAccessToFolder,
-  async (req, res) => {
-    const { id } = req.params;
+  (req, res) => {
     try {
-      const cloud = req.cloud;
-      const folder = await cloud.folders.find((folder) => folder.id === id);
-      if (!folder) {
-        return res.status(404).json({
-          error: "Folder not found.",
+      if (req.folder) {
+        return res.status(200).json({
+          data: req.folder,
         });
       }
-      return res.status(200).json({
-        data: folder,
-      });
     } catch (error) {
       showError(res, error);
     }
@@ -195,6 +193,10 @@ router.delete("/folders/:id", auth, cloudMiddleware, async (req, res) => {
     showError(res, error);
   }
 });
+
+/*
+  File things
+*/
 
 //@route    POST api/cloud/file/:folderId
 //@desc     Upload file
@@ -379,6 +381,48 @@ router.delete("/files/:fileId", auth, cloudMiddleware, async (req, res) => {
     showError(res, error);
   }
 });
+
+/*
+  File folder sharing
+*/
+
+//@route    PUT api/cloud/folder/permission
+//@desc     Add permission to all/someone
+//@access   Private
+router.put(
+  "/folder/permission",
+  [
+    check("id", "Please provide folder id").not().isEmpty(),
+    check("users", "Please provide users' email id").isArray(),
+  ],
+  auth,
+  cloudMiddleware,
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.json({
+        errors: errors.array(),
+      });
+    }
+    const { id, users } = req.body;
+    try {
+      const cloud = req.cloud;
+      const folder = await cloud.folders.find((folder) => folder.id === id);
+      if (users[0] === "all") {
+        folder.sharedWith = [];
+      } else {
+        await folder.sharedWith.push(...users);
+      }
+      await cloud.save();
+      return res.status(200).json({
+        data: folder,
+      });
+    } catch (error) {
+      showError(res, error);
+    }
+    res.json("WIP");
+  }
+);
 
 /*
     file upload loading

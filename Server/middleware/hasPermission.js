@@ -1,19 +1,34 @@
 const Cloud = require("../models/cloudModel");
+const User = require("../models//userModel");
 
 const hasAccessToFolder = async (req, res, next) => {
   const { id } = req.params;
   try {
     const currentUser = req.user;
+    const currentUserDetails = await User.findById(currentUser.id);
     const cloud = await Cloud.find({});
-    let folder;
-    cloud.forEach((user) => {
-      // console.log(user);
-      folder = user.folders.find((folder) => {
-        return folder.id.toString() === id;
-      });
-      if (folder) {
-        if (folder.sharable || user.user.toString() === currentUser.id) {
-          console.log(folder);
+    let folder, folderOwner;
+    cloud.forEach((user, index) => {
+      const isFolder = user.folders.find(
+        (folder) => folder.id.toString() === id
+      );
+      if (isFolder) {
+        folder = isFolder;
+        folderOwner = user;
+        return;
+      }
+    });
+    if (folder) {
+      console.log(folder.sharedWith);
+      if (folderOwner.user.toString() === currentUser.id) {
+        req.folder = folder;
+        return next();
+      } else if (folder.sharable) {
+        if (
+          folder.sharedWith.length === 0 ||
+          folder.sharedWith.includes(currentUserDetails.email.value)
+        ) {
+          req.folder = folder;
           return next();
         } else {
           console.log("No permission");
@@ -21,9 +36,13 @@ const hasAccessToFolder = async (req, res, next) => {
             error: "You have not permission to access this file",
           });
         }
+      } else {
+        console.log("No permission");
+        return res.status(401).json({
+          error: "You have not permission to access this file",
+        });
       }
-    });
-    if (!folder) {
+    } else {
       return res.status(404).json({
         message: "Folder not found",
       });
