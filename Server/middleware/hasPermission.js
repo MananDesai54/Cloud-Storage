@@ -1,5 +1,6 @@
 const Cloud = require("../models/cloudModel");
 const User = require("../models//userModel");
+const checkPermission = require("../config/checkPermission");
 
 const hasAccessToFolder = async (req, res, next) => {
   const { id } = req.params;
@@ -7,28 +8,55 @@ const hasAccessToFolder = async (req, res, next) => {
     const currentUser = req.user;
     const currentUserDetails = await User.findById(currentUser.id);
     const cloud = await Cloud.find({});
-    let folder, folderOwner;
+    const result = checkPermission({
+      cloud,
+      currentUser,
+      currentUserDetails,
+      id,
+      type: "folder",
+    });
+    if (result.success) {
+      req.folder = result.data;
+      return next();
+    } else {
+      return res.status(400).json({
+        error: result.data,
+      });
+    }
+  } catch (error) {
+    console.log(error.message);
+    return res.status(400).json({
+      error: error.message,
+    });
+  }
+};
+
+const hasAccessToFile = async (req, res, next) => {
+  const { fileId } = req.params;
+  try {
+    const currentUser = req.user;
+    const currentUserDetails = await User.findById(currentUser.id);
+    const cloud = await Cloud.find({});
+    let file, fileOwner;
     cloud.forEach((user, index) => {
-      const isFolder = user.folders.find(
-        (folder) => folder.id.toString() === id
-      );
-      if (isFolder) {
-        folder = isFolder;
-        folderOwner = user;
+      const isFile = user.files.find((file) => file.id.toString() === id);
+      if (isFile) {
+        file = isFile;
+        fileOwner = user;
         return;
       }
     });
-    if (folder) {
-      console.log(folder.sharedWith);
-      if (folderOwner.user.toString() === currentUser.id) {
-        req.folder = folder;
+    if (file) {
+      console.log(file.sharedWith);
+      if (fileOwner.user.toString() === currentUser.id) {
+        req.fileData = file;
         return next();
-      } else if (folder.sharable) {
+      } else if (file.sharable) {
         if (
-          folder.sharedWith.length === 0 ||
-          folder.sharedWith.includes(currentUserDetails.email.value)
+          file.sharedWith.length === 0 ||
+          file.sharedWith.includes(currentUserDetails.email.value)
         ) {
-          req.folder = folder;
+          req.fileData = file;
           return next();
         } else {
           console.log("No permission");
@@ -44,7 +72,7 @@ const hasAccessToFolder = async (req, res, next) => {
       }
     } else {
       return res.status(404).json({
-        message: "Folder not found",
+        message: "File not found",
       });
     }
   } catch (error) {
@@ -57,4 +85,5 @@ const hasAccessToFolder = async (req, res, next) => {
 
 module.exports = {
   hasAccessToFolder,
+  hasAccessToFile,
 };

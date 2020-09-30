@@ -7,7 +7,10 @@ const { check, validationResult } = require("express-validator");
 
 const auth = require("../middleware/auth");
 const cloudMiddleware = require("../middleware/cloud");
-const { hasAccessToFolder } = require("../middleware/hasPermission");
+const {
+  hasAccessToFolder,
+  hasAccessToFile,
+} = require("../middleware/hasPermission");
 
 const fileDetails = require("../config/fileData");
 const S3 = require("../config/aws");
@@ -274,23 +277,29 @@ router.post(
 //@route    GET api/cloud/files/:fileId
 //@desc     get file
 //@access   Private
-router.get("/files/:fileId", auth, cloudMiddleware, async (req, res) => {
-  const { fileId } = req.params;
-  try {
-    const cloud = req.cloud;
-    const file = await cloud.files.find((file) => file.id === fileId);
-    if (!file) {
-      return res.status(404).json({
-        error: "File not found",
+router.get(
+  "/files/:fileId",
+  auth,
+  cloudMiddleware,
+  hasAccessToFile,
+  async (req, res) => {
+    const { fileId } = req.params;
+    try {
+      const cloud = req.cloud;
+      const file = await cloud.files.find((file) => file.id === fileId);
+      if (!file) {
+        return res.status(404).json({
+          error: "File not found",
+        });
+      }
+      return res.json({
+        data: file,
       });
+    } catch (error) {
+      showError(res, error);
     }
-    return res.json({
-      data: file,
-    });
-  } catch (error) {
-    showError(res, error);
   }
-});
+);
 
 //@route    PUT api/cloud/files
 //@desc     update file(Rename)
@@ -410,8 +419,13 @@ router.put(
       const folder = await cloud.folders.find((folder) => folder.id === id);
       if (users[0] === "all") {
         folder.sharedWith = [];
+        folder.sharable = true;
+      } else if (users[0] === "none") {
+        folder.sharedWith = [];
+        folder.sharable = false;
       } else {
         await folder.sharedWith.push(...users);
+        folder.sharable = true;
       }
       await cloud.save();
       return res.status(200).json({
@@ -420,12 +434,12 @@ router.put(
     } catch (error) {
       showError(res, error);
     }
-    res.json("WIP");
   }
 );
 
 /*
     file upload loading
     decrease available space out of 15 gb
+    clear permission, clear one, no one has permission
 */
 module.exports = router;

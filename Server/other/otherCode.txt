@@ -83,3 +83,45 @@ jwt.sign(payload, process.env.JWT_SECRET_KEY, {
 
 // S3.listObjectsV2({ Bucket: process.env.AWS_BUCKET_NAME }).promise()
 //     .then(res => console.log(res));
+
+//check folder permission
+let folder, folderOwner;
+    cloud.forEach((user, index) => {
+      const isFolder = user.folders.find(
+        (folder) => folder.id.toString() === id
+      );
+      if (isFolder) {
+        folder = isFolder;
+        folderOwner = user;
+        return;
+      }
+    });
+    if (folder) {
+      console.log(folder.sharedWith);
+      if (folderOwner.user.toString() === currentUser.id) {
+        req.folder = folder;
+        return next();
+      } else if (folder.sharable) {
+        if (
+          folder.sharedWith.length === 0 ||
+          folder.sharedWith.includes(currentUserDetails.email.value)
+        ) {
+          req.folder = folder;
+          return next();
+        } else {
+          console.log("No permission");
+          return res.status(401).json({
+            error: "You have not permission to access this folder",
+          });
+        }
+      } else {
+        console.log("No permission");
+        return res.status(401).json({
+          error: "You have not permission to access this folder",
+        });
+      }
+    } else {
+      return res.status(404).json({
+        message: "Folder not found",
+      });
+    }

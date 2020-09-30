@@ -80,6 +80,7 @@ const Model = new mongoose.Schema({
       },
       sharedWith: {
         type: Array,
+        default: [],
       },
       sharableLink: {
         type: String,
