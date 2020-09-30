@@ -1,11 +1,13 @@
 const router = require("express").Router();
 const Cloud = require("../models/cloudModel");
-const auth = require("../middleware/auth");
-const cloudMiddleware = require("../middleware/cloud");
 const showError = require("../config/showError");
 const { deleteSubFolders } = require("../config/deleteFolder");
 const { v4: generateId } = require("uuid");
 const { check, validationResult } = require("express-validator");
+
+const auth = require("../middleware/auth");
+const cloudMiddleware = require("../middleware/cloud");
+const { hasAccessToFolder } = require("../middleware/hasPermission");
 
 const fileDetails = require("../config/fileData");
 const S3 = require("../config/aws");
@@ -91,23 +93,29 @@ router.post(
 //@route    GET api/cloud/folders/:id
 //@desc     get any folder data
 //@access   Private
-router.get("/folders/:id", auth, cloudMiddleware, async (req, res) => {
-  const { id } = req.params;
-  try {
-    const cloud = req.cloud;
-    const folder = await cloud.folders.find((folder) => folder.id === id);
-    if (!folder) {
-      return res.status(404).json({
-        error: "Folder not found.",
+router.get(
+  "/folders/:id",
+  auth,
+  cloudMiddleware,
+  hasAccessToFolder,
+  async (req, res) => {
+    const { id } = req.params;
+    try {
+      const cloud = req.cloud;
+      const folder = await cloud.folders.find((folder) => folder.id === id);
+      if (!folder) {
+        return res.status(404).json({
+          error: "Folder not found.",
+        });
+      }
+      return res.status(200).json({
+        data: folder,
       });
+    } catch (error) {
+      showError(res, error);
     }
-    return res.status(200).json({
-      data: folder,
-    });
-  } catch (error) {
-    showError(res, error);
   }
-});
+);
 
 //@route    PUT api/cloud/folders
 //@desc     Update folder(rename)
@@ -209,53 +217,55 @@ router.post(
     const fileType = fileData[fileData.length - 1];
     const fileName = fileData.slice(0, fileData.length - 1).join();
     const cloud = req.cloud;
-    res.json(file);
-    // try {
-    //   let folder;
-    //   if (folderId !== "root") {
-    //     folder = cloud.folders.find((folder) => folder.id === folderId);
-    //     if (!folder) {
-    //       return res.status(404).json({
-    //         error: "Folder not found",
-    //       });
-    //     }
-    //   }
-    //   const params = {
-    //     Bucket: process.env.AWS_BUCKET_NAME,
-    //     Key: `${generateId()}.${fileType}`,
-    //     Body: buffer,
-    //     ContentType: mimetype,
-    //   };
-    //   S3.upload(params, async (err, data) => {
-    //     if (err)
-    //       return res.status(400).json({
-    //         error: err.message,
-    //       });
+    const sizeInGb = (size / 1024) * 10 ** -6;
+    try {
+      let folder;
+      if (folderId !== "root") {
+        folder = cloud.folders.find((folder) => folder.id === folderId);
+        if (!folder) {
+          return res.status(404).json({
+            error: "Folder not found",
+          });
+        }
+      }
+      const params = {
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: `${generateId()}.${fileType}`,
+        Body: buffer,
+        ContentType: mimetype,
+      };
+      S3.upload(params, async (err, data) => {
+        if (err)
+          return res.status(400).json({
+            error: err.message,
+          });
 
-    //     const { Location, key } = data;
-    //     const uploadedData = {
-    //       name: originalname,
-    //       fileType,
-    //       mimeType: mimetype,
-    //       location: folderId,
-    //       awsData: {
-    //         url: Location,
-    //         key,
-    //       },
-    //     };
-    //     cloud.files.push(uploadedData);
-    //     if (folderId !== "root") {
-    //       folder.files.push(cloud.files[cloud.files.length - 1].id);
-    //     }
-    //     await cloud.save();
+        const { Location, key } = data;
+        const uploadedData = {
+          name: originalname,
+          fileType,
+          size: size,
+          mimeType: mimetype,
+          location: folderId,
+          awsData: {
+            url: Location,
+            key,
+          },
+        };
+        cloud.files.push(uploadedData);
+        if (folderId !== "root") {
+          folder.files.push(cloud.files[cloud.files.length - 1].id);
+        }
+        cloud.storage = +cloud.storage - sizeInGb;
+        await cloud.save();
 
-    //     return res.status(200).json({
-    //       data: cloud.files[cloud.files.length - 1],
-    //     });
-    //   });
-    // } catch (error) {
-    //   showError(res, error);
-    // }
+        return res.status(200).json({
+          data: cloud.files[cloud.files.length - 1],
+        });
+      });
+    } catch (error) {
+      showError(res, error);
+    }
   }
 );
 
@@ -351,6 +361,8 @@ router.delete("/files/:fileId", auth, cloudMiddleware, async (req, res) => {
           );
           folder.files.splice(inFolderIndex, 1);
         }
+        cloud.storage =
+          +cloud.storage + (cloud.files[fileIndex].size / 1024) * 10 ** -6;
         cloud.files.splice(fileIndex, 1);
         await cloud.save();
         return res.status(200).json({

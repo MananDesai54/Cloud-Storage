@@ -6,6 +6,8 @@ async function deleteSubFolders(folder, cloud) {
       (file) => file.id === fileId.toString()
     );
     const awsKey = cloud.files[fileIndex].awsData.key;
+    cloud.storage =
+      +cloud.storage + (+cloud.files[fileIndex].size / 1024) * 10 ** -6;
     cloud.files.splice(fileIndex, 1);
     S3.deleteObject({
       Bucket: process.env.AWS_BUCKET_NAME,

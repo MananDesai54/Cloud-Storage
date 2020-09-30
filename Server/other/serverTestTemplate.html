@@ -1,47 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <form>
-        <input type="file" name="file" id="file">
-        <button type="submit">Upload</button>
+      <input type="file" name="file" id="file" />
+      <button type="submit">Upload</button>
     </form>
-    <input type="file" name="folder" webkitdirectory mozdirectory msdirectory odirectory directory multiple />
-    <img src="" alt="Please upload to S3">
+    <input
+      type="file"
+      name="folder"
+      webkitdirectory
+      mozdirectory
+      msdirectory
+      odirectory
+      directory
+      multiple
+    />
+    <img src="" alt="Please upload to S3" />
     <script>
-        let input = document.querySelector('#file');
-        document.querySelector('form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            console.log(input.files[0]);
-            const fd = new FormData();
-            fd.append('file', input.files[0]);
-            fetch('http://localhost:5000/api/cloud/file/root', {
-                    method: 'POST',
-                    body: fd,
-                    headers: {
-                        /*'Content-type': 'multipart/form-data; boundary=<calculated when request is sent>',*/
-                        "x-auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWY3MWU4NTI5NWU1ZjEwOTBjMzlkYTY3In0sImlhdCI6MTYwMTMxMzQ1NCwiZXhwIjoxNjAxMzk5ODU0fQ.WQBc5wCohhbSJ_N8dNpXu0v09sNV1zPYwXlYupJ6CNk"
-                    }
-                }).then(res => res.json())
-                .then(data => {
-                    console.log(data);
-                    //console.log(data.data.Location);
-                    //if(data.data.Location) {
-                    //   document.querySelector('img').src = data.data.Location;
-                    //}
-                });
-        });
+      let input = document.querySelector("#file");
+      document.querySelector("form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        console.log(input.files[0]);
+        const fd = new FormData();
+        fd.append("file", input.files[0]);
+        fetch("http://localhost:5000/api/cloud/file/root", {
+          method: "POST",
+          body: fd,
+          headers: {
+            /*'Content-type': 'multipart/form-data; boundary=<calculated when request is sent>',*/
+            "x-auth-token":
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWY3MWU4NTI5NWU1ZjEwOTBjMzlkYTY3In0sImlhdCI6MTYwMTMxMzQ1NCwiZXhwIjoxNjAxMzk5ODU0fQ.WQBc5wCohhbSJ_N8dNpXu0v09sNV1zPYwXlYupJ6CNk",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            //console.log(data.data.Location);
+            //if(data.data.Location) {
+            //   document.querySelector('img').src = data.data.Location;
+            //}
+          });
+      });
     </script>
-</body>
-
+  </body>
 </html>
-
 
 <!-- <button>Sign up with google</button>
 <script>
