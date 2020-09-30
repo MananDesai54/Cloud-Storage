@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const User = require('../models/userModel');
 const Profile = require('../models/profileModel');
 
-module.exports = async function(passport) {
+module.exports = async function (passport) {
     googleOAuth(passport);
     googleAccessToken(passport);
 }
@@ -25,7 +25,13 @@ function googleOAuth(passport) {
         clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
         callbackURL: '/api/users/google/callback'
     }, async (accessToken, refreshToken, profile, done) => {
-        const { id, displayName, name, emails, photos } = profile;
+        const {
+            id,
+            displayName,
+            name,
+            emails,
+            photos
+        } = profile;
         const firstname = name.givenName;
         const lastname = name.familyName;
         const email = emails[0].value; //verified true 
@@ -34,8 +40,10 @@ function googleOAuth(passport) {
         console.log('Access token : ', accessToken);
 
         try {
-            
-            let user = await User.findOne({ "email.value": email });
+
+            let user = await User.findOne({
+                "email.value": email
+            });
             if (user) {
                 console.log('Already exist');
                 return done(null, user);
@@ -65,7 +73,7 @@ function googleOAuth(passport) {
     }))
 
     passport.serializeUser((user, done) => done(null, user.id));
-      
+
     passport.deserializeUser((id, done) => {
         User.findById(id, (err, user) => done(err, user));
     });

@@ -5,10 +5,10 @@ const Model = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    firstname : {
+    firstname: {
         type: String
     },
-    lastname : {
+    lastname: {
         type: String
     },
     avatar: {
@@ -29,4 +29,4 @@ const Model = new mongoose.Schema({
     }
 })
 
-module.exports = Profile = mongoose.model('Profile',Model);
+module.exports = Profile = mongoose.model('Profile', Model);

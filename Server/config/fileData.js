@@ -6,6 +6,8 @@ const storage = multer.memoryStorage({
         cb(null, '');
     }
 })
-const localUpload = multer({ storage }).single('file');
+const localUpload = multer({
+    storage
+}).single('file');
 
 module.exports = localUpload;

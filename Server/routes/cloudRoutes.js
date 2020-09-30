@@ -3,9 +3,16 @@ const Cloud = require('../models/cloudModel');
 const auth = require('../middleware/auth');
 const cloudMiddleware = require('../middleware/cloud');
 const showError = require('../config/showError');
-const { deleteSubFolders } = require('../config/deleteFolder');
-const { v4: generateId } = require('uuid');
-const { check, validationResult } = require('express-validator');
+const {
+    deleteSubFolders
+} = require('../config/deleteFolder');
+const {
+    v4: generateId
+} = require('uuid');
+const {
+    check,
+    validationResult
+} = require('express-validator');
 
 const fileDetails = require('../config/fileData');
 const S3 = require('../config/aws');
@@ -16,7 +23,7 @@ const S3 = require('../config/aws');
 //@access   Private
 router.get('/', auth, cloudMiddleware, (req, res) => {
     try {
-        
+
         const cloud = req.cloud;
         const data = {
             storage: cloud.storage,
@@ -29,7 +36,7 @@ router.get('/', auth, cloudMiddleware, (req, res) => {
         })
 
     } catch (error) {
-        showError(res, error)   
+        showError(res, error)
     }
 })
 
@@ -40,29 +47,34 @@ router.post('/folder', [
     auth,
     check('name', 'Name is required').not().isEmpty(),
     check('location', 'Location of file is required').not().isEmpty()
-], async (req,res) => {
+], async (req, res) => {
 
     const errors = validationResult(req);
-    if(!errors.isEmpty()) {
+    if (!errors.isEmpty()) {
         return res.json({
             errors: errors.array()
         })
     }
 
-    const { name, location } = req.body;
+    const {
+        name,
+        location
+    } = req.body;
     try {
-        
+
         const user = req.user;
-        let cloud = await Cloud.findOne({ user: user.id });
-        if(!cloud) {
+        let cloud = await Cloud.findOne({
+            user: user.id
+        });
+        if (!cloud) {
             cloud = new Cloud({
                 user: user.id
             })
         }
         let folderIndex;
-        if(location !== 'root') {
+        if (location !== 'root') {
             folderIndex = cloud.folders.findIndex(folder => folder.id === location);
-            if(!cloud.folders[folderIndex]) {
+            if (!cloud.folders[folderIndex]) {
                 return res.status(404).json({
                     error: 'Folder not found.'
                 });
@@ -72,16 +84,16 @@ router.post('/folder', [
             name,
             location
         });
-        if(location !== 'root') {
-            cloud.folders[folderIndex].folders.push(cloud.folders[cloud.folders.length-1].id);
+        if (location !== 'root') {
+            cloud.folders[folderIndex].folders.push(cloud.folders[cloud.folders.length - 1].id);
         }
         await cloud.save();
         return res.status(200).json({
-            data: cloud.folders[cloud.folders.length-1]
+            data: cloud.folders[cloud.folders.length - 1]
         })
 
     } catch (error) {
-        showError(res, error)   
+        showError(res, error)
     }
 });
 
@@ -89,12 +101,14 @@ router.post('/folder', [
 //@desc     get any folder data
 //@access   Private
 router.get('/folders/:id', auth, cloudMiddleware, async (req, res) => {
-    const { id } = req.params;
+    const {
+        id
+    } = req.params;
     try {
 
         const cloud = req.cloud;
         const folder = await cloud.folders.find(folder => folder.id === id);
-        if(!folder) {
+        if (!folder) {
             return res.status(404).json({
                 error: 'Folder not found.'
             })
@@ -103,7 +117,7 @@ router.get('/folders/:id', auth, cloudMiddleware, async (req, res) => {
             data: folder
         })
     } catch (error) {
-        showError(res, error)   
+        showError(res, error)
     }
 })
 
@@ -118,16 +132,19 @@ router.put('/folders', [
 ], async (req, res) => {
 
     const errors = validationResult(req);
-    if(!errors.isEmpty()) {
+    if (!errors.isEmpty()) {
         return res.json({
             errors: errors.array()
         })
     }
-    const { name, id } = req.body;
+    const {
+        name,
+        id
+    } = req.body;
     try {
         const cloud = req.cloud;
         const folder = await cloud.folders.find(folder => folder.id === id);
-        if(!folder) {
+        if (!folder) {
             return res.status(404).json({
                 error: 'Folder not found.'
             })
@@ -138,7 +155,7 @@ router.put('/folders', [
             data: folder
         });
     } catch (error) {
-        showError(res, error)   
+        showError(res, error)
     }
 });
 
@@ -146,18 +163,20 @@ router.put('/folders', [
 //@desc     Delete folder
 //@access   Private
 router.delete('/folders/:id', auth, cloudMiddleware, async (req, res) => {
-    const { id } = req.params;
+    const {
+        id
+    } = req.params;
     try {
 
         const cloud = req.cloud;
         const folder = await cloud.folders.find(folder => folder.id === id);
-        if(!folder) {
+        if (!folder) {
             return res.status(404).json({
                 error: 'Folder not found.'
             })
         }
         const folderLocation = folder.location;
-        if(folderLocation !== 'root') {
+        if (folderLocation !== 'root') {
             const parent = cloud.folders.find(folder => folder.id === folderLocation);
             const inParentIndex = parent.folders.findIndex(folderId => {
                 return folderId.toString() === id
@@ -175,7 +194,7 @@ router.delete('/folders/:id', auth, cloudMiddleware, async (req, res) => {
                 });
             })
             .catch(error => console.log(error.message));
-        
+
     } catch (error) {
         showError(res, error);
     }
@@ -186,22 +205,29 @@ router.delete('/folders/:id', auth, cloudMiddleware, async (req, res) => {
 //@access   Private
 router.post('/file/:folderId', auth, cloudMiddleware, fileDetails, async (req, res) => {
     const file = req.file;
-    const { folderId } = req.params;
-    if(!file) {
+    const {
+        folderId
+    } = req.params;
+    if (!file) {
         return res.status(404).json({
             error: 'Please upload a file'
         });
     }
-    const { originalname, mimetype, buffer, size } = req.file;
+    const {
+        originalname,
+        mimetype,
+        buffer,
+        size
+    } = req.file;
     const fileData = originalname.split('.');
     const fileType = fileData[fileData.length - 1];
-    const fileName = fileData.slice(0,fileData.length - 1).join();
+    const fileName = fileData.slice(0, fileData.length - 1).join();
     const cloud = req.cloud;
     try {
         let folder;
-        if(folderId !== 'root') {
+        if (folderId !== 'root') {
             folder = cloud.folders.find(folder => folder.id === folderId);
-            if(!folder) {
+            if (!folder) {
                 return res.status(404).json({
                     error: 'Folder not found'
                 })
@@ -214,11 +240,14 @@ router.post('/file/:folderId', auth, cloudMiddleware, fileDetails, async (req, r
             ContentType: mimetype
         }
         S3.upload(params, async (err, data) => {
-            if(err) return res.status(400).json({
+            if (err) return res.status(400).json({
                 error: err.message
             })
 
-            const { Location, key } = data;
+            const {
+                Location,
+                key
+            } = data;
             const uploadedData = {
                 name: originalname,
                 fileType,
@@ -230,7 +259,7 @@ router.post('/file/:folderId', auth, cloudMiddleware, fileDetails, async (req, r
                 }
             }
             cloud.files.push(uploadedData);
-            if(folderId !== 'root') {
+            if (folderId !== 'root') {
                 folder.files.push(cloud.files[cloud.files.length - 1].id);
             }
             await cloud.save();
@@ -248,11 +277,13 @@ router.post('/file/:folderId', auth, cloudMiddleware, fileDetails, async (req, r
 //@desc     get file
 //@access   Private
 router.get('/files/:fileId', auth, cloudMiddleware, async (req, res) => {
-    const { fileId } = req.params;
+    const {
+        fileId
+    } = req.params;
     try {
         const cloud = req.cloud;
         const file = await cloud.files.find(file => file.id === fileId);
-        if(!file) {
+        if (!file) {
             return res.status(404).json({
                 error: 'File not found'
             });
@@ -276,17 +307,22 @@ router.put('/files', [
     check('id', 'Id is required').not().isEmpty()
 ], async (req, res) => {
     const errors = validationResult(req);
-    if(!errors.isEmpty()) {
+    if (!errors.isEmpty()) {
         return res.json({
             errors: errors.array()
         })
     }
 
-    const { name, id } = req.body;
+    const {
+        name,
+        id
+    } = req.body;
     try {
-        const { cloud } = req;
+        const {
+            cloud
+        } = req;
         const file = await cloud.files.find(file => file.id === id);
-        if(!file) {
+        if (!file) {
             return res.status(404).json({
                 error: 'File not found'
             });
@@ -306,25 +342,29 @@ router.put('/files', [
 //@desc     delete file
 //@access   Private
 router.delete('/files/:fileId', auth, cloudMiddleware, async (req, res) => {
-    const { fileId } = req.params;
+    const {
+        fileId
+    } = req.params;
     try {
-        const { cloud } = req;
+        const {
+            cloud
+        } = req;
         const fileIndex = await cloud.files.findIndex(file => file.id.toString() === fileId);
-        if(!cloud.files[fileIndex]) {
+        if (!cloud.files[fileIndex]) {
             return res.status(404).json({
                 error: 'File not found'
             });
         }
-        const params = { 
-            Bucket: process.env.AWS_BUCKET_NAME, 
+        const params = {
+            Bucket: process.env.AWS_BUCKET_NAME,
             Key: cloud.files[fileIndex].awsData.key
         }
         S3.deleteObject(params).promise()
             .then(async (data) => {
                 console.log(data);
-                if(cloud.files[fileIndex].location !== 'root') {
+                if (cloud.files[fileIndex].location !== 'root') {
                     const folder = cloud.folders
-                            .find(folder => folder.id.toString() === cloud.files[fileIndex].location);
+                        .find(folder => folder.id.toString() === cloud.files[fileIndex].location);
                     const inFolderIndex = folder.files.findIndex(file => file.id.toString() === fileId);
                     folder.files.splice(inFolderIndex, 1);
                 }

@@ -6,11 +6,11 @@ const Model = new mongoose.Schema({
         enum: ['local', 'google', 'facebook'],
         required: true
     },
-    username : {
+    username: {
         type: String,
         required: true,
     },
-    email : {
+    email: {
         type: {
             value: {
                 type: String
@@ -52,4 +52,4 @@ const Model = new mongoose.Schema({
     }
 })
 
-module.exports = User = mongoose.model('User',Model);
+module.exports = User = mongoose.model('User', Model);
