@@ -111,6 +111,10 @@ router.get(
         return res.status(200).json({
           data: req.folder,
         });
+      } else {
+        return res.status(404).json({
+          error: "Folder not found",
+        });
       }
     } catch (error) {
       showError(res, error);
@@ -274,26 +278,23 @@ router.post(
   }
 );
 
-//@route    GET api/cloud/files/:fileId
+//@route    GET api/cloud/files/:id
 //@desc     get file
 //@access   Private
 router.get(
-  "/files/:fileId",
+  "/files/:id",
   auth,
   cloudMiddleware,
   hasAccessToFile,
   async (req, res) => {
-    const { fileId } = req.params;
     try {
-      const cloud = req.cloud;
-      const file = await cloud.files.find((file) => file.id === fileId);
-      if (!file) {
-        return res.status(404).json({
-          error: "File not found",
+      if (req.fileData) {
+        return res.status(200).json({
+          data: req.fileData,
         });
       }
-      return res.json({
-        data: file,
+      return res.status(404).json({
+        error: "File not found",
       });
     } catch (error) {
       showError(res, error);
@@ -395,14 +396,15 @@ router.delete("/files/:fileId", auth, cloudMiddleware, async (req, res) => {
   File folder sharing
 */
 
-//@route    PUT api/cloud/folder/permission
+//@route    PUT api/cloud/permission
 //@desc     Add permission to all/someone
 //@access   Private
 router.put(
-  "/folder/permission",
+  "/permission",
   [
     check("id", "Please provide folder id").not().isEmpty(),
     check("users", "Please provide users' email id").isArray(),
+    check("type", "Please provide type").not().isEmpty(),
   ],
   auth,
   cloudMiddleware,
@@ -413,23 +415,50 @@ router.put(
         errors: errors.array(),
       });
     }
-    const { id, users } = req.body;
+    const { id, users, type } = req.body;
     try {
       const cloud = req.cloud;
-      const folder = await cloud.folders.find((folder) => folder.id === id);
-      if (users[0] === "all") {
-        folder.sharedWith = [];
-        folder.sharable = true;
-      } else if (users[0] === "none") {
-        folder.sharedWith = [];
-        folder.sharable = false;
+      let object;
+      if (type.toLowerCase() === "folder") {
+        object = await cloud.folders.find((folder) => folder.id === id);
+      } else if (type.toLowerCase() === "file") {
+        object = await cloud.files.find((file) => file.id === id);
       } else {
-        await folder.sharedWith.push(...users);
-        folder.sharable = true;
+        return res.status(404).json({
+          error: `Please provide valid type`,
+        });
+      }
+      if (!object) {
+        return res.status(404).json({
+          error: `${type} not found`,
+        });
+      }
+      if (users[0].toLowerCase() === "all") {
+        //set permission to anyone
+        object.sharedWith = [];
+        object.sharable = true;
+      } else if (users[0].toLowerCase() === "none") {
+        //set permission to none
+        object.sharedWith = [];
+        object.sharable = false;
+      } else if (users[0] === "-") {
+        const removeUser = users.slice(1);
+        removeUser.forEach((user) => {
+          const userIndex = object.sharedWith.findIndex((id) => id === user);
+          if (userIndex !== -1) {
+            object.sharedWith.splice(userIndex, 1);
+          }
+        });
+        if (object.sharedWith.length === 0) {
+          object.sharable = false;
+        }
+      } else {
+        await object.sharedWith.push(...users);
+        object.sharable = true;
       }
       await cloud.save();
       return res.status(200).json({
-        data: folder,
+        data: object,
       });
     } catch (error) {
       showError(res, error);
@@ -439,7 +468,5 @@ router.put(
 
 /*
     file upload loading
-    decrease available space out of 15 gb
-    clear permission, clear one, no one has permission
 */
 module.exports = router;

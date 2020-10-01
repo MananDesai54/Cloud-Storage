@@ -1,8 +1,14 @@
-module.exports = ({ cloud, currentUser, currentUserDetails, type, id }) => {
+const Cloud = require("../models/cloudModel");
+const User = require("../models//userModel");
+
+module.exports = async ({ type, id, req }) => {
+  const currentUser = req.user;
+  const currentUserDetails = await User.findById(currentUser.id);
+  const cloud = await Cloud.find({});
   let object, objectOwner;
   cloud.forEach((user) => {
     let isObject;
-    if (type === "folder") {
+    if (type.toLowerCase() === "folder") {
       isObject = user.folders.find((folder) => folder.id.toString() === id);
     } else {
       isObject = user.files.find((folder) => folder.id.toString() === id);
