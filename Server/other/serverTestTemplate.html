@@ -4,9 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
   </head>
 
   <body>
+    <a
+      href="https://cloud-storage-uploads.s3.amazonaws.com/38fda780-c169-4122-8c34-2585dde29622.png"
+      >Download</a
+    >
+    <button id="download">Download File</button>
     <form>
       <input type="file" name="file" id="file" />
       <button type="submit">Upload</button>
@@ -24,6 +30,34 @@
     <img src="" alt="Please upload to S3" />
     <script>
       let input = document.querySelector("#file");
+      input.addEventListener("change", (e) => console.log(input.files[0]));
+      document.getElementById("download").addEventListener("click", (e) => {
+        axios(
+          "http://localhost:5000/api/cloud/download/5f745e607cb7941f909ee221",
+          {
+            method: "GET",
+            headers: {
+              "x-auth-token":
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWY3MWU4NTI5NWU1ZjEwOTBjMzlkYTY3In0sImlhdCI6MTYwMTMxMzQ1NCwiZXhwIjoxNjAxMzk5ODU0fQ.WQBc5wCohhbSJ_N8dNpXu0v09sNV1zPYwXlYupJ6CNk",
+            },
+            responseType: "blob",
+          }
+        )
+          .then((res) => {
+            console.log(res.data);
+            const blob = new Blob([res.data]);
+            const url = window.URL.createObjectURL(blob);
+            console.log(url);
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", "file.png");
+            document.body.appendChild(link);
+            link.textContent = "hey";
+            //window.open(url);
+          })
+          //.then((data) => console.log(data))
+          .catch((err) => console.log(err.message));
+      });
       document.querySelector("form").addEventListener("submit", (e) => {
         e.preventDefault();
         console.log(input.files[0]);
@@ -37,15 +71,14 @@
             "x-auth-token":
               "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWY3MWU4NTI5NWU1ZjEwOTBjMzlkYTY3In0sImlhdCI6MTYwMTMxMzQ1NCwiZXhwIjoxNjAxMzk5ODU0fQ.WQBc5wCohhbSJ_N8dNpXu0v09sNV1zPYwXlYupJ6CNk",
           },
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-            //console.log(data.data.Location);
-            //if(data.data.Location) {
-            //   document.querySelector('img').src = data.data.Location;
-            //}
-          });
+        }).then((res) => console.log(res));
+        //.then((data) => {
+        //console.log(data);
+        //console.log(data.data.Location);
+        //if(data.data.Location) {
+        //   document.querySelector('img').src = data.data.Location;
+        //}
+        //});
       });
     </script>
   </body>

@@ -107,23 +107,23 @@ router.get(
   })
 );
 
-//@route    POST api/auth/:username
+//@route    POST api/auth/:email
 //@desc     check username exists
 //@access   Public
-router.get("/:username", async (req, res) => {
-  const username = req.params.username.toLowerCase();
+router.get("/:email", async (req, res) => {
+  const email = req.params.email.toLowerCase();
   try {
     const user = await User.findOne({
-      username,
+      "email.value": email,
     });
     if (user) {
       return res.status(400).json({
-        error: "User with that username already exist",
-        succuss: false,
+        error: "User with that Email already exist",
+        found: true,
       });
     }
     return res.status(200).json({
-      succuss: true,
+      found: false,
     });
   } catch (error) {
     showError(res, error);

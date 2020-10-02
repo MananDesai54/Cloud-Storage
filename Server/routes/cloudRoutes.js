@@ -467,6 +467,67 @@ router.put(
 );
 
 /*
+  File download
+*/
+router.get("/download/:id", auth, cloudMiddleware, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const cloud = req.cloud;
+    const file = cloud.files.find((file) => file.id === id);
+    if (!file) {
+      res.status(404).json({
+        error: "File not found",
+      });
+    }
+    res.download("file.png");
+    // const data = S3.getObject({
+    //   Bucket: process.env.AWS_BUCKET_NAME,
+    //   Key: file.awsData.key,
+    // });
+    // const readableStream = data.createReadStream();
+    // readableStream.on("error", (err) => {
+    //   return res.status(500).json({
+    //     error: err.message,
+    //   });
+    // });
+    // readableStream.on("end", (data) => {
+    //   console.log(data);
+    //   return res.status(200).json({
+    //     data: readableStream,
+    //   });
+    // });
+    // return res.status(200).json({
+    //   data: readableStream,
+    // });
+    // const fileStream = S3.getObject(
+    //   { Bucket: process.env.AWS_BUCKET_NAME, Key: file.awsData.key },
+    //   (err, data) => {
+    //     if (err) {
+    //       return res.status(400).json({
+    //         error: err.message,
+    //       });
+    //     }
+    //     // return res.status(200).json({
+    //     //   data,
+    //     //   buffer: Buffer.from(data.Body).toString(),
+    //     // });
+    //   }
+    // )
+    // .createReadStream()
+    // .on("error", (err) => {
+    //   // return res.status(500).json({
+    //   //   error: err.message,
+    //   // });
+    //   console.log(err.message);
+    // });
+    // res.attachment(file.name);
+    // fileStream.pipe(res);
+  } catch (error) {
+    showError(res, error);
+  }
+});
+
+/*
     file upload loading
 */
 module.exports = router;
