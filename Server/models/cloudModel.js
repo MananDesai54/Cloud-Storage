@@ -46,7 +46,15 @@ const Model = new mongoose.Schema({
         default: [],
       },
       sharableLink: {
-        type: String,
+        longUrl: {
+          type: String,
+        },
+        shortUrl: {
+          type: String,
+        },
+        urlCode: {
+          type: String,
+        },
       },
       createdDate: {
         type: Date,

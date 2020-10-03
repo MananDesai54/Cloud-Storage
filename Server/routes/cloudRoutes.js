@@ -5,6 +5,9 @@ const { deleteSubFolders } = require("../config/deleteFolder");
 const { v4: generateId } = require("uuid");
 const { check, validationResult } = require("express-validator");
 
+const { generate: generateShortId } = require("shortid");
+const { isUri } = require("valid-url");
+
 const auth = require("../middleware/auth");
 const cloudMiddleware = require("../middleware/cloud");
 const {
@@ -506,7 +509,78 @@ router.get("/download/:id", auth, cloudMiddleware, async (req, res) => {
  * shorten link
  */
 
+//@route    PUT api/cloud/shorten
+//@desc     shorten link
+//@access   Private
+router.put(
+  "/shorten",
+  [
+    check("longUrl", "longUrl is required").not().isEmpty(),
+    check("type", "type is required").not().isEmpty(),
+    check("id", "id is required").not().isEmpty(),
+  ],
+  auth,
+  cloudMiddleware,
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.json({
+        errors: errors.array(),
+      });
+    }
+
+    const { longUrl, type, id } = req.body;
+    const BASE_URL = process.env.BASE_URL;
+
+    if (!isUri(BASE_URL)) {
+      return res.status(401).json({
+        error: "Invalid baseURL",
+      });
+    }
+
+    try {
+      const shortId = generateShortId();
+      if (isUri(longUrl)) {
+        const cloud = req.cloud;
+        let object;
+
+        if (type.toLowerCase() === "file") {
+          object = await cloud.files.find((file) => file.id === id);
+        } else if (type.toLowerCase() === "folder") {
+          object = await cloud.folders.find((folder) => folder.id === id);
+        }
+
+        if (!object) {
+          return res.status(404).json({
+            error: `${type} not found`,
+          });
+        }
+
+        if (object.sharableLink) {
+          object.sharableLink = {
+            longUrl,
+            shortUrl: BASE_URL + shortId,
+            urlCode: shortId,
+          };
+        }
+
+        await cloud.save();
+        return res.status(200).json({
+          data: object,
+        });
+      } else {
+        return res.status(401).json({
+          error: "Invalid baseURL",
+        });
+      }
+    } catch (error) {
+      showError(res, error);
+    }
+  }
+);
+
 /**
  * file upload loading
+ * short url , work on it after angular
  */
 module.exports = router;

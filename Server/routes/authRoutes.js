@@ -4,7 +4,6 @@ const User = require("../models/userModel");
 const { check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const bCrypt = require("bcryptjs");
-const nodeMailer = require("nodemailer");
 const passport = require("passport");
 const showError = require("../config/showError");
 
