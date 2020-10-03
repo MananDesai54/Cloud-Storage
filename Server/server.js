@@ -51,6 +51,4 @@ app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/profile", require("./routes/profileRoutes"));
 app.use("/api/cloud", require("./routes/cloudRoutes"));
 
-sendMail();
-
 app.listen(PORT, () => console.log(`Server is running at 127.0.0.1:${PORT}/`));

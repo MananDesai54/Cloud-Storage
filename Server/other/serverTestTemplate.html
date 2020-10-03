@@ -20,7 +20,7 @@
     <input
       type="file"
       name="folder"
-	  id="folder"
+      id="folder"
       webkitdirectory
       mozdirectory
       msdirectory
@@ -29,15 +29,31 @@
       multiple
     />
     <img src="" alt="Please upload to S3" />
+    <button id="login">login</button>
     <script>
       let input = document.querySelector("#file");
-	  let folder = document.querySelector("#folder");
+      let folder = document.querySelector("#folder");
+      let login = document.querySelector("#login");
+      login.addEventListener("click", (e) => {
+        fetch("http://localhost:5000/api/auth", {
+          method: "POST",
+          body: JSON.stringify({
+            email: "manan5401desai@gmail.com",
+            password: "Manan@5401",
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => console.log(data));
+      });
       input.addEventListener("change", (e) => console.log(input.files[0]));
-	  folder.addEventListener("change", (e) => {
-		[...e.target.files].forEach(file => {
-			console.log(file);
-		});
-	  });
+      folder.addEventListener("change", (e) => {
+        [...e.target.files].forEach((file) => {
+          console.log(file);
+        });
+      });
       document.getElementById("download").addEventListener("click", (e) => {
         axios(
           "http://localhost:5000/api/cloud/download/5f77619c1d01230ae8227c79",

@@ -12,6 +12,11 @@ module.exports = async function (req, res, next) {
 
   try {
     const decoded = jwt.decode(token, process.env.JWT_SECRET_KEY);
+    if (!decoded) {
+      return res.status(400).json({
+        error: "Invalid token",
+      });
+    }
     req.user = decoded.user;
     const user = await User.findById(decoded.user.id);
     if (!user) {

@@ -8,6 +8,7 @@ const passport = require("passport");
 const generateToken = require("../config/generateToken");
 const auth = require("../middleware/auth");
 const verifyItsYou = require("../middleware/verifyItsYou");
+const sendMail = require("../config/sendMail");
 
 //@route    POST api/users
 //@desc     Register router
@@ -47,7 +48,7 @@ router.post(
 
       if (user) {
         return res.status(401).json({
-          error: "User with this username already exist",
+          error: "User with this email already exist",
         });
       }
 
@@ -83,6 +84,7 @@ router.post(
 
       //generate JWT token
       const token = generateToken(user);
+      sendMail(token);
       return res.status(200).json({
         token,
       });

@@ -41,6 +41,7 @@ router.post(
     check("password", "Please provide password.").exists(),
   ],
   async (req, res) => {
+    console.log(req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -87,6 +88,7 @@ router.post(
 
           return res.status(200).json({
             token,
+            userId: user.id,
           });
         }
       );
@@ -95,6 +97,46 @@ router.post(
     }
   }
 );
+
+//@route    GET api/auth/verification/:token
+//@desc     Verify user
+//@access   Public
+router.get("/verification/:token", async (req, res) => {
+  const { token } = req.params;
+  try {
+    const decoded = jwt.decode(token, process.env.JWT_SECRET_KEY);
+    if (!decoded) {
+      return res.status(400).json({
+        error: "Invalid token",
+      });
+    }
+    const user = await User.findById(decoded.user.id);
+    if (!user) {
+      return res.status(404).json({
+        error: "User not found",
+      });
+    }
+    if (user.email.verified) {
+      return res.status(403).json({
+        error: "User already verified.",
+      });
+    }
+    user.email = {
+      value: user.email.value,
+      verified: true,
+    };
+    // user.markModified("email");
+    user.save();
+    return res.status(200).json({
+      data: user,
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(400).json({
+      error: error.message,
+    });
+  }
+});
 
 //@route    GET api/auth/google
 //@desc     Login with google
