@@ -125,3 +125,24 @@ let folder, folderOwner;
         message: "Folder not found",
       });
     }
+
+//download file
+// const data = S3.getObject({
+    //   Bucket: process.env.AWS_BUCKET_NAME,
+    //   Key: file.awsData.key,
+    // });
+    // const readableStream = data.createReadStream();
+    // readableStream.on("error", (err) => {
+    //   return res.status(500).json({
+    //     error: err.message,
+    //   });
+    // });
+    // readableStream.on("end", (data) => {
+    //   console.log(data);
+    //   return res.status(200).json({
+    //     data: readableStream,
+    //   });
+    // });
+    // return res.status(200).json({
+    //   data: readableStream,
+    // });

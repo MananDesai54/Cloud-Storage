@@ -15,9 +15,9 @@ const {
 const fileDetails = require("../config/fileData");
 const S3 = require("../config/aws");
 
-/*
-  Folder things
-*/
+/**
+ * Folder things
+ */
 
 //@route    GET api/cloud
 //@desc     get files & folder at root level
@@ -201,9 +201,9 @@ router.delete("/folders/:id", auth, cloudMiddleware, async (req, res) => {
   }
 });
 
-/*
-  File things
-*/
+/**
+ * File things
+ */
 
 //@route    POST api/cloud/file/:folderId
 //@desc     Upload file
@@ -392,9 +392,9 @@ router.delete("/files/:fileId", auth, cloudMiddleware, async (req, res) => {
   }
 });
 
-/*
-  File folder sharing
-*/
+/**
+ * File folder sharing
+ */
 
 //@route    PUT api/cloud/permission
 //@desc     Add permission to all/someone
@@ -466,9 +466,9 @@ router.put(
   }
 );
 
-/*
-  File download
-*/
+/**
+ * File download
+ */
 router.get("/download/:id", auth, cloudMiddleware, async (req, res) => {
   const { id } = req.params;
   try {
@@ -479,55 +479,34 @@ router.get("/download/:id", auth, cloudMiddleware, async (req, res) => {
         error: "File not found",
       });
     }
-    res.download("file.png");
-    // const data = S3.getObject({
-    //   Bucket: process.env.AWS_BUCKET_NAME,
-    //   Key: file.awsData.key,
-    // });
-    // const readableStream = data.createReadStream();
-    // readableStream.on("error", (err) => {
-    //   return res.status(500).json({
-    //     error: err.message,
-    //   });
-    // });
-    // readableStream.on("end", (data) => {
-    //   console.log(data);
-    //   return res.status(200).json({
-    //     data: readableStream,
-    //   });
-    // });
-    // return res.status(200).json({
-    //   data: readableStream,
-    // });
-    // const fileStream = S3.getObject(
-    //   { Bucket: process.env.AWS_BUCKET_NAME, Key: file.awsData.key },
-    //   (err, data) => {
-    //     if (err) {
-    //       return res.status(400).json({
-    //         error: err.message,
-    //       });
-    //     }
-    //     // return res.status(200).json({
-    //     //   data,
-    //     //   buffer: Buffer.from(data.Body).toString(),
-    //     // });
-    //   }
-    // )
-    // .createReadStream()
-    // .on("error", (err) => {
-    //   // return res.status(500).json({
-    //   //   error: err.message,
-    //   // });
-    //   console.log(err.message);
-    // });
-    // res.attachment(file.name);
-    // fileStream.pipe(res);
+
+    const fileStream = S3.getObject(
+      { Bucket: process.env.AWS_BUCKET_NAME, Key: file.awsData.key },
+      (err, data) => {
+        if (err) {
+          return res.status(400).json({
+            error: err.message,
+          });
+        }
+      }
+    )
+      .createReadStream()
+      .on("error", (err) => {
+        console.log(err.message);
+      });
+    res.attachment(file.name);
+    fileStream.pipe(res);
   } catch (error) {
     showError(res, error);
   }
+  // res.download("file.png");
 });
 
-/*
-    file upload loading
-*/
+/**
+ * shorten link
+ */
+
+/**
+ * file upload loading
+ */
 module.exports = router;

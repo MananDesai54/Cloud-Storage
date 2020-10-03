@@ -162,10 +162,10 @@ router.put("/", [auth, verifyItsYou], async (req, res) => {
   }
 });
 
-/*
-    @Todo social Logins
-    do after done with Angular
-*/
+/**
+ * Todo social Logins
+ * do after done with Angular
+ */
 //@route    POST api/users/google
 //@desc     Auth with google token
 //@access   Public

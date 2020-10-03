@@ -10,7 +10,7 @@
   <body>
     <a
       href="https://cloud-storage-uploads.s3.amazonaws.com/38fda780-c169-4122-8c34-2585dde29622.png"
-      >Download</a
+      >Show</a
     >
     <button id="download">Download File</button>
     <form>
@@ -20,6 +20,7 @@
     <input
       type="file"
       name="folder"
+	  id="folder"
       webkitdirectory
       mozdirectory
       msdirectory
@@ -30,10 +31,16 @@
     <img src="" alt="Please upload to S3" />
     <script>
       let input = document.querySelector("#file");
+	  let folder = document.querySelector("#folder");
       input.addEventListener("change", (e) => console.log(input.files[0]));
+	  folder.addEventListener("change", (e) => {
+		[...e.target.files].forEach(file => {
+			console.log(file);
+		});
+	  });
       document.getElementById("download").addEventListener("click", (e) => {
         axios(
-          "http://localhost:5000/api/cloud/download/5f745e607cb7941f909ee221",
+          "http://localhost:5000/api/cloud/download/5f77619c1d01230ae8227c79",
           {
             method: "GET",
             headers: {
@@ -45,15 +52,18 @@
         )
           .then((res) => {
             console.log(res.data);
-            const blob = new Blob([res.data]);
+            const blob = new Blob([res.data], { type: res.data.type });
             const url = window.URL.createObjectURL(blob);
             console.log(url);
             const link = document.createElement("a");
             link.href = url;
-            link.setAttribute("download", "file.png");
+            link.setAttribute(
+              "download",
+              `file.${res.data.type.split("/")[1]}`
+            );
             document.body.appendChild(link);
             link.textContent = "hey";
-            //window.open(url);
+            window.open(url);
           })
           //.then((data) => console.log(data))
           .catch((err) => console.log(err.message));
