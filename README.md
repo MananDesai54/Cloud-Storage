@@ -1,4 +1,5 @@
 # Cloud-Storage
+
 Web app that store your files and you can download them whenever you want.
 
 <br/>
@@ -12,21 +13,32 @@ Web app that store your files and you can download them whenever you want.
 <br/>
 
 # functionality
+
 <ul>
     <li>
         Sign Up & Login
         <ul>
-            <li>With Email and Password</li>
+            <li>With Email and Password ✅</li>
             <li>With Google</li>
             <li>With Facebook</li>
             <li>With GitHub</li>
         </ul>
     </li>
     <li>
-        CRUD files ( Almost any format )
+        Manage Profile
+        <ul>
+            <li>Verify email ✅</li>
+            <li>CRUD user ✅</li>
+            <li>AUTH user ✅</li>
+            <li>Reset password user ✅</li>
+            <li>Route guard or permissions ✅</li>
+        </ul>
     </li>
     <li>
-        Share files
+        CRUD files with node.js and AWS S3 ✅
+    </li>
+    <li>
+        Share files with permission to anyone or specify only persons to share with (by default it's none) ✅
     </li>
     <li>
         Convert file to other format
