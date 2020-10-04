@@ -118,17 +118,17 @@ router.get("/verification/:token", async (req, res) => {
     }
     if (user.email.verified) {
       return res.status(403).json({
-        error: "User already verified.",
+        error: "User already verified",
       });
     }
     user.email = {
-      value: user.email.value,
+      ...user.email,
       verified: true,
     };
     // user.markModified("email");
     user.save();
     return res.status(200).json({
-      data: user,
+      message: "User verified, redirected to client",
     });
   } catch (error) {
     console.log(error.message);

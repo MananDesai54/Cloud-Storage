@@ -12,7 +12,18 @@ const verifyHtml = (token) => `
   </div>
 `;
 
-module.exports = (token) => {
+const forgotPasswordHtml = (token) => `
+  <div class="mail" style="padding:10px;background: #36393f;width: 90%;font-family: Verdana, Geneva, Tahoma, sans-serif;color: #eee;">
+    <h1>Hey there..!</h1>
+    <p>
+      Click the button below to reset your password
+    </p>
+    <a href="http://localhost:5000/api/users/request-reset-password/${token}" style="text-decoration:none;padding: 10px;outline: none;border: none;border-radius: 5px;background: #7289da;color: #eee;
+    font-size: 18px;cursor: pointer;">Reset Password</a>
+  </div>
+`;
+
+module.exports = (token, email, subject, verify) => {
   const transporter = nodeMailer.createTransport({
     service: "gmail",
     auth: {
@@ -23,9 +34,9 @@ module.exports = (token) => {
 
   const mailOptions = {
     from: process.env.EMAIL_ID,
-    to: "manan5401desai@gmail.com",
-    subject: "Test",
-    html: verifyHtml(token),
+    to: email,
+    subject: subject,
+    html: verify ? verifyHtml(token) : forgotPasswordHtml(token),
   };
 
   transporter.sendMail(mailOptions, (err, info) => {
