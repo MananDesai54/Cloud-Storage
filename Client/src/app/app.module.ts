@@ -19,6 +19,8 @@ import { FeaturesComponent } from './Components/home/features/features.component
 import { FooterComponent } from './Components/home/footer/footer.component';
 import { WrapUpComponent } from './Components/home/wrap-up/wrap-up.component';
 
+import { AuthService } from './services/auth.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,7 +57,8 @@ import { WrapUpComponent } from './Components/home/wrap-up/wrap-up.component';
           },
         ]
       } as SocialAuthServiceConfig
-    }
+    },
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

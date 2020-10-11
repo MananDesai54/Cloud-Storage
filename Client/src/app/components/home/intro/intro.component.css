@@ -1,72 +1,70 @@
 .intro {
-    background-color: var(--background-tertiary);
-    color: var(--light-white);
-    padding: 2rem 1.5rem;
-    height: 700px;
-    border-bottom-right-radius: 50%;
-    clip-path: circle(10px at 1% -15%);
-    -webkit-clip-path: circle(10px at 1% -15%);
-    -moz-clip-path: circle(10px at 1% -15%);
-    -o-clip-path: circle(10px at 1% -15%);
-    -ms-clip-path: circle(10px at 1% -15%);
-    animation: come-in 1000ms ease-in-out forwards;
+  background-color: var(--background-tertiary);
+  color: var(--light-white);
+  padding: 2rem 1.5rem;
+  height: 700px;
+  border-bottom-right-radius: 50%;
+  clip-path: circle(10px at 1% -15%);
+  -webkit-clip-path: circle(10px at 1% -15%);
+  -moz-clip-path: circle(10px at 1% -15%);
+  -o-clip-path: circle(10px at 1% -15%);
+  -ms-clip-path: circle(10px at 1% -15%);
+  animation: come-in 1000ms ease-in-out forwards;
 }
 @keyframes come-in {
-    to {
-        clip-path: circle(1000px at 1% -15%);
-    }
+  to {
+    clip-path: circle(1000px at 1% -15%);
+  }
 }
 .intro .logo {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 .logo__icon {
-    height: max(5vmax,40px);
-    width: max(6vmax,45px);
+  height: max(5vmax, 40px);
+  width: max(6vmax, 45px);
 }
 .logo__name {
-    color: rgb(110, 110, 206);
-    font-size: 2rem;
-    color: #eee;
-    font-weight: bold;
+  color: rgb(110, 110, 206);
+  font-size: 2rem;
+  color: #eee;
+  font-weight: bold;
 }
 .intro .intro__title {
-    font-size: 2rem;
-    margin: 3rem 0;
-    font-weight: bold;
+  font-size: 2rem;
+  margin: 3rem 0;
+  font-weight: bold;
 }
 .intro .intro__description {
-    color: var(--light-grey);
+  color: var(--light-grey);
 }
 .how-to-use-btn {
-    text-decoration: none;
-    background: var(--color-accent);
-    padding: 10px;
-    border-radius: 5px;
-    color: var(--background-secondary);
-    display: block;
-    width: 150px;
-    text-align: center;
-    margin-top: 2rem;
-    transition: all 400ms ease-in-out;
+  text-decoration: none;
+  background: var(--color-accent);
+  padding: 10px;
+  border-radius: 5px;
+  color: var(--background-secondary);
+  display: block;
+  width: 150px;
+  text-align: center;
+  margin-top: 2rem;
+  transition: all 400ms ease-in-out;
 }
 .how-to-use-btn:hover {
-    filter: brightness(0.8);
-    transition: all 400ms ease-in-out;
+  filter: brightness(0.8);
+  transition: all 400ms ease-in-out;
 }
 .how-to-use-btn:active {
-    transform: scale(0.9);
+  transform: scale(0.9);
 }
 
-
-@media(max-width:650px) {
-    .intro {
-        height: 100%;
-        border-bottom-right-radius: 0;
-    }
+@media (max-width: 650px) {
+  .intro {
+    border-bottom-right-radius: 0;
+  }
 }
-@media(max-width:850px) {
-    .how-to-use-btn {
-        margin-top: 8rem;
-    }
+@media (max-width: 850px) {
+  .how-to-use-btn {
+    margin-top: 8rem;
+  }
 }

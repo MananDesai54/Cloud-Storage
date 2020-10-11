@@ -7,10 +7,9 @@ import {
 } from '@angular/core';
 import { 
   SocialAuthService,
-  SocialUser,
-  GoogleLoginProvider,
-  FacebookLoginProvider
+  SocialUser
 } from 'angularx-social-login';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-auth-options',
@@ -23,10 +22,10 @@ export class AuthOptionsComponent implements OnInit {
   @ViewChild('signupForm', { static: true }) signupForm: ElementRef;
   user: SocialUser;
 
-  constructor(private _authService: SocialAuthService) { }
+  constructor(private socialAuthService: SocialAuthService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this._authService.authState.subscribe((user) => {
+    this.socialAuthService.authState.subscribe((user) => {
       this.user = user;
       console.log(this.user);
     })
@@ -39,11 +38,14 @@ export class AuthOptionsComponent implements OnInit {
     this.cards.nativeElement.classList.remove('go-left');
     this.signupForm.nativeElement.classList.add('go-right');
   }
-  signUpWithGoogle() {
-    this._authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+  onSignUpWithGoogle() {
+    this.authService.signInWithGoogle();
   }
-  signUpWithFacebook() {
-    this._authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+  onSignUpWithFacebook() {
+    this.authService.signInWithFacebook();
+  }
+  onSignOut() {
+    this.authService.signOut();
   }
 
 }

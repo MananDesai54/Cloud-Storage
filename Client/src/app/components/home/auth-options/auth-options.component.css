@@ -1,78 +1,94 @@
 .forms {
-    display: flex;
-    overflow: hidden;
-    padding: 0 4rem;
-    color: var(--light-white);
+  display: flex;
+  overflow: hidden;
+  padding: 0 4rem;
+  color: var(--light-white);
 }
 .cards {
-    padding-top: 8rem;
-    width: 100%;
-    transition: transform 400ms var(--animation-function),opacity 400ms var(--animation-function),width 400ms var(--animation-function);
+  padding-top: 8rem;
+  width: 100%;
+  transition: transform 400ms var(--animation-function),
+    opacity 400ms var(--animation-function),
+    width 400ms var(--animation-function);
 }
 .card {
-    color: var(--light-white);
-    background: var(--color-accent);
-    display: flex;
-    width: 100%;
-    max-width: 700px;
-    align-items: center;
-    padding: 1.5rem 1rem;
-    margin: 1rem 0 2rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 3px 5px rgba(114, 137, 218, 0.2);
-    cursor: pointer;
-    transition: background 400ms var(--animation-function),box-shadow 400ms var(--animation-function);
+  color: var(--light-white);
+  background: var(--color-accent);
+  display: flex;
+  width: 100%;
+  max-width: 700px;
+  align-items: center;
+  padding: 1.5rem 1rem;
+  margin: 1rem 0 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 3px 5px rgba(114, 137, 218, 0.2);
+  cursor: pointer;
+  transition: background 400ms var(--animation-function),
+    box-shadow 400ms var(--animation-function);
 }
 .card:hover {
-    filter: brightness(0.9);
-    box-shadow: none;
-    transition: background 400ms var(--animation-function),box-shadow 400ms var(--animation-function), filter var(--animation-function);
+  filter: brightness(0.9);
+  box-shadow: none;
+  transition: background 400ms var(--animation-function),
+    box-shadow 400ms var(--animation-function), filter var(--animation-function);
 }
 .card p {
-    margin-left: 1.5rem;
+  margin-left: 1.5rem;
 }
 .card .icon {
-    background: var(--light-white);
-    padding: 0.5rem;
-    border-radius: 5px;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
+  background: var(--light-white);
+  padding: 0.5rem;
+  border-radius: 5px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
 }
 .go-left {
-    transform: translateX(-100vw);
-    opacity: 0;
-    width: 0;
-    transition: transform 400ms var(--animation-function),width 400ms var(--animation-function),opacity 400ms var(--animation-function);
+  transform: translateX(-100vw);
+  opacity: 0;
+  width: 0;
+  transition: transform 400ms var(--animation-function),
+    width 400ms var(--animation-function),
+    opacity 400ms var(--animation-function);
 }
 .signupForm {
-    margin-top: 2rem;
-    width: 100%;
-    transition: transform 400ms var(--animation-function),opacity 400ms var(--animation-function),width 400ms var(--animation-function);
+  margin-top: 2rem;
+  width: 100%;
+  transition: transform 400ms var(--animation-function),
+    opacity 400ms var(--animation-function),
+    width 400ms var(--animation-function);
 }
 .go-right {
-    transform: translateX(100vw);
-    height: 100%;
-    width: 0 !important;
-    opacity: 0;
-    transition: transform 400ms var(--animation-function),opacity 400ms var(--animation-function),width 400ms var(--animation-function);
+  transform: translateX(100vw);
+  height: 0;
+  width: 0 !important;
+  opacity: 0;
+  transition: transform 400ms var(--animation-function),
+    opacity 400ms var(--animation-function),
+    width 400ms var(--animation-function);
 }
 .forms .help {
-    position: absolute;
-    top: 40px;
-    right: 30px;
+  position: absolute;
+  top: 40px;
+  right: 30px;
 }
 
-@media(max-width:650px) {
-    .forms {
-        padding: 0 1rem;
-        height: 100%;
-    }
-    .forms .help {
-        top: 10px;
-        color: white;
-    }
-    .forms .help a {
-        color:var(--dark-pink)
-    }
+@media (max-width: 850px) {
+  .cards {
+    padding: 2rem 0;
+    z-index: 1000;
+  }
+}
+
+@media (max-width: 650px) {
+  .forms {
+    padding: 0 1rem;
+    height: 100%;
+  }
+  .forms .help {
+    display: none;
+  }
+  .forms .help a {
+    color: var(--dark-pink);
+  }
 }
