@@ -1,6 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider } from 'angularx-social-login';
+import { GoogleLoginProvider } from 'angularx-social-login';
+import { GOOGLE_OAUTH_CLIENT_ID, FACEBOOK_OAUTH_CLIENT_ID } from './secrets';
+
 import { AppComponent } from './app.component';
 import { HomeComponent } from './Components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
@@ -32,9 +36,27 @@ import { WrapUpComponent } from './Components/home/wrap-up/wrap-up.component';
   ],
   imports: [
     BrowserModule,
-    AppRouterModule
+    AppRouterModule,
+    SocialLoginModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(GOOGLE_OAUTH_CLIENT_ID)
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider(FACEBOOK_OAUTH_CLIENT_ID)
+          },
+        ]
+      } as SocialAuthServiceConfig
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
