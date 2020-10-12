@@ -81,13 +81,13 @@
         </div>
         <div *ngIf="!isHome">
             <div class="other-options">
-                <button class="card google">
+                <button class="card google" (click)="onSignUpWithGoogle()">
                     <span class="icon">
                         <img src="https://img.icons8.com/color/48/000000/google-logo.png" height="20"/>
                     </span>
                     <p>SignUp with Google</p>
                 </button>
-                <button class="card facebook">
+                <button class="card facebook" (click)="onSignUpWithFacebook()">
                     <span class="icon">
                         <img src="https://img.icons8.com/color/48/000000/facebook-circled.png" height="22"/>
                     </span>

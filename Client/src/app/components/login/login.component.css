@@ -1,62 +1,71 @@
 html {
-    overflow: hidden;
+  overflow: hidden;
 }
 .login-form {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    padding-top: 4rem;
-    align-items: center;
-    background: var(--background-primary);
-    color: var(--light-white);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 4rem;
+  align-items: center;
+  background: var(--background-primary);
+  color: var(--light-white);
 }
 .login {
-    width: calc(100% - 2rem);
-    max-width: 500px;
+  width: calc(100% - 2rem);
+  max-width: 500px;
 }
 button {
-    display: block;
-    width: 100%;
-    margin: 1rem 0;
-    padding: 0.8rem;
-    border-radius: 5px;
-    border: none;
-    background: var(--color-accent);
-    color: #eee;
-    cursor: pointer;
-    transition: all 400ms;
+  display: block;
+  width: 100%;
+  margin: 1rem 0;
+  padding: 0.8rem;
+  border-radius: 5px;
+  border: none;
+  background: var(--color-accent);
+  color: #eee;
+  cursor: pointer;
+  transition: all 400ms;
 }
 button:hover {
-    background: rgba(114, 136, 218, 0.8);
-    transition: all 400ms;
+  background: rgba(114, 136, 218, 0.8);
+  transition: all 400ms;
 }
 button:active {
-    transform: scale(.9);
-    transition: all 400ms;
+  transform: scale(0.9);
+  transition: all 400ms;
 }
 button:disabled {
-    filter: brightness(0.5);
-    cursor: not-allowed;
+  filter: brightness(0.5);
+  cursor: not-allowed;
 }
 .password-input {
-    position: relative;
+  position: relative;
 }
 .eyes {
-    position: absolute;
-    top: 38px;
-    right: 15px;
+  position: absolute;
+  top: 38px;
+  right: 15px;
 }
 .eyes .close {
-    display: none;
-    pointer-events: none;
+  display: none;
+  pointer-events: none;
 }
 .eyes .open {
-    display: inline;
-    pointer-events: none;
+  display: inline;
+  pointer-events: none;
 }
 .eyes.hide .open {
-    display: none;
+  display: none;
 }
 .eyes.hide .close {
-    display: inline;
+  display: inline;
+}
+.other-options {
+  width: 50%;
+}
+
+@media (max-width: 850px) {
+  .other-options {
+    width: 100%;
+  }
 }

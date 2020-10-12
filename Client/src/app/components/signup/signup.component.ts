@@ -1,4 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 import { SignupService } from './signup.service';
 import { Validation } from './validation.model';
 
@@ -18,7 +19,7 @@ export class SignupComponent implements OnInit {
   @ViewChild('passwordInput') passwordInput: ElementRef;
   validations: Validation[];
 
-  constructor(private signupService: SignupService) {
+  constructor(private signupService: SignupService, private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -39,5 +40,11 @@ export class SignupComponent implements OnInit {
     } else {
       this.passwordInput.nativeElement.type = 'text';
     }
+  }
+  onSignUpWithGoogle() {
+    this.authService.signInWithGoogle();
+  }
+  onSignUpWithFacebook() {
+    this.authService.signInWithFacebook();
   }
 }

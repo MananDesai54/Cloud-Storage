@@ -7,7 +7,11 @@ import {
 
 @Injectable()
 export class AuthService {
-    constructor(private socialAuthService: SocialAuthService) {}
+    constructor(private socialAuthService: SocialAuthService) {
+        this.socialAuthService.authState.subscribe(user => {
+            console.log(user);
+        })
+    }
 
     signInWithGoogle() {
         this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);

@@ -25,10 +25,24 @@ export class AuthOptionsComponent implements OnInit {
   constructor(private socialAuthService: SocialAuthService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.socialAuthService.authState.subscribe((user) => {
-      this.user = user;
-      console.log(this.user);
-    })
+    // this.socialAuthService.authState.subscribe((user) => {
+    //   this.user = user;
+    //   console.log(this.user);
+    //   fetch('http://localhost:5000/api/users', {
+    //     method: 'POST',
+    //     body: JSON.stringify({
+    //       id: user.id,
+    //       method: user.provider.toLowerCase(),
+    //       username: user.name,
+    //       email: user.email,
+    //       profileUrl: user.photoUrl
+    //     }),
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     }
+    //   }).then(res => res.json())
+    //     .then(data => console.log(data));
+    // })
   }
   onEmailAndPassword() {
     this.cards.nativeElement.classList.add('go-left');

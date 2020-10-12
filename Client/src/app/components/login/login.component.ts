@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 import { LoginService } from './login.service';
 
 @Component({
@@ -15,7 +16,8 @@ import { LoginService } from './login.service';
 export class LoginComponent implements OnInit {
   @ViewChild('submitBtn') submitBtn: ElementRef;
   @ViewChild('passwordInput') passwordInput: ElementRef;
-  constructor(private loginService: LoginService) { }
+
+  constructor(private loginService: LoginService, private authService: AuthService) { }
 
   ngOnInit(): void {
   }
@@ -33,5 +35,11 @@ export class LoginComponent implements OnInit {
     } else {
       this.passwordInput.nativeElement.type = 'text';
     }
+  }
+  onSignUpWithGoogle() {
+    this.authService.signInWithGoogle();
+  }
+  onSignUpWithFacebook() {
+    this.authService.signInWithFacebook();
   }
 }
