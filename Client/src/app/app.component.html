@@ -1,8 +1,7 @@
-<div *ngIf="showSplashScreen;else app">
-    <app-splash-screen 
-    (completeSplashScreen)="onCompleteSplashScreen()">
-    </app-splash-screen>
+<div *ngIf="showSplashScreen; else app">
+  <app-splash-screen (completeSplashScreen)="onCompleteSplashScreen()">
+  </app-splash-screen>
 </div>
 <ng-template #app>
-    <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </ng-template>

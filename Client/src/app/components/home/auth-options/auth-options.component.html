@@ -1,37 +1,43 @@
 <div class="forms">
-    <div class="cards" #cards>
-        <h1>Get Started</h1>
-        <div class="card" (click)="onEmailAndPassword()">
-            <span class="icon">
-                <i class="far fa-envelope email" style="color: var(--color-danger);"></i>
-            </span>
-            <p>SignUp with Email</p>
-        </div>
-        <div class="card" (click)="onSignUpWithGoogle()">
-            <span class="icon">
-                <img src="https://img.icons8.com/color/48/000000/google-logo.png" height="20"/>
-            </span>
-            <p>SignUp with Google</p>
-        </div>
-        <div class="card" (click)="onSignUpWithFacebook()">
-            <span class="icon">
-                <img src="https://img.icons8.com/color/48/000000/facebook-circled.png" height="22"/>
-            </span>
-            <p>SignUp with Facebook</p>
-        </div>
-        <h4>Already have an Account ? <a routerLink="login">Login</a></h4>
+  <div class="cards" #cards>
+    <h1>Get Started</h1>
+    <div class="card" (click)="onEmailAndPassword()">
+      <span class="icon">
+        <i class="far fa-envelope email" style="color: var(--color-danger)"></i>
+      </span>
+      <p>SignUp with Email</p>
     </div>
-    <div class="signupForm go-right" #signupForm>
-        <div 
-            class="back-btn" 
-            style="cursor: pointer;margin-top:10px;display:inline-block;"
-            (click)="onBackBtnClick()"
-        >
-            <i class="fas fa-arrow-left fa-2x" style="color: var(--text-link);"></i>
-        </div>
-        <h1>Create Your Account</h1>
-        <button (click)="onSignOut()">sign out</button>
-        <app-signup [isHome]="true"></app-signup>
+    <div class="card" (click)="onSignUpWithGoogle()">
+      <span class="icon">
+        <img
+          src="https://img.icons8.com/color/48/000000/google-logo.png"
+          height="20"
+        />
+      </span>
+      <p>SignUp with Google</p>
     </div>
-    <h4 class="help">Having trouble ? <a routerLink="/">Get Help</a></h4>
+    <div class="card" (click)="onSignUpWithFacebook()">
+      <span class="icon">
+        <img
+          src="https://img.icons8.com/color/48/000000/facebook-circled.png"
+          height="22"
+        />
+      </span>
+      <p>SignUp with Facebook</p>
+    </div>
+    <h4>Already have an Account ? <a routerLink="login">Login</a></h4>
+  </div>
+  <div class="signupForm go-right" #signupForm>
+    <div
+      class="back-btn"
+      style="cursor: pointer; margin-top: 10px; display: inline-block"
+      (click)="onBackBtnClick()"
+    >
+      <i class="fas fa-arrow-left fa-2x" style="color: var(--text-link)"></i>
+    </div>
+    <h1>Create Your Account</h1>
+    <button (click)="onSignOut()">sign out</button>
+    <app-signup [isHome]="true"></app-signup>
+  </div>
+  <h4 class="help">Having trouble ? <a routerLink="/">Get Help</a></h4>
 </div>

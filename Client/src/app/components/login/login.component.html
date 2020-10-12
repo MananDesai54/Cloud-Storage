@@ -1,67 +1,65 @@
 <div class="login-form">
-    <h1>Login</h1>
-    <form 
-        class="form login" 
-        id="signUp-form"
-        (submit)="onSubmit($event)"
-    >
-        <div class="form-input">
-            <label for="email">
-                Email
-            </label>
-            <input 
-                type="email" 
-                name="email" 
-                id="email" 
-                placeholder="Enter your email" 
-                required 
-                (input)="onInput($event)"
-            />
-        </div>
-        <div class="form-input password-input">
-            <label for="name">
-                Password
-            </label>
-            <input 
-                type="password" 
-                name="password" 
-                id="password" 
-                placeholder="Enter your Password" 
-                required
-                #passwordInput
-                (input)="onInput($event)"
-            />
-            <a routerLink="/login" style="font-size: 0.8rem;">Forgot your password?</a>
-            <div class="eyes" (click)="showHide($event)">
-                <i class="fas fa-eye open" title="Show Password"></i>
-                <i class="fas fa-eye-slash close" title="Hide Password"></i>
-            </div>
-        </div>
-        <button 
-            id="signUpBtn" 
-            type="submit" 
-            disabled
-            #submitBtn
-        >
-            Login
-        </button>
-    </form>
-    <h4>   
-        Need an Account?
-        <a routerLink="/signup">signup</a>
-    </h4>
-    <div class="other-options">
-        <button class="card google" (click)="onSignUpWithGoogle()">
-            <span class="icon">
-                <img src="https://img.icons8.com/color/48/000000/google-logo.png" height="20"/>
-            </span>
-            <p>Login with Google</p>
-        </button>
-        <button class="card facebook" (click)="onSignUpWithFacebook()">
-            <span class="icon">
-                <img src="https://img.icons8.com/color/48/000000/facebook-circled.png" height="22"/>
-            </span>
-            <p>Login with Facebook</p>
-        </button>
+  <h1>Login</h1>
+  <form
+    class="form login"
+    id="signUp-form"
+    [formGroup]="loginForm"
+    (ngSubmit)="onSubmit($event)"
+  >
+    <div class="form-input">
+      <label for="email"> Email </label>
+      <input
+        type="email"
+        name="email"
+        id="email"
+        placeholder="Enter your email"
+        required
+        (input)="onInput($event)"
+        formControlName="email"
+      />
     </div>
+    <div class="form-input password-input">
+      <label for="name"> Password </label>
+      <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="Enter your Password"
+        required
+        #passwordInput
+        (input)="onInput($event)"
+        formControlName="password"
+      />
+      <a routerLink="/login" style="font-size: 0.8rem">Forgot your password?</a>
+      <div class="eyes" (click)="showHide($event)">
+        <i class="fas fa-eye open" title="Show Password"></i>
+        <i class="fas fa-eye-slash close" title="Hide Password"></i>
+      </div>
+    </div>
+    <button id="signUpBtn" type="submit" disabled #submitBtn>Login</button>
+  </form>
+  <h4>
+    Need an Account?
+    <a routerLink="/signup">signup</a>
+  </h4>
+  <div class="other-options">
+    <button class="card google" (click)="onSignUpWithGoogle()">
+      <span class="icon">
+        <img
+          src="https://img.icons8.com/color/48/000000/google-logo.png"
+          height="20"
+        />
+      </span>
+      <p>Login with Google</p>
+    </button>
+    <button class="card facebook" (click)="onSignUpWithFacebook()">
+      <span class="icon">
+        <img
+          src="https://img.icons8.com/color/48/000000/facebook-circled.png"
+          height="22"
+        />
+      </span>
+      <p>Login with Facebook</p>
+    </button>
+  </div>
 </div>

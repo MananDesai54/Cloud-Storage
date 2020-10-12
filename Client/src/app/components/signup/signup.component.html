@@ -1,99 +1,101 @@
-<div 
-    class="signUp" 
-    #signupForm
-    [ngClass]="{ dark: !isHome }"
->
-    <h1 *ngIf="!isHome">Create Your Account</h1>
-    <form 
-        class="form" 
-        id="signUp-form" 
-        [class.maxWidth]="!isHome"
-        (submit)="onSubmit($event)"
-    >
-        <div class="form-input">
-            <label for="name">
-                Name
-            </label>
-            <input 
-                type="text" 
-                name="name" 
-                id="name" 
-                placeholder="Enter your name" 
-                required
-                (input)="onInput($event)"
-            />
-            <small>Name Must of 5 letters</small>
-        </div>
-        <div class="form-input">
-            <label for="email">
-                Email
-            </label>
-            <input 
-                type="email" 
-                name="email" 
-                id="email"
-                placeholder="Enter your email(abc@xyz.com)" 
-                required
-                (input)="onInput($event)"
-            />
-            <small>Enter Valid Email( i.e - abc@xyz.pqr )</small>
-        </div>
-        <div class="form-input password-input">
-            <label for="password">
-                Password
-            </label>
-            <input 
-                type="password" 
-                name="password" 
-                id="password" 
-                placeholder="Enter your password" 
-                style="margin-bottom: 0px;" 
-                required
-                (input)="onInput($event)"
-                #passwordInput
-            />
-            <div class="eyes" (click)="showHide($event)">
-                <i class="fas fa-eye open" title="Show Password"></i>
-                <i class="fas fa-eye-slash close" title="Hide Password"></i>
-            </div>
-            <div class="password-format">
-                <div 
-                    *ngFor="let validation of validations"
-                    class="validation"
-                    [id]="validation.id"
-                    [ngClass]="{ success: validation.done }"
-                >
-                    <small>{{ validation.name }}</small> <i class="fas fa-check done"></i>
-                </div>
-            </div>
-        </div>
-        <button 
-            id="signUpBtn" 
-            type="submit" 
-            disabled 
-            title="Please Fill The Form"
-            #submitBtn
+<div class="signUp" #signupForm [ngClass]="{ dark: !isHome }">
+  <h1 *ngIf="!isHome">Create Your Account</h1>
+  <form
+    class="form"
+    id="signUp-form"
+    [class.maxWidth]="!isHome"
+    (ngSubmit)="onSubmit($event)"
+    [formGroup]="signUpForm"
+  >
+    <div class="form-input">
+      <label for="name"> Username </label>
+      <input
+        type="text"
+        name="username"
+        id="username"
+        placeholder="Enter your Username"
+        required
+        (input)="onInput($event)"
+        formControlName="username"
+      />
+      <small>Name Must of 5 letters</small>
+    </div>
+    <div class="form-input">
+      <label for="email"> Email </label>
+      <input
+        type="email"
+        name="email"
+        id="email"
+        placeholder="Enter your email(abc@xyz.com)"
+        required
+        (input)="onInput($event)"
+        formControlName="email"
+      />
+      <small>Enter Valid Email( i.e - abc@xyz.pqr )</small>
+    </div>
+    <div class="form-input password-input">
+      <label for="password"> Password </label>
+      <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="Enter your password"
+        style="margin-bottom: 0px"
+        required
+        (input)="onInput($event)"
+        formControlName="password"
+        #passwordInput
+      />
+      <div class="eyes" (click)="showHide($event)">
+        <i class="fas fa-eye open" title="Show Password"></i>
+        <i class="fas fa-eye-slash close" title="Hide Password"></i>
+      </div>
+      <div class="password-format">
+        <div
+          *ngFor="let validation of validations"
+          class="validation"
+          [id]="validation.id"
+          [ngClass]="{ success: validation.done }"
         >
-            Sign Up
+          <small>{{ validation.name }}</small> <i class="fas fa-check done"></i>
+        </div>
+      </div>
+    </div>
+    <button
+      id="signUpBtn"
+      type="submit"
+      disabled
+      title="Please Fill The Form"
+      #submitBtn
+    >
+      Sign Up
+    </button>
+    <div style="display: flex; justify-content: space-around">
+      <h4 style="margin-top: 1rem">
+        <a routerLink="/login">Already have an Account ? </a>
+      </h4>
+    </div>
+    <div *ngIf="!isHome">
+      <div class="other-options">
+        <button class="card google" (click)="onSignUpWithGoogle()">
+          <span class="icon">
+            <img
+              src="https://img.icons8.com/color/48/000000/google-logo.png"
+              height="20"
+            />
+          </span>
+          <p>SignUp with Google</p>
         </button>
-        <div style="display: flex; justify-content:space-around;">
-            <h4 style="margin-top: 1rem;"><a routerLink="/login">Already have an Account ? </a></h4>
-        </div>
-        <div *ngIf="!isHome">
-            <div class="other-options">
-                <button class="card google" (click)="onSignUpWithGoogle()">
-                    <span class="icon">
-                        <img src="https://img.icons8.com/color/48/000000/google-logo.png" height="20"/>
-                    </span>
-                    <p>SignUp with Google</p>
-                </button>
-                <button class="card facebook" (click)="onSignUpWithFacebook()">
-                    <span class="icon">
-                        <img src="https://img.icons8.com/color/48/000000/facebook-circled.png" height="22"/>
-                    </span>
-                    <p>SignUp with Facebook</p>
-                </button>
-            </div>
-        </div>
-    </form>
+        <button class="card facebook" (click)="onSignUpWithFacebook()">
+          <span class="icon">
+            <img
+              src="https://img.icons8.com/color/48/000000/facebook-circled.png"
+              height="22"
+            />
+          </span>
+          <p>SignUp with Facebook</p>
+        </button>
+      </div>
+    </div>
+  </form>
 </div>

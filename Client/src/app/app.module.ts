@@ -1,7 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { SocialLoginModule, SocialAuthServiceConfig, FacebookLoginProvider } from 'angularx-social-login';
+import {
+  SocialLoginModule,
+  SocialAuthServiceConfig,
+  FacebookLoginProvider,
+} from 'angularx-social-login';
 import { GoogleLoginProvider } from 'angularx-social-login';
 import { GOOGLE_OAUTH_CLIENT_ID, FACEBOOK_OAUTH_CLIENT_ID } from './secrets';
 
@@ -20,6 +24,7 @@ import { FooterComponent } from './Components/home/footer/footer.component';
 import { WrapUpComponent } from './Components/home/wrap-up/wrap-up.component';
 
 import { AuthService } from './services/auth.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -39,7 +44,9 @@ import { AuthService } from './services/auth.service';
   imports: [
     BrowserModule,
     AppRouterModule,
-    SocialLoginModule
+    SocialLoginModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [
     {
@@ -49,17 +56,17 @@ import { AuthService } from './services/auth.service';
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(GOOGLE_OAUTH_CLIENT_ID)
+            provider: new GoogleLoginProvider(GOOGLE_OAUTH_CLIENT_ID),
           },
           {
             id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider(FACEBOOK_OAUTH_CLIENT_ID)
+            provider: new FacebookLoginProvider(FACEBOOK_OAUTH_CLIENT_ID),
           },
-        ]
-      } as SocialAuthServiceConfig
+        ],
+      } as SocialAuthServiceConfig,
     },
-    AuthService
+    AuthService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
