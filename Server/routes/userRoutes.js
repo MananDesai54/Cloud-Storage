@@ -18,6 +18,7 @@ const showError = require("../config/showError");
 router.post(
   "/",
   [
+    check("method", "method is required").not().isEmpty(),
     check(
       "username",
       "username is required and username must not contain space."
@@ -25,13 +26,6 @@ router.post(
       .not()
       .isEmpty(),
     check("email", "Email is not valid").isEmail(),
-    check(
-      "password",
-      "Password must of length between 8-32, Contains capital letter , small letter , number and special character."
-    ).isLength({
-      min: 8,
-      max: 32,
-    }),
     // .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*_=+-/<>?`~:])[A-Za-z\d!@#$%^&*_=+-/<>?`~:]{8,32}$/g)
   ],
   async (req, res) => {
@@ -42,7 +36,7 @@ router.post(
       });
     }
 
-    const { username, email, password } = req.body;
+    const { username, email, password, id, profileUrl, method } = req.body;
     try {
       let user = await User.findOne({
         "email.value": email,
@@ -55,28 +49,37 @@ router.post(
       }
 
       user = new User({
-        method: "local",
+        method,
         username: username.toLowerCase(),
         email: {
           value: email.toLowerCase(),
           verified: false,
         },
-        local: {
-          password: password,
-          oldPasswords: [],
-        },
       });
 
-      //encrypt Password
-      const sault = await bcrypt.genSalt(10);
-      user.local.password = await bcrypt.hash(user.local.password, sault);
-      user.local.oldPasswords.push(user.local.password);
+      if (method === "local") {
+        user.local = {
+          password: password,
+          oldPasswords: [],
+        };
+
+        //encrypt Password
+        const sault = await bcrypt.genSalt(10);
+        user.local.password = await bcrypt.hash(user.local.password, sault);
+        user.local.oldPasswords.push(user.local.password);
+      } else {
+        user[method.toLowerCase()] = {
+          [`${method}Id`]: id,
+        };
+      }
 
       await user.save();
       await Profile.create({
         user: user.id,
         avatar: {
-          url: "https://cloud-storage-uploads.s3.amazonaws.com/profile.png",
+          url: profileUrl
+            ? profileUrl
+            : "https://cloud-storage-uploads.s3.amazonaws.com/profile.png",
           key: "profile.png",
         },
       });
@@ -90,6 +93,7 @@ router.post(
 
       return res.status(200).json({
         token,
+        user,
       });
     } catch (error) {
       console.log(error.message);
