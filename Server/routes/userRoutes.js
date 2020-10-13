@@ -26,7 +26,6 @@ router.post(
       .not()
       .isEmpty(),
     check("email", "Email is not valid").isEmail(),
-    // .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*_=+-/<>?`~:])[A-Za-z\d!@#$%^&*_=+-/<>?`~:]{8,32}$/g)
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -58,6 +57,18 @@ router.post(
       });
 
       if (method === "local") {
+        if (!password) {
+          return res.status(404).json({
+            error: "Please provide password.",
+          });
+        }
+        const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*_=+-/<>?`~:])[A-Za-z\d!@#$%^&*_=+-/<>?`~:]{8,32}$/g;
+        if (!re.test(password)) {
+          return res.status(404).json({
+            error: "Please provide valid password.",
+          });
+        }
+
         user.local = {
           password: password,
           oldPasswords: [],

@@ -15,6 +15,8 @@ export class SignupComponent implements OnInit {
   @Input() isHome: boolean;
   @ViewChild('submitBtn') submitBtn: ElementRef;
   @ViewChild('passwordInput') passwordInput: ElementRef;
+  @ViewChild('emailInput') emailInput: ElementRef;
+  previousEmailValue = '';
   validations: Validation[];
   signUpForm: FormGroup;
 
@@ -26,8 +28,8 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
     this.validations = this.signupService.getValidations();
     this.signUpForm = new FormGroup({
-      username: new FormControl(null, [], this.emailExistsValidation),
-      email: new FormControl(null),
+      username: new FormControl(null),
+      email: new FormControl(null, [], this.emailExistsValidation.bind(this)),
       password: new FormControl(null),
     });
   }
@@ -58,7 +60,16 @@ export class SignupComponent implements OnInit {
     control: FormControl
   ): Promise<any> | Observable<any> | any {
     return new Promise((resolve, reject) => {
-      // api call to check email exists
+      // fetch(`http://localhost:5000/api/auth/${control.value}`)
+      //   .then((res) => res.json())
+      //   .then((data) => {
+      //     console.log(data);
+      //     if (data.found) {
+      //       resolve({ EmailExist: true });
+      //     } else {
+      //       resolve(null);
+      //     }
+      //   });
     });
   }
 }

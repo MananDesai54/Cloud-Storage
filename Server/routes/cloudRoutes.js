@@ -472,6 +472,9 @@ router.put(
 /**
  * File download
  */
+//@route    PUT api/cloud/download/:id
+//@desc     download file
+//@access   Private
 router.get("/download/:id", auth, cloudMiddleware, async (req, res) => {
   const { id } = req.params;
   try {

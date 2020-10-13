@@ -1,7 +1,9 @@
 const showError = require("../config/showError");
 const { validationResult } = require("express-validator");
 const bCrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
+const generateToken = require("../config/generateToken");
 
 const authUser = async (req, res) => {
   console.log("Hello");
@@ -26,7 +28,6 @@ const authUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  console.log(req.body);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
@@ -53,29 +54,11 @@ const loginUser = async (req, res) => {
     }
 
     //jwt
-    const payload = {
-      user: {
-        id: user.id,
-      },
-    };
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET_KEY,
-      {
-        expiresIn: "24hr",
-      },
-      (err, token) => {
-        if (err)
-          return res.status(500).json({
-            error: "Server Error",
-          });
+    const token = generateToken(user);
 
-        return res.status(200).json({
-          token,
-          userId: user.id,
-        });
-      }
-    );
+    return res.status(200).json({
+      token,
+    });
   } catch (error) {
     showError(res, error);
   }

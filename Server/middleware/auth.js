@@ -17,6 +17,12 @@ module.exports = async function (req, res, next) {
         error: "Invalid token",
       });
     }
+    console.log(decoded.exp, new Date().getTime() / 1000);
+    if (decoded.exp < new Date().getTime() / 1000) {
+      return res.status(400).json({
+        error: "Invalid token",
+      });
+    }
     req.user = decoded.user;
     const user = await User.findById(decoded.user.id);
     if (!user) {
