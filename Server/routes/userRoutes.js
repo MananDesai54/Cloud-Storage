@@ -105,7 +105,14 @@ router.post(
 
       return res.status(200).json({
         token,
-        user,
+        user: {
+          username: user.username,
+          email: user.email,
+          method: user.method,
+          method: user.method,
+          id: user.id,
+          createdDate: user.createdDate,
+        },
       });
     } catch (error) {
       console.log(error.message);

@@ -65,7 +65,7 @@
   border-radius: 5px;
   cursor: pointer;
   outline: none;
-  transition: all 400ms cubic-bezier(0.15, 0.3, 0.14, 1.36);
+  transition: all 400ms cubic-bezier(0.15, 0.3, 0.14, 1.36), padding 0ms;
 }
 .signUp .form button:hover {
   background: rgba(114, 136, 218, 0.8);

@@ -17,10 +17,12 @@ export class SignupComponent implements OnInit {
   @ViewChild('submitBtn') submitBtn: ElementRef;
   @ViewChild('passwordInput') passwordInput: ElementRef;
   @ViewChild('emailInput') emailInput: ElementRef;
+  @ViewChild('usernameInput') usernameInput: ElementRef;
   previousEmailValue = '';
   validations: Validation[];
   signUpForm: FormGroup;
   userData: IUserCredential;
+  isLoading = false;
 
   constructor(
     private signupService: SignupService,
@@ -36,26 +38,6 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  onSubmit(event: Event) {
-    event.preventDefault();
-    const formData = this.signUpForm.value;
-    this.authService
-      .registerUser({
-        email: formData.email,
-        username: formData.username,
-        password: formData.password,
-        method: 'local',
-      })
-      .subscribe(
-        (data) => {
-          console.log(data);
-          this.signUpForm.reset();
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  }
   onInput(event: any) {
     this.signupService.setSubmitBtn(this.submitBtn);
     this.signupService.validate(event.target, event.target.id);
@@ -68,9 +50,48 @@ export class SignupComponent implements OnInit {
       this.passwordInput.nativeElement.type = 'text';
     }
   }
+
+  onSubmit(event: Event) {
+    event.preventDefault();
+    const formData = this.signUpForm.value;
+    this.isLoading = true;
+    this.submitBtn.nativeElement.disabled = true;
+    this.authService
+      .registerUser({
+        email: formData.email,
+        username: formData.username,
+        password: formData.password,
+        method: 'local',
+      })
+      .subscribe(
+        (data) => {
+          this.isLoading = false;
+          this.resetForm();
+          console.log(data);
+        },
+        (error) => {
+          this.isLoading = false;
+          this.resetForm();
+          console.log(error);
+        }
+      );
+  }
+
   onSignUpWithSocialAccount(method) {
     this.authService.signInWithSocialMedia(method);
   }
+
+  resetForm() {
+    this.signUpForm.reset();
+    this.validations.forEach((validation) => {
+      validation.done = false;
+    });
+    this.emailInput.nativeElement.classList.toggle('success');
+    this.passwordInput.nativeElement.classList.toggle('success');
+    this.usernameInput.nativeElement.classList.toggle('success');
+    this.submitBtn.nativeElement.disabled = true;
+  }
+
   emailExistsValidation(
     control: FormControl
   ): Promise<any> | Observable<any> | any {

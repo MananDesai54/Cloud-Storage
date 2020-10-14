@@ -17,6 +17,7 @@
         required
         (input)="onInput($event)"
         formControlName="username"
+        #usernameInput
       />
       <small>Name Must of 5 letters</small>
     </div>
@@ -68,8 +69,12 @@
       disabled
       title="Please Fill The Form"
       #submitBtn
+      [ngStyle]="{ padding: isLoading ? '0.2rem 1rem' : '1rem' }"
     >
-      Sign Up
+      <span *ngIf="!isLoading"> Sign Up </span>
+      <span *ngIf="isLoading">
+        <img src="assets/gif/loading.gif" height="50" alt="Loading..." />
+      </span>
     </button>
     <div style="display: flex; justify-content: space-around">
       <h4 style="margin-top: 1rem">

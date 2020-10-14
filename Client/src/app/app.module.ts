@@ -27,6 +27,7 @@ import { SocialButtonComponent } from './components/auth/socialButtons/social-bu
 import { AuthService } from './services/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { HttpClientModule } from '@angular/common/http';
     FooterComponent,
     WrapUpComponent,
     SocialButtonComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
