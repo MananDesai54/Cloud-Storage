@@ -9,7 +9,6 @@ module.exports = function (user) {
   const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
     expiresIn: "24h",
   });
-  console.log(token.exp, new Date().getTime() / 1000, "h");
   return token;
 };
 

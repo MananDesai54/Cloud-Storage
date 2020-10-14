@@ -10,8 +10,6 @@ export class SocialButtonComponent {
   constructor(private authService: AuthService) {}
 
   onSignUpWithSocialAccount(method) {
-    this.authService.signInWithSocialMedia(method).subscribe((user) => {
-      console.log(user);
-    });
+    this.authService.signInWithSocialMedia(method);
   }
 }

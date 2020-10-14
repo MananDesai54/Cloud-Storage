@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { IUserCredential } from 'src/app/models/userCredential.model';
 import { AuthService } from '../../../services/auth.service';
 import { SignupService } from './signup.service';
 import { Validation } from './validation.model';
@@ -19,6 +20,7 @@ export class SignupComponent implements OnInit {
   previousEmailValue = '';
   validations: Validation[];
   signUpForm: FormGroup;
+  userData: IUserCredential;
 
   constructor(
     private signupService: SignupService,
@@ -36,7 +38,23 @@ export class SignupComponent implements OnInit {
 
   onSubmit(event: Event) {
     event.preventDefault();
-    console.log(this.signUpForm.controls);
+    const formData = this.signUpForm.value;
+    this.authService
+      .registerUser({
+        email: formData.email,
+        username: formData.username,
+        password: formData.password,
+        method: 'local',
+      })
+      .subscribe(
+        (data) => {
+          console.log(data);
+          this.signUpForm.reset();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
   onInput(event: any) {
     this.signupService.setSubmitBtn(this.submitBtn);
@@ -51,9 +69,7 @@ export class SignupComponent implements OnInit {
     }
   }
   onSignUpWithSocialAccount(method) {
-    this.authService.signInWithSocialMedia(method).subscribe((user) => {
-      console.log(user);
-    });
+    this.authService.signInWithSocialMedia(method);
   }
   emailExistsValidation(
     control: FormControl

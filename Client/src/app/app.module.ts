@@ -22,10 +22,11 @@ import { IntroComponent } from './Components/home/intro/intro.component';
 import { FeaturesComponent } from './Components/home/features/features.component';
 import { FooterComponent } from './Components/home/footer/footer.component';
 import { WrapUpComponent } from './Components/home/wrap-up/wrap-up.component';
+import { SocialButtonComponent } from './components/auth/socialButtons/social-button.component';
 
 import { AuthService } from './services/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SocialButtonComponent } from './components/auth/socialButtons/social-button.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { SocialButtonComponent } from './components/auth/socialButtons/social-bu
     SocialLoginModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [
     {

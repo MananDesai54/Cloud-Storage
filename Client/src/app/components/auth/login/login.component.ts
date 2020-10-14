@@ -41,7 +41,4 @@ export class LoginComponent implements OnInit {
       this.passwordInput.nativeElement.type = 'text';
     }
   }
-  onSignUpWithSocialAccount(method) {
-    this.authService.signInWithSocialMedia(method);
-  }
 }

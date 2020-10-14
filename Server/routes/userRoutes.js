@@ -28,6 +28,7 @@ router.post(
     check("email", "Email is not valid").isEmail(),
   ],
   async (req, res) => {
+    console.log(req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.json({
@@ -84,23 +85,23 @@ router.post(
         };
       }
 
-      await user.save();
-      await Profile.create({
-        user: user.id,
-        avatar: {
-          url: profileUrl
-            ? profileUrl
-            : "https://cloud-storage-uploads.s3.amazonaws.com/profile.png",
-          key: "profile.png",
-        },
-      });
-      await Cloud.create({
-        user: user.id,
-      });
+      // await user.save();
+      // await Profile.create({
+      //   user: user.id,
+      //   avatar: {
+      //     url: profileUrl
+      //       ? profileUrl
+      //       : "https://cloud-storage-uploads.s3.amazonaws.com/profile.png",
+      //     key: "profile.png",
+      //   },
+      // });
+      // await Cloud.create({
+      //   user: user.id,
+      // });
 
       //generate JWT token
       const token = generateToken(user);
-      sendMail(token, user.email.value, "VERIFY EMAIl", true);
+      // sendMail(token, user.email.value, "VERIFY EMAIl", true);
 
       return res.status(200).json({
         token,
