@@ -44,9 +44,9 @@ export class SignupService {
         this.success('username', element, errorBox);
       }
     } else if (field === 'email') {
-      let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-      let isValid = re.test(element.value);
+      const isValid = re.test(element.value);
       if (!isValid) {
         this.danger('email', element, errorBox);
       } else {
@@ -59,7 +59,7 @@ export class SignupService {
       const numberTest = /[0-9]+/;
       const specialTest = /[!@#$%^&*_=+-/<>?`~:]+/;
 
-      //length check
+      // length check
       if (element.value.length >= 8 && element.value.length <= 32) {
         this.passwordCheck.length = true;
         this.validations.find(
@@ -72,16 +72,16 @@ export class SignupService {
         ).done = false;
       }
 
-      //Capital check
+      // Capital check
       this.passwordValidate(capitalTest, element, 'capital');
 
-      //Small check
+      //  check
       this.passwordValidate(smallTest, element, 'small');
 
-      //Number check
+      // Number check
       this.passwordValidate(numberTest, element, 'number');
 
-      //Special check
+      // Special check
       this.passwordValidate(specialTest, element, 'special');
       if (passwordTest.test(element.value)) {
         element.classList.add('success');
@@ -99,8 +99,10 @@ export class SignupService {
 
   checkDisabled() {
     let visibleSubmit = true;
-    for (let val in this.validated) {
-      visibleSubmit = this.validated[val] && visibleSubmit;
+    for (const val in this.validated) {
+      if (this.validated.hasOwnProperty(val)) {
+        visibleSubmit = this.validated[val] && visibleSubmit;
+      }
     }
     if (visibleSubmit) {
       this.submitBtn.nativeElement.disabled = false;

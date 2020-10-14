@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 import { SignupService } from './signup.service';
 import { Validation } from './validation.model';
 
@@ -50,11 +50,10 @@ export class SignupComponent implements OnInit {
       this.passwordInput.nativeElement.type = 'text';
     }
   }
-  onSignUpWithGoogle() {
-    this.authService.signInWithGoogle();
-  }
-  onSignUpWithFacebook() {
-    this.authService.signInWithFacebook();
+  onSignUpWithSocialAccount(method) {
+    this.authService.signInWithSocialMedia(method).subscribe((user) => {
+      console.log(user);
+    });
   }
   emailExistsValidation(
     control: FormControl

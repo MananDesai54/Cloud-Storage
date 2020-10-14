@@ -28,18 +28,18 @@ export class HomeComponent implements OnInit {
       )
       .from('.forms', {
         opacity: 0,
+      })
+      .from('.what-can-you-do', {
+        opacity: 0,
+      })
+      .from('.cards__info', {
+        opacity: 0,
+      })
+      .from('.wrap', {
+        opacity: 0,
+      })
+      .from('footer', {
+        opacity: 0,
       });
-    // .from('.what-can-you-do',{
-    //     opacity:0
-    // })
-    // .from('.cards__info',{
-    //     opacity:0
-    // })
-    // .from('.how-to-use',{
-    //     opacity:0
-    // })
-    // .from('footer',{
-    //     opacity:0
-    // })
   }
 }

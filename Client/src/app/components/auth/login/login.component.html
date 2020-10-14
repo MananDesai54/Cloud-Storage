@@ -43,23 +43,6 @@
     <a routerLink="/signup">signup</a>
   </h4>
   <div class="other-options">
-    <button class="card google" (click)="onSignUpWithGoogle()">
-      <span class="icon">
-        <img
-          src="https://img.icons8.com/color/48/000000/google-logo.png"
-          height="20"
-        />
-      </span>
-      <p>Login with Google</p>
-    </button>
-    <button class="card facebook" (click)="onSignUpWithFacebook()">
-      <span class="icon">
-        <img
-          src="https://img.icons8.com/color/48/000000/facebook-circled.png"
-          height="22"
-        />
-      </span>
-      <p>Login with Facebook</p>
-    </button>
+    <app-social-button style="width: 100%"></app-social-button>
   </div>
 </div>

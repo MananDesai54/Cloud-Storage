@@ -166,3 +166,22 @@ let folder, folderOwner;
     //   }).then(res => res.json())
     //     .then(data => console.log(data));
     // })
+
+//angular google, facebook
+  signInWithGoogle(): Observable<any> {
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+    return this.socialAuthService.authState;
+  }
+  signInWithFacebook(): Observable<any> {
+    this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
+    return this.socialAuthService.authState;
+  }
+    // onSignUpWithFacebook() {
+  //   this.authService
+  //     .signInWithFacebook()
+  //     .pipe(take(1))
+  //     .subscribe((user) => {
+  //       this.user = user;
+  //       this.setUserCredential();
+  //     });
+  // }

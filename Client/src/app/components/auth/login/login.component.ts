@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 import { LoginService } from './login.service';
 
 @Component({
@@ -41,10 +41,7 @@ export class LoginComponent implements OnInit {
       this.passwordInput.nativeElement.type = 'text';
     }
   }
-  onSignUpWithGoogle() {
-    this.authService.signInWithGoogle();
-  }
-  onSignUpWithFacebook() {
-    this.authService.signInWithFacebook();
+  onSignUpWithSocialAccount(method) {
+    this.authService.signInWithSocialMedia(method);
   }
 }

@@ -61,7 +61,7 @@ button:disabled {
   display: inline;
 }
 .other-options {
-  width: 50%;
+  width: 70%;
 }
 
 @media (max-width: 850px) {

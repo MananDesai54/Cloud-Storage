@@ -11,8 +11,8 @@ import { GOOGLE_OAUTH_CLIENT_ID, FACEBOOK_OAUTH_CLIENT_ID } from './secrets';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './Components/home/home.component';
-import { LoginComponent } from './components/login/login.component';
-import { SignupComponent } from './Components/signup/signup.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { SignupComponent } from './Components/auth/signup/signup.component';
 import { CloudComponent } from './Components/cloud/cloud.component';
 import { SplashScreenComponent } from './Components/splash-screen/splash-screen.component';
 import { NavbarComponent } from './Components/navbar/navbar.component';
@@ -25,6 +25,7 @@ import { WrapUpComponent } from './Components/home/wrap-up/wrap-up.component';
 
 import { AuthService } from './services/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SocialButtonComponent } from './components/auth/socialButtons/social-button.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FeaturesComponent,
     FooterComponent,
     WrapUpComponent,
+    SocialButtonComponent,
   ],
   imports: [
     BrowserModule,
