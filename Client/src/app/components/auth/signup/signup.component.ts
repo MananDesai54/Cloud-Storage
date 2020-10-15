@@ -1,6 +1,15 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { SocialUser } from 'angularx-social-login';
+import { Observable, Subscription } from 'rxjs';
 import { IUserCredential } from 'src/app/models/userCredential.model';
 import { AuthService } from '../../../services/auth.service';
 import { SignupService } from './signup.service';
@@ -12,7 +21,7 @@ import { Validation } from './validation.model';
   styleUrls: ['./signup.component.css'],
   providers: [SignupService],
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, OnDestroy {
   @Input() isHome: boolean;
   @ViewChild('submitBtn') submitBtn: ElementRef;
   @ViewChild('passwordInput') passwordInput: ElementRef;
@@ -24,10 +33,12 @@ export class SignupComponent implements OnInit {
   userData: IUserCredential;
   isLoading = false;
   errorMessage: any;
+  subscription: Subscription;
 
   constructor(
     private signupService: SignupService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +68,7 @@ export class SignupComponent implements OnInit {
     const formData = this.signUpForm.value;
     this.isLoading = true;
     this.submitBtn.nativeElement.disabled = true;
-    this.authService
+    this.subscription = this.authService
       .registerUser({
         email: formData.email,
         username: formData.username,
@@ -69,21 +80,40 @@ export class SignupComponent implements OnInit {
           this.isLoading = false;
           this.resetForm();
           console.log(data);
+          this.router.navigate(['/cloud']);
         },
         (error) => {
-          this.isLoading = false;
-          this.errorMessage =
-            error.error.message || error.error.messages || error.message;
+          this.setError(error);
           this.resetForm();
-          console.log(
-            error.error.message || error.error.messages || error.message
-          );
         }
       );
   }
 
   onSignUpWithSocialAccount(method) {
     this.authService.signInWithSocialMedia(method);
+    this.isLoading = true;
+    this.subscription = this.authService.socialUserSubject.subscribe(
+      (user: SocialUser) => {
+        this.authService
+          .registerUser({
+            email: user.email,
+            username: user.name,
+            method: user.provider.toLowerCase(),
+            profileUrl: user.photoUrl,
+            id: user.id,
+          })
+          .subscribe(
+            (res) => {
+              this.isLoading = false;
+              console.log(res);
+              this.router.navigate(['/cloud']);
+            },
+            (error) => {
+              this.setError(error);
+            }
+          );
+      }
+    );
   }
 
   resetForm() {
@@ -95,6 +125,15 @@ export class SignupComponent implements OnInit {
     this.passwordInput.nativeElement.classList.remove('success');
     this.usernameInput.nativeElement.classList.remove('success');
     this.submitBtn.nativeElement.disabled = true;
+  }
+
+  setError(error) {
+    this.isLoading = false;
+    this.errorMessage = error;
+    setTimeout(() => {
+      this.errorMessage = null;
+    }, 5000);
+    console.log(error);
   }
 
   emailExistsValidation(
@@ -112,5 +151,9 @@ export class SignupComponent implements OnInit {
       //     }
       //   });
     });
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }

@@ -10,6 +10,7 @@ import { SocialAuthService, SocialUser } from 'angularx-social-login';
 import { AuthService } from '../../../services/auth.service';
 import { IUserCredential } from '../../../models/userCredential.model';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth-options',
@@ -23,8 +24,10 @@ export class AuthOptionsComponent implements OnInit, OnDestroy {
   user: SocialUser;
   userCredential: IUserCredential;
   subscription: Subscription;
+  isLoading = false;
+  errorMessage: any;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {}
   onEmailAndPassword() {
@@ -38,6 +41,7 @@ export class AuthOptionsComponent implements OnInit, OnDestroy {
 
   onSignUpWithSocialAccount(method) {
     this.authService.signInWithSocialMedia(method);
+    this.isLoading = true;
     this.subscription = this.authService.socialUserSubject.subscribe(
       (user: SocialUser) => {
         this.authService
@@ -51,19 +55,30 @@ export class AuthOptionsComponent implements OnInit, OnDestroy {
           .subscribe(
             (res) => {
               console.log(res);
+              this.isLoading = false;
+              this.router.navigate(['/cloud']);
             },
             (error) => {
-              console.log(error);
+              this.setError(error);
             }
           );
       }
     );
   }
 
+  setError(error) {
+    this.isLoading = false;
+    this.errorMessage = error;
+    setTimeout(() => {
+      this.errorMessage = null;
+    }, 5000);
+    console.log(error);
+  }
+
   onSignOut() {
     this.authService.signOut();
   }
   ngOnDestroy() {
-    this.subscription ? this.subscription.unsubscribe() : '';
+    this.subscription?.unsubscribe();
   }
 }

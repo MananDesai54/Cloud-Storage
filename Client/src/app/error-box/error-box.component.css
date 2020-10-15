@@ -1,13 +1,39 @@
+.box {
+  position: relative;
+}
 .error {
   border-radius: 5px;
   padding: 0.5rem 1rem;
   background: rgba(240, 71, 71, 0.8);
   border: 1px solid rgb(240, 71, 71);
   color: var(--light-white);
-  /* color: rgb(240, 71, 71); */
-  margin: 0.5rem 0;
-  width: min(300px, 70vw);
+  margin: 1rem;
+  width: min(400px, 70vw);
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  opacity: 0;
+  transform: translateY(50px);
+  animation: animate 400ms forwards var(--animation-function);
+}
+i {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  pointer-events: all !important;
+}
+
+@keyframes animate {
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@media (max-width: 650px) {
+  .error {
+    background: rgb(240, 71, 71);
+    transform: translateY(-50px);
+    white-space: normal;
+  }
 }

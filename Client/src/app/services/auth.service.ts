@@ -3,11 +3,11 @@ import {
   SocialAuthService,
   GoogleLoginProvider,
   FacebookLoginProvider,
-  SocialUser,
 } from 'angularx-social-login';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { IUserCredential } from '../models/userCredential.model';
 import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
@@ -38,9 +38,17 @@ export class AuthService {
 
   registerUser(user: IUserCredential) {
     console.log(user);
-    return this.http.post('http://localhost:5000/api/users', user, {
-      // observe: 'response',
-      // observe: 'body',
-    });
+    return this.http
+      .post('http://localhost:5000/api/users', user, {
+        // observe: 'response',
+        // observe: 'body',
+      })
+      .pipe(
+        catchError((error) => {
+          const errorMessage =
+            error.error.message || error.error.messages || error.message;
+          return throwError(errorMessage);
+        })
+      );
   }
 }

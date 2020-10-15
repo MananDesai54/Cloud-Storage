@@ -17,7 +17,7 @@ export class SignupService {
   };
   private validations = [
     new Validation(
-      ' ▪ Length must be between 8-16 letters',
+      ' ▪ Length must be between 8-32 letters',
       false,
       'length-check'
     ),

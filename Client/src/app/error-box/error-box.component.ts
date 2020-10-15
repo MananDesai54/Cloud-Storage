@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-error-box',
@@ -7,7 +7,11 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ErrorBoxComponent implements OnInit {
   @Input() errorMessage: any;
+  @ViewChild('box') box: ElementRef;
   constructor() {}
 
   ngOnInit(): void {}
+  onClose() {
+    this.box.nativeElement.style.display = 'none';
+  }
 }

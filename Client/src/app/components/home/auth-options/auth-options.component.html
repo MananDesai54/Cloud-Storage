@@ -40,3 +40,16 @@
   </div>
   <h4 class="help">Having trouble ? <a routerLink="/">Get Help</a></h4>
 </div>
+<div *ngIf="errorMessage">
+  <div class="errors" *ngIf="errorMessage[0].msg; else error">
+    <app-error-box
+      [errorMessage]="error.msg"
+      *ngFor="let error of errorMessage"
+    ></app-error-box>
+  </div>
+  <ng-template #error>
+    <div class="errors">
+      <app-error-box [errorMessage]="errorMessage"></app-error-box>
+    </div>
+  </ng-template>
+</div>
