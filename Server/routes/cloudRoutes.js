@@ -55,8 +55,8 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.json({
-        errors: errors.array(),
+      return res.status(400).json({
+        messages: errors.array(),
       });
     }
     const { name, location } = req.body;
@@ -139,8 +139,8 @@ router.put(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.json({
-        errors: errors.array(),
+      return res.status(400).json({
+        messages: errors.array(),
       });
     }
     const { name, id } = req.body;
@@ -319,8 +319,8 @@ router.put(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.json({
-        errors: errors.array(),
+      return res.status(400).json({
+        messages: errors.array(),
       });
     }
 
@@ -414,8 +414,8 @@ router.put(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.json({
-        errors: errors.array(),
+      return res.status(400).json({
+        messages: errors.array(),
       });
     }
     const { id, users, type } = req.body;
@@ -527,8 +527,8 @@ router.put(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.json({
-        errors: errors.array(),
+      return res.status(400).json({
+        messages: errors.array(),
       });
     }
 

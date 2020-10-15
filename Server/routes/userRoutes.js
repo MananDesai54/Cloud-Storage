@@ -19,20 +19,14 @@ router.post(
   "/",
   [
     check("method", "method is required").not().isEmpty(),
-    check(
-      "username",
-      "username is required and username must not contain space."
-    )
-      .not()
-      .isEmpty(),
-    check("email", "Email is not valid").isEmail(),
+    check("username", "username is required.").not().isEmpty(),
+    check("email", "Valid email is required.").isEmail(),
   ],
   async (req, res) => {
-    console.log(req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.json({
-        errors: errors.array(),
+      return res.status(400).json({
+        messages: errors.array(),
       });
     }
 
@@ -43,8 +37,8 @@ router.post(
       });
 
       if (user) {
-        return res.status(401).json({
-          error: "User with this email already exist",
+        return res.status(400).json({
+          message: "User with this email already exist",
         });
       }
 
@@ -59,14 +53,14 @@ router.post(
 
       if (method === "local") {
         if (!password) {
-          return res.status(404).json({
-            error: "Please provide password.",
+          return res.status(400).json({
+            message: "Please provide password.",
           });
         }
         const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*_=+-/<>?`~:])[A-Za-z\d!@#$%^&*_=+-/<>?`~:]{8,32}$/g;
         if (!re.test(password)) {
-          return res.status(404).json({
-            error: "Please provide valid password.",
+          return res.status(400).json({
+            message: "Please provide valid password.",
           });
         }
 
@@ -115,10 +109,7 @@ router.post(
         },
       });
     } catch (error) {
-      console.log(error.message);
-      res.status(500).json({
-        error: "Server error",
-      });
+      showError(res, error);
     }
   }
 );
@@ -196,10 +187,7 @@ router.put("/", [auth, verifyItsYou], async (req, res) => {
       message: "User updated",
     });
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({
-      error: "Server Error",
-    });
+    showError(res, error);
   }
 });
 
@@ -212,7 +200,7 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.json({
+      return res.status(400).json({
         errors: errors.array(),
       });
     }
@@ -275,7 +263,7 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.json({
+      return res.status(400).json({
         errors: errors.array(),
       });
     }

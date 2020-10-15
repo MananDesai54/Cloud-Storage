@@ -69,13 +69,25 @@
       disabled
       title="Please Fill The Form"
       #submitBtn
-      [ngStyle]="{ padding: isLoading ? '0.2rem 1rem' : '1rem' }"
     >
       <span *ngIf="!isLoading"> Sign Up </span>
       <span *ngIf="isLoading">
-        <img src="assets/gif/loading.gif" height="50" alt="Loading..." />
+        <app-loader></app-loader>
       </span>
     </button>
+    <div *ngIf="errorMessage">
+      <div class="errors" *ngIf="errorMessage[0].msg; else error">
+        <app-error-box
+          [errorMessage]="error.msg"
+          *ngFor="let error of errorMessage"
+        ></app-error-box>
+      </div>
+      <ng-template #error>
+        <div class="errors">
+          <app-error-box [errorMessage]="errorMessage"></app-error-box>
+        </div>
+      </ng-template>
+    </div>
     <div style="display: flex; justify-content: space-around">
       <h4 style="margin-top: 1rem">
         <a routerLink="/login">Already have an Account ? </a>

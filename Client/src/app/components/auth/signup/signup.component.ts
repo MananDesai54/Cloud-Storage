@@ -23,6 +23,7 @@ export class SignupComponent implements OnInit {
   signUpForm: FormGroup;
   userData: IUserCredential;
   isLoading = false;
+  errorMessage: any;
 
   constructor(
     private signupService: SignupService,
@@ -71,8 +72,12 @@ export class SignupComponent implements OnInit {
         },
         (error) => {
           this.isLoading = false;
+          this.errorMessage =
+            error.error.message || error.error.messages || error.message;
           this.resetForm();
-          console.log(error);
+          console.log(
+            error.error.message || error.error.messages || error.message
+          );
         }
       );
   }
@@ -86,9 +91,9 @@ export class SignupComponent implements OnInit {
     this.validations.forEach((validation) => {
       validation.done = false;
     });
-    this.emailInput.nativeElement.classList.toggle('success');
-    this.passwordInput.nativeElement.classList.toggle('success');
-    this.usernameInput.nativeElement.classList.toggle('success');
+    this.emailInput.nativeElement.classList.remove('success');
+    this.passwordInput.nativeElement.classList.remove('success');
+    this.usernameInput.nativeElement.classList.remove('success');
     this.submitBtn.nativeElement.disabled = true;
   }
 

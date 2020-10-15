@@ -28,6 +28,8 @@ import { AuthService } from './services/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { LoaderComponent } from './loader/loader.component';
+import { ErrorBoxComponent } from './error-box/error-box.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     WrapUpComponent,
     SocialButtonComponent,
     NotFoundComponent,
+    LoaderComponent,
+    ErrorBoxComponent,
   ],
   imports: [
     BrowserModule,

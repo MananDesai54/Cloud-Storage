@@ -40,7 +40,7 @@ export class AuthService {
     console.log(user);
     return this.http.post('http://localhost:5000/api/users', user, {
       // observe: 'response',
-      observe: 'body',
+      // observe: 'body',
     });
   }
 }
