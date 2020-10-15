@@ -85,13 +85,15 @@ router.get("/:email", async (req, res) => {
     const user = await User.findOne({
       "email.value": email,
     });
+
     if (user) {
-      return res.json({
-        error: "User with that Email already exist",
+      return res.status(200).json({
+        message: "User with that Email already exist",
         found: true,
       });
     }
-    return res.json({
+    return res.status(404).json({
+      message: "No user found with this email id",
       found: false,
     });
   } catch (error) {

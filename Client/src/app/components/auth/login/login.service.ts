@@ -28,10 +28,12 @@ export class LoginService {
     for (const val in this.validation) {
       isValidate = this.validation[val] && isValidate;
     }
-    if (isValidate) {
-      this.submitBtn.nativeElement.disabled = false;
-    } else {
-      this.submitBtn.nativeElement.disabled = true;
+    if (this.submitBtn) {
+      if (isValidate) {
+        this.submitBtn.nativeElement.disabled = false;
+      } else {
+        this.submitBtn.nativeElement.disabled = true;
+      }
     }
   }
 }

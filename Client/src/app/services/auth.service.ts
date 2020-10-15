@@ -31,9 +31,12 @@ export class AuthService {
     }
   }
 
-  signOut(): Observable<any> {
-    this.socialAuthService.signOut();
-    return this.socialAuthService.authState;
+  checkEmailExist(email) {
+    return this.http
+      .get(`http://localhost:5000/api/auth/${email}`, {
+        observe: 'body',
+      })
+      .pipe(catchError((error) => throwError(error.error)));
   }
 
   registerUser(user: IUserCredential) {
@@ -50,5 +53,10 @@ export class AuthService {
           return throwError(errorMessage);
         })
       );
+  }
+
+  signOut(): Observable<any> {
+    this.socialAuthService.signOut();
+    return this.socialAuthService.authState;
   }
 }
