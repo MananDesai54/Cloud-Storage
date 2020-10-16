@@ -80,7 +80,7 @@ router.post(
       }
 
       await user.save();
-      await Profile.create({
+      const profile = await Profile.create({
         user: user.id,
         avatar: {
           url: profileUrl
@@ -98,15 +98,13 @@ router.post(
       sendMail(token, user.email.value, "VERIFY EMAIl", true);
 
       return res.status(200).json({
+        method: user.method,
+        username: user.username,
+        id: user.id,
+        email: user.email,
         token,
-        user: {
-          username: user.username,
-          email: user.email,
-          method: user.method,
-          method: user.method,
-          id: user.id,
-          createdDate: user.createdDate,
-        },
+        tokenExpiration: new Date().getTime() + 24 * 60 * 60 * 1000,
+        profileUrl: profile.profileUrl.url,
       });
     } catch (error) {
       showError(res, error);

@@ -7,6 +7,7 @@ export class User {
       verified: boolean;
     },
     public id: string,
+    public profileUrl: string,
     // tslint:disable-next-line: variable-name
     private _token: string,
     // tslint:disable-next-line: variable-name
@@ -14,9 +15,13 @@ export class User {
   ) {}
 
   get token() {
-    if (+this._tokenExpiration < +(new Date().getTime() / 1000).toFixed(0)) {
+    if (+this._tokenExpiration < +new Date().getTime().toFixed(0)) {
       return null;
     }
     return this._token;
+  }
+
+  get tokenExpiration() {
+    return this._tokenExpiration;
   }
 }

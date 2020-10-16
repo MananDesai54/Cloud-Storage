@@ -7,12 +7,13 @@ import {
 import { IUserCredential } from '../models/userCredential.model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { ILoginCredential } from '../models/loginCredential.model';
+import { User } from '../models/user.model';
 
 @Injectable()
 export class AuthService {
-  user = new BehaviorSubject<any>(null);
+  user = new BehaviorSubject<User>(null);
   socialUserSubject = new Subject<any>();
 
   constructor(
@@ -47,7 +48,7 @@ export class AuthService {
   registerUser(user: IUserCredential) {
     console.log(user);
     return this.http
-      .post('http://localhost:5000/api/users', user, {
+      .post<User>('http://localhost:5000/api/users', user, {
         // observe: 'response',
         // observe: 'body',
       })
@@ -55,9 +56,14 @@ export class AuthService {
   }
 
   loginUser(user: ILoginCredential) {
-    return this.http
-      .post('http://localhost:5000/api/auth', user)
-      .pipe(catchError(this.handleError));
+    return this.http.post<User>('http://localhost:5000/api/auth', user).pipe(
+      catchError(this.handleError),
+      tap((userData) => {
+        console.log(
+          +userData.tokenExpiration - +new Date().getTime().toFixed(0)
+        );
+      })
+    );
   }
 
   signOut(): Observable<any> {

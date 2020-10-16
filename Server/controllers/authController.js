@@ -3,6 +3,7 @@ const { validationResult } = require("express-validator");
 const bCrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
+const Profile = require("../models/profileModel");
 const generateToken = require("../config/generateToken");
 
 const authUser = async (req, res) => {
@@ -13,6 +14,8 @@ const authUser = async (req, res) => {
       user = await User.findById(req.user.id).select("-local");
     } else if (user.method === "google") {
       user = await User.findById(req.user.id).select("-google.googleId");
+    } else if (user.method === "facebook") {
+      user = await User.findById(req.user.id).select("-facebook.facebookId");
     }
     if (!user) {
       return res.status(401).json({
@@ -55,7 +58,7 @@ const loginUser = async (req, res) => {
       }
       if (user.method === "google" || user.method === "facebook") {
         return res.status(400).json({
-          message: "Method is social login",
+          message: `Use signIn with ${user.method} to login`,
         });
       }
 
@@ -72,12 +75,12 @@ const loginUser = async (req, res) => {
         });
       }
       if (user.method === "local") {
-        res.status(400).json({
-          message: "Method is local",
+        return res.status(400).json({
+          message: "Use email & password to login",
         });
       }
       if (user[method][`${method}Id`] !== id) {
-        res.status(400).json({
+        return res.status(400).json({
           message: "Invalid credentials",
         });
       }
@@ -85,9 +88,17 @@ const loginUser = async (req, res) => {
 
     //jwt
     const token = generateToken(user);
+    const profile = await Profile.findOne({ user: user.id });
+    const profileUrl = profile.avatar.url;
 
     return res.status(200).json({
+      method: user.method,
+      username: user.username,
+      id: user.id,
+      email: user.email,
       token,
+      tokenExpiration: new Date().getTime() + 24 * 60 * 60 * 1000,
+      profileUrl,
     });
   } catch (error) {
     console.log(error);

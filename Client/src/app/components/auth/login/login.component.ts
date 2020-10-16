@@ -70,6 +70,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       },
       (error) => {
         this.setError(error);
+        this.resetStuff();
       }
     );
   }
@@ -119,13 +120,13 @@ export class LoginComponent implements OnInit, OnDestroy {
           (res) => {
             console.log(res);
             this.resetStuff();
-            this.isEmailExist = false;
             this.router.navigate(['/cloud']);
           },
           (error) => {
             console.log(error);
             this.setError(error);
             this.resetStuff();
+            this.isEmailExist = false;
           }
         );
     }
