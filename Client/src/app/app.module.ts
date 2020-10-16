@@ -7,7 +7,7 @@ import {
   FacebookLoginProvider,
 } from 'angularx-social-login';
 import { GoogleLoginProvider } from 'angularx-social-login';
-import { environment } from '../environments/environment';
+import { env } from '../environments/env';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './Components/home/home.component';
@@ -66,15 +66,11 @@ import { ErrorBoxComponent } from './error-box/error-box.component';
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(
-              environment.GOOGLE_OAUTH_CLIENT_ID
-            ),
+            provider: new GoogleLoginProvider(env.GOOGLE_OAUTH_CLIENT_ID),
           },
           {
             id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider(
-              environment.FACEBOOK_OAUTH_CLIENT_ID
-            ),
+            provider: new FacebookLoginProvider(env.FACEBOOK_OAUTH_CLIENT_ID),
           },
         ],
       } as SocialAuthServiceConfig,
