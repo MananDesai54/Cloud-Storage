@@ -24,7 +24,7 @@ export class AuthService {
     });
   }
 
-  signInWithSocialMedia(method: string) {
+  signInWithSocialMedia(method: string, signIn?: boolean) {
     if (method.toLowerCase() === 'google') {
       this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
     } else if (method.toLowerCase() === 'facebook') {
@@ -39,7 +39,7 @@ export class AuthService {
       })
       .pipe(
         catchError((error: HttpErrorResponse) =>
-          throwError(error.error.message)
+          throwError(error.error.message || error.message)
         )
       );
   }

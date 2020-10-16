@@ -109,9 +109,13 @@ export class SignupComponent implements OnInit, OnDestroy {
               this.router.navigate(['/cloud']);
             },
             (error) => {
+              this.isLoading = false;
               this.setError(error);
             }
           );
+      },
+      (error) => {
+        console.log(error);
       }
     );
   }

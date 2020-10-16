@@ -1,5 +1,14 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { SocialUser } from 'angularx-social-login';
+import { Subscription } from 'rxjs';
 import { ILoginCredential } from 'src/app/models/loginCredential.model';
 import { AuthService } from '../../../services/auth.service';
 import { LoginService } from './login.service';
@@ -10,7 +19,7 @@ import { LoginService } from './login.service';
   styleUrls: ['./login.component.css', '../signup/signup.component.css'],
   providers: [LoginService],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   @ViewChild('submitBtn') submitBtn: ElementRef;
   @ViewChild('passwordInput') passwordInput: ElementRef;
   @ViewChild('emailInput') emailInput: ElementRef;
@@ -18,10 +27,12 @@ export class LoginComponent implements OnInit {
   isEmailExist = false;
   isLoading = false;
   errorMessage: any;
+  subscription: Subscription;
 
   constructor(
     private loginService: LoginService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -51,7 +62,7 @@ export class LoginComponent implements OnInit {
   checkEmailExist() {
     const email = this.loginForm.get('email').value;
     this.isLoading = true;
-    this.authService.checkEmailExist(email).subscribe(
+    this.subscription = this.authService.checkEmailExist(email).subscribe(
       (res) => {
         this.isLoading = false;
         this.isEmailExist = true;
@@ -63,9 +74,42 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  onSignUpWithSocialAccount(method) {
+    this.authService.signInWithSocialMedia(method, true);
+    this.isLoading = true;
+    this.subscription = this.authService.socialUserSubject.subscribe(
+      (user: SocialUser) => {
+        this.resetStuff();
+        console.log(user);
+        this.authService
+          .loginUser({
+            email: user.email,
+            method: user.provider.toLowerCase(),
+            id: user.id,
+          })
+          .subscribe(
+            (res) => {
+              console.log(res);
+              this.isLoading = false;
+              this.router.navigate(['/cloud']);
+            },
+            (error) => {
+              this.isLoading = false;
+              this.setError(error);
+            }
+          );
+      },
+      (error) => {
+        this.resetStuff();
+        console.log(error);
+      }
+    );
+  }
+
   onSubmit(event: Event) {
     if (this.loginForm.value.password) {
-      this.authService
+      this.isLoading = true;
+      this.subscription = this.authService
         .loginUser({
           email: this.loginForm.value.email,
           method: 'local',
@@ -74,22 +118,33 @@ export class LoginComponent implements OnInit {
         .subscribe(
           (res) => {
             console.log(res);
+            this.resetStuff();
+            this.isEmailExist = false;
+            this.router.navigate(['/cloud']);
           },
           (error) => {
             console.log(error);
             this.setError(error);
+            this.resetStuff();
           }
         );
     }
   }
 
-  private setError(error) {
+  private resetStuff() {
     this.isLoading = false;
+    this.loginForm.reset();
+    this.emailInput.nativeElement.disabled = false;
+  }
+
+  private setError(error) {
     this.errorMessage = error;
     setTimeout(() => {
       this.errorMessage = null;
     }, 5000);
-    this.loginForm.reset();
-    this.emailInput.nativeElement.disabled = false;
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }

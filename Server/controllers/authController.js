@@ -36,14 +36,14 @@ const loginUser = async (req, res) => {
     });
   }
 
-  const { email, password, method } = req.body;
+  const { email, password, method, id } = req.body;
   try {
     const user = await User.findOne({
       "email.value": email,
     });
     if (!user) {
       return res.status(404).json({
-        error: "Invalid credential.E",
+        message: "No account found with this email-id",
       });
     }
 
@@ -53,11 +53,32 @@ const loginUser = async (req, res) => {
           message: "Please provide password.",
         });
       }
+      if (user.method === "google" || user.method === "facebook") {
+        return res.status(400).json({
+          message: "Method is social login",
+        });
+      }
 
       const isMatch = await bCrypt.compare(password, user.local.password);
       if (!isMatch) {
         return res.status(404).json({
-          error: "Invalid credential.P",
+          message: "Invalid credential",
+        });
+      }
+    } else if (method === "google" || method === "facebook") {
+      if (!id) {
+        return res.status(400).json({
+          message: "Please provide social userId.",
+        });
+      }
+      if (user.method === "local") {
+        res.status(400).json({
+          message: "Method is local",
+        });
+      }
+      if (user[method][`${method}Id`] !== id) {
+        res.status(400).json({
+          message: "Invalid credentials",
         });
       }
     }

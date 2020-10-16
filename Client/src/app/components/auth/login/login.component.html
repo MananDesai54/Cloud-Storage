@@ -51,7 +51,16 @@
           <i class="fas fa-eye-slash close" title="Hide Password"></i>
         </div>
       </div>
-      <button id="signUpBtn" type="submit" disabled #submitBtn>Login</button>
+      <button
+        id="signUpBtn"
+        type="submit"
+        [disabled]="!loginForm.valid || isLoading"
+        #submitBtn
+        style="display: flex; align-items: center; justify-content: center"
+      >
+        <span *ngIf="!isLoading"> Next </span>
+        <app-loader *ngIf="isLoading"></app-loader>
+      </button>
     </div>
   </form>
   <h4>
@@ -59,8 +68,31 @@
     <a routerLink="/signup">signup</a>
   </h4>
   <div class="other-options">
-    <app-social-button style="width: 100%"></app-social-button>
+    <button class="card google" (click)="onSignUpWithSocialAccount('google')">
+      <span class="icon">
+        <img
+          src="https://img.icons8.com/color/48/000000/google-logo.png"
+          height="20"
+        />
+      </span>
+      <p>SignUp with Google</p>
+    </button>
+    <button
+      class="card facebook"
+      (click)="onSignUpWithSocialAccount('facebook')"
+    >
+      <span class="icon">
+        <img
+          src="https://img.icons8.com/color/48/000000/facebook-circled.png"
+          height="22"
+        />
+      </span>
+      <p>SignUp with Facebook</p>
+    </button>
   </div>
+  <!-- <div class="other-options">
+    <app-social-button style="width: 100%"></app-social-button>
+  </div> -->
 </div>
 <div *ngIf="errorMessage">
   <div class="errors-login" *ngIf="errorMessage[0]?.msg; else error">
