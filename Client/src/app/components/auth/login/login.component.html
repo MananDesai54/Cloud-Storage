@@ -58,7 +58,7 @@
         #submitBtn
         style="display: flex; align-items: center; justify-content: center"
       >
-        <span *ngIf="!isLoading"> Next </span>
+        <span *ngIf="!isLoading"> Login </span>
         <app-loader *ngIf="isLoading"></app-loader>
       </button>
     </div>
@@ -68,18 +68,18 @@
     <a routerLink="/signup">signup</a>
   </h4>
   <div class="other-options">
-    <button class="card google" (click)="onSignUpWithSocialAccount('google')">
+    <button class="card google" (click)="onLoginWithSocialAccount('google')">
       <span class="icon">
         <img
           src="https://img.icons8.com/color/48/000000/google-logo.png"
           height="20"
         />
       </span>
-      <p>SignUp with Google</p>
+      <p>Login with Google</p>
     </button>
     <button
       class="card facebook"
-      (click)="onSignUpWithSocialAccount('facebook')"
+      (click)="onLoginWithSocialAccount('facebook')"
     >
       <span class="icon">
         <img
@@ -87,7 +87,7 @@
           height="22"
         />
       </span>
-      <p>SignUp with Facebook</p>
+      <p>Login with Facebook</p>
     </button>
   </div>
   <!-- <div class="other-options">

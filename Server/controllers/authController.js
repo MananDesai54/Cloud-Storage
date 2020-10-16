@@ -78,6 +78,10 @@ const loginUser = async (req, res) => {
         return res.status(400).json({
           message: "Use email & password to login",
         });
+      } else if (method !== user.method) {
+        return res.status(400).json({
+          message: `Use signIn with ${user.method} to login`,
+        });
       }
       if (user[method][`${method}Id`] !== id) {
         return res.status(400).json({

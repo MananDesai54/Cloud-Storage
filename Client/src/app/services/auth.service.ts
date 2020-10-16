@@ -52,16 +52,19 @@ export class AuthService {
         // observe: 'response',
         // observe: 'body',
       })
-      .pipe(catchError(this.handleError));
+      .pipe(
+        catchError(this.handleError),
+        tap((userData) => {
+          this.user.next(userData);
+        })
+      );
   }
 
   loginUser(user: ILoginCredential) {
     return this.http.post<User>('http://localhost:5000/api/auth', user).pipe(
       catchError(this.handleError),
       tap((userData) => {
-        console.log(
-          +userData.tokenExpiration - +new Date().getTime().toFixed(0)
-        );
+        this.handleAuthentication(userData);
       })
     );
   }
@@ -69,6 +72,27 @@ export class AuthService {
   signOut(): Observable<any> {
     this.socialAuthService.signOut();
     return this.socialAuthService.authState;
+  }
+
+  private handleAuthentication({
+    email,
+    id,
+    method,
+    profileUrl,
+    token,
+    tokenExpiration,
+    username,
+  }: User) {
+    const user = new User(
+      method,
+      username,
+      email,
+      id,
+      profileUrl,
+      token,
+      tokenExpiration
+    );
+    this.user.next(user);
   }
 
   private handleError(error: HttpErrorResponse) {

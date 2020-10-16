@@ -80,7 +80,7 @@ router.post(
       }
 
       await user.save();
-      const profile = await Profile.create({
+      await Profile.create({
         user: user.id,
         avatar: {
           url: profileUrl
@@ -104,7 +104,9 @@ router.post(
         email: user.email,
         token,
         tokenExpiration: new Date().getTime() + 24 * 60 * 60 * 1000,
-        profileUrl: profile.profileUrl.url,
+        profileUrl: profileUrl
+          ? profileUrl
+          : "https://cloud-storage-uploads.s3.amazonaws.com/profile.png",
       });
     } catch (error) {
       showError(res, error);

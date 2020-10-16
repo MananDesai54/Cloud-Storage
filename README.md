@@ -1,8 +1,8 @@
 # Cloud-Storage
 
 Web app that store your files and you can download them whenever you want.
-
 <br/>
+
 <h1>Live At</h1>
 <a href="https://elastic-wescoff-1ae4e3.netlify.app/">Cloud Storage</a>
 
@@ -11,21 +11,20 @@ Web app that store your files and you can download them whenever you want.
 # Technology Stack ( MEAN + AWS(s3) )
 
 <br/>
-
 # functionality
 
 <ul>
     <li>
-        Sign Up & Login
+        Sign Up & Login ✅
         <ul>
             <li>With Email and Password ✅</li>
-            <li>With Google</li>
-            <li>With Facebook</li>
-            <li>With GitHub</li>
+            <li>With Google ✅</li>
+            <li>With Facebook ✅</li>
+            <li>With GitHub (Same to implement as Google and Fb )</li>
         </ul>
     </li>
     <li>
-        Manage Profile
+        Manage Profile ✅
         <ul>
             <li>Verify email ✅</li>
             <li>CRUD user ✅</li>

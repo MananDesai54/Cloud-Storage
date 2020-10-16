@@ -75,7 +75,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     );
   }
 
-  onSignUpWithSocialAccount(method) {
+  onLoginWithSocialAccount(method) {
     this.authService.signInWithSocialMedia(method, true);
     this.isLoading = true;
     this.subscription = this.authService.socialUserSubject.subscribe(
