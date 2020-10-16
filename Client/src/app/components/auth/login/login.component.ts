@@ -81,7 +81,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.subscription = this.authService.socialUserSubject.subscribe(
       (user: SocialUser) => {
         this.resetStuff();
-        console.log(user);
         this.authService
           .loginUser({
             email: user.email,
@@ -90,7 +89,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           })
           .subscribe(
             (res) => {
-              console.log(res);
               this.isLoading = false;
               this.router.navigate(['/cloud']);
             },

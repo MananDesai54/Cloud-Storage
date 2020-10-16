@@ -19,7 +19,7 @@ const authUser = async (req, res) => {
     }
     if (!user) {
       return res.status(401).json({
-        error: "Not authorized",
+        message: "Not authorized",
       });
     }
     return res.status(200).json({
