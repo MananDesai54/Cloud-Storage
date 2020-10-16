@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ILoginCredential } from 'src/app/models/loginCredential.model';
 import { AuthService } from '../../../services/auth.service';
 import { LoginService } from './login.service';
 
@@ -35,33 +36,6 @@ export class LoginComponent implements OnInit {
     this.loginService.validate(event.target, event.target.id);
   }
 
-  onSubmit(event: Event) {
-    event.preventDefault();
-    console.log(this.loginForm.controls);
-  }
-
-  checkEmailExist() {
-    const email = this.loginForm.get('email').value;
-    this.isLoading = true;
-    this.authService.checkEmailExist(email).subscribe(
-      (res) => {
-        this.isLoading = false;
-        console.log(res);
-        this.isEmailExist = true;
-        this.emailInput.nativeElement.disabled = true;
-      },
-      (error) => {
-        this.isLoading = false;
-        this.errorMessage = error.message;
-        setTimeout(() => {
-          this.errorMessage = '';
-        }, 5000);
-        console.log(error);
-        this.loginForm.patchValue({ email: '' });
-      }
-    );
-  }
-
   showHide(event: any) {
     event.target.classList.toggle('hide');
     if (
@@ -72,5 +46,50 @@ export class LoginComponent implements OnInit {
     } else {
       this.passwordInput.nativeElement.type = 'text';
     }
+  }
+
+  checkEmailExist() {
+    const email = this.loginForm.get('email').value;
+    this.isLoading = true;
+    this.authService.checkEmailExist(email).subscribe(
+      (res) => {
+        this.isLoading = false;
+        this.isEmailExist = true;
+        this.emailInput.nativeElement.disabled = true;
+      },
+      (error) => {
+        this.setError(error);
+      }
+    );
+  }
+
+  onSubmit(event: Event) {
+    if (this.loginForm.value.password) {
+      this.authService
+        .loginUser({
+          email: this.loginForm.value.email,
+          method: 'local',
+          password: this.loginForm.value.password,
+        })
+        .subscribe(
+          (res) => {
+            console.log(res);
+          },
+          (error) => {
+            console.log(error);
+            this.setError(error);
+          }
+        );
+    }
+  }
+
+  private setError(error) {
+    this.isLoading = false;
+    this.errorMessage = error;
+    setTimeout(() => {
+      this.errorMessage = null;
+    }, 5000);
+    this.loginForm.reset();
+    this.emailInput.nativeElement.disabled = false;
   }
 }

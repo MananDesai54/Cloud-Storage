@@ -20,8 +20,8 @@ router.get("/", auth, authUser);
 router.post(
   "/",
   [
-    check("email", "Invalid Email.").isEmail(),
-    check("password", "Please provide password.").exists(),
+    check("email", "Please Enter valid Email.").isEmail(),
+    check("method", "Please provide method.").not().isEmpty(),
   ],
   loginUser
 );

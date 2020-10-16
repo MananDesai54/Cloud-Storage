@@ -5,9 +5,10 @@ import {
   FacebookLoginProvider,
 } from 'angularx-social-login';
 import { IUserCredential } from '../models/userCredential.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { ILoginCredential } from '../models/loginCredential.model';
 
 @Injectable()
 export class AuthService {
@@ -36,7 +37,11 @@ export class AuthService {
       .get(`http://localhost:5000/api/auth/${email}`, {
         observe: 'body',
       })
-      .pipe(catchError((error) => throwError(error.error)));
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          throwError(error.error.message)
+        )
+      );
   }
 
   registerUser(user: IUserCredential) {
@@ -46,17 +51,23 @@ export class AuthService {
         // observe: 'response',
         // observe: 'body',
       })
-      .pipe(
-        catchError((error) => {
-          const errorMessage =
-            error.error.message || error.error.messages || error.message;
-          return throwError(errorMessage);
-        })
-      );
+      .pipe(catchError(this.handleError));
+  }
+
+  loginUser(user: ILoginCredential) {
+    return this.http
+      .post('http://localhost:5000/api/auth', user)
+      .pipe(catchError(this.handleError));
   }
 
   signOut(): Observable<any> {
     this.socialAuthService.signOut();
     return this.socialAuthService.authState;
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    const errorMessage =
+      error.error.message || error.error.messages || error.message;
+    return throwError(errorMessage);
   }
 }

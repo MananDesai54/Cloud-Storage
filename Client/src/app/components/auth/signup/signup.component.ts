@@ -116,7 +116,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     );
   }
 
-  resetForm() {
+  private resetForm() {
     this.signUpForm.reset();
     this.validations.forEach((validation) => {
       validation.done = false;
@@ -127,7 +127,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.submitBtn.nativeElement.disabled = true;
   }
 
-  setError(error) {
+  private setError(error) {
     this.isLoading = false;
     this.errorMessage = error;
     setTimeout(() => {

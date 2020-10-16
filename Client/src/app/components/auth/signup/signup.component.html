@@ -76,7 +76,7 @@
       </span>
     </button>
     <div *ngIf="errorMessage">
-      <div class="errors" *ngIf="errorMessage[0].msg; else error">
+      <div class="errors" *ngIf="errorMessage[0]?.msg; else error">
         <app-error-box
           [errorMessage]="error.msg"
           *ngFor="let error of errorMessage"

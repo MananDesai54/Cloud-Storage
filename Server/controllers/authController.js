@@ -28,14 +28,15 @@ const authUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
+  console.log(req.body);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
-      error: errors.array(),
+      messages: errors.array(),
     });
   }
 
-  const { email, password } = req.body;
+  const { email, password, method } = req.body;
   try {
     const user = await User.findOne({
       "email.value": email,
@@ -46,11 +47,19 @@ const loginUser = async (req, res) => {
       });
     }
 
-    const isMatch = await bCrypt.compare(password, user.local.password);
-    if (!isMatch) {
-      return res.status(404).json({
-        error: "Invalid credential.P",
-      });
+    if (method === "local") {
+      if (!password) {
+        return res.status(400).json({
+          message: "Please provide password.",
+        });
+      }
+
+      const isMatch = await bCrypt.compare(password, user.local.password);
+      if (!isMatch) {
+        return res.status(404).json({
+          error: "Invalid credential.P",
+        });
+      }
     }
 
     //jwt
@@ -60,6 +69,7 @@ const loginUser = async (req, res) => {
       token,
     });
   } catch (error) {
+    console.log(error);
     showError(res, error);
   }
 };
