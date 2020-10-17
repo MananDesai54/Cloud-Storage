@@ -14,7 +14,6 @@ export class CloudComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authService.user.subscribe((user) => {
-      console.log(user);
       this.authService.authUser().subscribe(
         (res) => console.log(res),
         (err) => console.log(err)

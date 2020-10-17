@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 export class AuthService {
   user = new BehaviorSubject<User>(null);
   socialUserSubject = new Subject<any>();
+  durationTimer: number;
 
   constructor(
     private socialAuthService: SocialAuthService,
@@ -81,7 +82,41 @@ export class AuthService {
 
   logout() {
     this.user.next(null);
+    localStorage.removeItem('userData');
     this.router.navigate(['/']);
+    if (this.durationTimer) {
+      clearTimeout(this.durationTimer);
+    }
+    this.durationTimer = null;
+  }
+
+  autoLogin() {
+    const userData: any = JSON.parse(localStorage.getItem('userData'));
+    if (!userData) {
+      return;
+    }
+    const loadedUser = new User(
+      userData.method,
+      userData.username,
+      userData.email,
+      userData.id,
+      userData.profileUrl,
+      userData._token,
+      userData._tokenExpiration
+    );
+    if (loadedUser.token) {
+      this.user.next(loadedUser);
+      const expirationDuration =
+        loadedUser.tokenExpiration - new Date().getTime();
+      this.autoLogout(expirationDuration);
+      console.log(expirationDuration);
+    }
+  }
+
+  autoLogout(expirationDuration: number) {
+    setTimeout(() => {
+      this.logout();
+    }, expirationDuration);
   }
 
   private handleAuthentication({
@@ -103,7 +138,7 @@ export class AuthService {
       tokenExpiration
     );
     this.user.next(user);
-    // localStorage.setItem('auth-data');
+    localStorage.setItem('userData', JSON.stringify(user));
   }
 
   private handleError(error: HttpErrorResponse) {

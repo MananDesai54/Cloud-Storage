@@ -31,6 +31,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { LoaderComponent } from './loader/loader.component';
 import { ErrorBoxComponent } from './error-box/error-box.component';
 import { AuthInterceptorService } from './components/auth/auth-interceptor.service';
+import { AuthGuard } from './components/auth/auth.guard';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { AuthInterceptorService } from './components/auth/auth-interceptor.servi
       multi: true,
     },
     AuthService,
+    AuthGuard,
   ],
   bootstrap: [AppComponent],
 })
