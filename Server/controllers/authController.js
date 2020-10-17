@@ -22,8 +22,15 @@ const authUser = async (req, res) => {
         message: "Not authorized",
       });
     }
+    const profile = await Profile.findOne({ user: user.id });
     return res.status(200).json({
-      data: user,
+      method: user.method,
+      username: user.username,
+      id: user.id,
+      email: user.email,
+      profileUrl: profile.avatar.url,
+      token: req.jwt.token,
+      tokenExpiration: +req.jwt.tokenExpiration * 1000,
     });
   } catch (error) {
     showError(res, error);

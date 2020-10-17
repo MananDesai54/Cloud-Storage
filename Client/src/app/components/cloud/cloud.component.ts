@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -9,7 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class CloudComponent implements OnInit, OnDestroy {
   subscription: Subscription;
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.authService.user.subscribe((user) => {
@@ -22,5 +23,8 @@ export class CloudComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.subscription?.unsubscribe();
+  }
+  onLogout() {
+    this.authService.logout();
   }
 }

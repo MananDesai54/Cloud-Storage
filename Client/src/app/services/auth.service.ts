@@ -5,16 +5,13 @@ import {
   FacebookLoginProvider,
 } from 'angularx-social-login';
 import { IUserCredential } from '../models/userCredential.model';
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { catchError, exhaustMap, take, tap } from 'rxjs/operators';
 import { ILoginCredential } from '../models/loginCredential.model';
 import { User } from '../models/user.model';
 import { env } from '../../environments/env';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +20,8 @@ export class AuthService {
 
   constructor(
     private socialAuthService: SocialAuthService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {
     this.socialAuthService.authState.subscribe((user) => {
       this.socialUserSubject.next(user);
@@ -76,21 +74,14 @@ export class AuthService {
 
   // ********* run this code before all auth route **********
   authUser() {
-    return this.user.pipe(
-      take(1),
-      exhaustMap((user) => {
-        return this.http
-          .get(`${env.SERVER_URL}/auth`, {
-            headers: new HttpHeaders({ 'x-auth-token': user.token }),
-          })
-          .pipe(catchError(this.handleError));
-      })
-    );
+    return this.http
+      .get<User>(`${env.SERVER_URL}/auth`)
+      .pipe(catchError(this.handleError));
   }
 
-  signOut(): Observable<any> {
-    this.socialAuthService.signOut();
-    return this.socialAuthService.authState;
+  logout() {
+    this.user.next(null);
+    this.router.navigate(['/']);
   }
 
   private handleAuthentication({
@@ -112,6 +103,7 @@ export class AuthService {
       tokenExpiration
     );
     this.user.next(user);
+    // localStorage.setItem('auth-data');
   }
 
   private handleError(error: HttpErrorResponse) {

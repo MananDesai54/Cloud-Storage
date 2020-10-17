@@ -75,9 +75,6 @@ export class AuthOptionsComponent implements OnInit, OnDestroy {
     console.log(error);
   }
 
-  onSignOut() {
-    this.authService.signOut();
-  }
   ngOnDestroy() {
     this.subscription?.unsubscribe();
   }

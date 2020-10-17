@@ -24,6 +24,7 @@ module.exports = async function (req, res, next) {
       });
     }
     req.user = decoded.user;
+    req.jwt = { token, tokenExpiration: decoded.exp };
     const user = await User.findById(decoded.user.id);
     if (!user) {
       return res.status(404).json({

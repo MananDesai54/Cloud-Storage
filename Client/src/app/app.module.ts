@@ -26,10 +26,11 @@ import { SocialButtonComponent } from './components/auth/socialButtons/social-bu
 
 import { AuthService } from './services/auth.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LoaderComponent } from './loader/loader.component';
 import { ErrorBoxComponent } from './error-box/error-box.component';
+import { AuthInterceptorService } from './components/auth/auth-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,11 @@ import { ErrorBoxComponent } from './error-box/error-box.component';
           },
         ],
       } as SocialAuthServiceConfig,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true,
     },
     AuthService,
   ],
