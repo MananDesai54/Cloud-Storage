@@ -28,7 +28,6 @@ export class AuthGuard implements CanActivate {
       map(
         (user: User) => {
           const isAuth = !!user;
-          console.log(isAuth);
           if (isAuth) {
             if (
               router.url.length === 0 ||

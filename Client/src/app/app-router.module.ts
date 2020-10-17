@@ -6,6 +6,7 @@ import { SignupComponent } from './Components/auth/signup/signup.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { CloudComponent } from './Components/cloud/cloud.component';
 import { AuthGuard } from './components/auth/auth.guard';
+import { ProfileComponent } from './components/cloud/profile/profile.component';
 
 const routes: Routes = [
   {
@@ -17,7 +18,12 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
   { path: 'signup', component: SignupComponent, canActivate: [AuthGuard] },
   { path: 'not-found', component: NotFoundComponent },
-  { path: 'cloud', component: CloudComponent, canActivate: [AuthGuard] },
+  {
+    path: 'cloud',
+    component: CloudComponent,
+    canActivate: [AuthGuard],
+    children: [{ path: '', component: ProfileComponent, pathMatch: 'full' }],
+  },
   { path: '**', redirectTo: 'not-found' },
 ];
 

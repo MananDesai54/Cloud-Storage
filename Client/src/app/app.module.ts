@@ -32,6 +32,8 @@ import { LoaderComponent } from './loader/loader.component';
 import { ErrorBoxComponent } from './error-box/error-box.component';
 import { AuthInterceptorService } from './components/auth/auth-interceptor.service';
 import { AuthGuard } from './components/auth/auth.guard';
+import { UserResolver } from './components/cloud/user-resolver.service';
+import { ProfileComponent } from './components/cloud/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,7 @@ import { AuthGuard } from './components/auth/auth.guard';
     NotFoundComponent,
     LoaderComponent,
     ErrorBoxComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -84,6 +87,7 @@ import { AuthGuard } from './components/auth/auth.guard';
     },
     AuthService,
     AuthGuard,
+    UserResolver,
   ],
   bootstrap: [AppComponent],
 })
