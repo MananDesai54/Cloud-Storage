@@ -8,9 +8,14 @@ import { CloudComponent } from './Components/cloud/cloud.component';
 import { AuthGuard } from './components/auth/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent },
+  {
+    path: '',
+    component: HomeComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuard],
+  },
+  { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
+  { path: 'signup', component: SignupComponent, canActivate: [AuthGuard] },
   { path: 'not-found', component: NotFoundComponent },
   { path: 'cloud', component: CloudComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: 'not-found' },
