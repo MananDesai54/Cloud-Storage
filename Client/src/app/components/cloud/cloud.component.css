@@ -1,5 +1,6 @@
 .cloud {
   background: var(--background-primary);
   display: flex;
-  width: 100vw;
+  overflow-x: hidden;
+  width: 100%;
 }

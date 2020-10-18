@@ -1,11 +1,14 @@
 import {
   Component,
   ElementRef,
+  EventEmitter,
   OnInit,
+  Output,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
+import { CloudService } from '../../services/cloud.service';
 
 @Component({
   selector: 'app-navbar',
@@ -17,13 +20,17 @@ export class NavbarComponent implements OnInit {
   @ViewChild('menuToggle') menuToggle: ElementRef;
   @ViewChild('menu') menu: ElementRef;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private cloudService: CloudService
+  ) {}
 
   ngOnInit(): void {}
 
   onMenuToggle() {
     this.menuToggle.nativeElement.classList.toggle('toggle-move');
     this.menu.nativeElement.classList.toggle('menu-move');
+    this.cloudService.toggleNavOpen();
   }
 
   onLogout() {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/services/auth.service';
   selector: 'app-cloud',
   templateUrl: './cloud.component.html',
   styleUrls: ['./cloud.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class CloudComponent implements OnInit, OnDestroy {
   subscription: Subscription;

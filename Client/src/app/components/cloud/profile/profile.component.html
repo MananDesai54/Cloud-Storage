@@ -1,4 +1,4 @@
-<div class="user">
+<div class="user" [ngStyle]="{ width: isNavOpen ? '90vw' : '100vw' }">
   <div class="options">
     <section>
       <div class="title">Use Settings</div>
@@ -38,7 +38,10 @@
     <section>
       <div class="title">My Account</div>
       <div class="details">
-        <img src="http://localhost:5500/Assets/logo/billy.jpg" alt="DP" />
+        <img
+          src="https://graph.facebook.com/1301556730193393/picture?type=normal"
+          alt="DP"
+        />
         <div class="basic">
           <div class="username">
             <div class="title">Username</div>

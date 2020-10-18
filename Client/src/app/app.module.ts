@@ -34,6 +34,7 @@ import { AuthInterceptorService } from './components/auth/auth-interceptor.servi
 import { AuthGuard } from './components/auth/auth.guard';
 import { UserResolver } from './components/cloud/user-resolver.service';
 import { ProfileComponent } from './components/cloud/profile/profile.component';
+import { CloudService } from './services/cloud.service';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { ProfileComponent } from './components/cloud/profile/profile.component';
     AuthService,
     AuthGuard,
     UserResolver,
+    CloudService,
   ],
   bootstrap: [AppComponent],
 })

@@ -1,9 +1,9 @@
 .user {
   margin-left: 2rem;
-  flex: 1;
   display: flex;
   align-items: flex-start;
   padding-left: 2rem;
+  transition: width 400ms;
 }
 .user .options,
 .user .option-detail {
@@ -146,4 +146,36 @@
   left: 0;
   transition: all 200ms;
   cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .user .option-detail .details {
+    flex-direction: column;
+  }
+  .user .option-detail .basic {
+    margin: 0.5rem 0 !important;
+  }
+  .user .option-detail img {
+    align-self: center;
+  }
+  .user .options section {
+    margin-left: 1rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .user .options section {
+    margin-left: 0;
+  }
+  .user {
+    padding-left: 0;
+  }
+  .user .option-detail .basic {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 600px) {
 }
