@@ -4,16 +4,38 @@
   align-items: flex-start;
   padding-left: 2rem;
   transition: width 400ms;
+  z-index: 1;
 }
 .user .options,
 .user .option-detail {
   padding-top: 2rem;
+}
+.user .options {
+  /* overflow-y: scroll;
+  overflow-x: hidden; */
+  transition: all 400ms var(--animation-function);
 }
 .user .options section,
 .user .options section .settings {
   display: flex;
   flex-direction: column;
   color: var(--light-white);
+}
+.user .side-menu-toggle {
+  position: fixed;
+  margin-top: 0;
+  top: 0.5rem;
+  left: 0.5rem;
+  height: 40px;
+  width: 40px;
+  justify-content: center;
+  align-items: center;
+  background: var(--color-accent);
+  color: var(--light-white);
+  filter: drop-shadow(1);
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: none;
 }
 .user .options section {
   border-bottom: 1px solid var(--background-accent);
@@ -35,7 +57,9 @@
 .user .options section .settings *:hover {
   background: var(--interactive-muted);
 }
-
+.user .options.toggle-side-menu {
+  transform: translateX(0);
+}
 .user .options section .logout {
   color: rgb(240, 71, 71);
 }
@@ -57,7 +81,7 @@
 .user .option-detail {
   flex: 1;
   height: 100vh;
-  background: var(--background-secondary);
+  background: var(--background-primary);
   margin-left: 1rem;
   overflow-y: scroll;
   padding: 2rem;
@@ -81,7 +105,7 @@
   display: flex;
   margin-top: 1rem;
   padding: 1rem;
-  background: var(--background-tertiary);
+  background: var(--background-secondary);
   border-radius: 10px;
   width: 80%;
   margin-bottom: 1rem;
@@ -148,6 +172,25 @@
   cursor: pointer;
 }
 
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  z-index: -1000;
+  pointer-events: none;
+  transition: all 400ms;
+}
+.backdrop-show {
+  opacity: 1;
+  z-index: 1000;
+  transition: all 400ms;
+  pointer-events: all;
+}
+
 @media (max-width: 900px) {
   .user .option-detail .details {
     flex-direction: column;
@@ -178,4 +221,34 @@
 }
 
 @media (max-width: 600px) {
+  .user .side-menu-toggle {
+    display: flex;
+    z-index: 100;
+  }
+  .user {
+    width: 100vw;
+    margin: 0;
+  }
+  *::-webkit-scrollbar {
+    background: var(--background-primary) !important;
+  }
+  .user .options {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background: var(--background-tertiary);
+    padding: 1rem;
+    z-index: 100000;
+    transform: translateX(-100vw);
+    transition: all 400ms var(--animation-function);
+  }
+  .user .option-detail {
+    padding-top: 3rem;
+    margin: 0 auto;
+    padding-left: 1rem;
+  }
+  .user .option-detail .details {
+    width: 90vw;
+  }
 }

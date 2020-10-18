@@ -1,5 +1,9 @@
-<div class="user" [ngStyle]="{ width: isNavOpen ? '90vw' : '100vw' }">
-  <div class="options">
+<div class="user" [ngStyle]="{ width: isNavOpen ? '95vw' : '100vw' }">
+  <div class="backdrop" #backdrop (click)="onBackdropClick()"></div>
+  <div class="side-menu-toggle" #sideMenuToggle (click)="onSideMenuToggle()">
+    <i class="fas fa-bars"></i>
+  </div>
+  <div class="options" #options>
     <section>
       <div class="title">Use Settings</div>
       <div class="settings">

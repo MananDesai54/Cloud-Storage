@@ -42,6 +42,8 @@
   width: 0px;
   background: var(--background-tertiary);
   transition: all 400ms, width 200ms ease-in-out 400ms;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 .side-menu .menu .logo {
   font-size: 1.2rem;
@@ -107,18 +109,64 @@
   opacity: 1;
   transition: opacity 200ms;
 }
+.menu .item {
+  position: relative;
+}
 .menu .item.selected .logo {
   background: var(--color-accent);
   position: relative;
 }
-.menu .item.selected::before {
+.menu .item::before {
   content: "";
   position: absolute;
-  height: 10px;
   width: 10px;
   background: var(--light-white);
   top: 50%;
-  left: -18px;
   transform: translateY(-50%);
   border-radius: 0 10px 10px 0;
+  transition: all 400ms;
+}
+.menu .item.selected::before {
+  height: 40px !important;
+  left: -13px;
+  transition: all 400ms;
+}
+.menu .item:hover::before {
+  height: 10px;
+  left: -13px;
+  transition: all 400ms;
+}
+
+.small-screen {
+  display: none;
+}
+.small-menu {
+  background: var(--background-tertiary);
+  color: var(--light-white);
+  position: fixed;
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  align-items: center;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+.small-menu .item .title {
+  display: none;
+}
+.small-menu .item.selected .title {
+  display: block;
+}
+.small-menu .item.selected {
+  color: var(--color-accent);
+}
+
+@media (max-width: 600px) {
+  .big-screen {
+    display: none;
+  }
+  .small-screen {
+    display: block;
+  }
 }

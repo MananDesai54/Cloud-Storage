@@ -1,77 +1,101 @@
-<div class="side-menu">
-  <div class="menu-toggle" #menuToggle (click)="onMenuToggle()">
-    <i class="fas fa-angle-double-right"></i>
+<div class="big-screen">
+  <div class="side-menu">
+    <div class="menu-toggle" #menuToggle (click)="onMenuToggle()">
+      <i class="fas fa-angle-double-right"></i>
+    </div>
+    <div class="menu" #menu>
+      <div class="top section">
+        <div class="item">
+          <div class="logo">
+            <i class="fas fa-home"></i>
+          </div>
+          <div class="title">Home</div>
+        </div>
+        <div class="item selected">
+          <div class="logo">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="title">User</div>
+        </div>
+      </div>
+      <div class="middle section">
+        <div class="item">
+          <div class="logo">All</div>
+          <div class="title">All files</div>
+        </div>
+        <div class="item">
+          <div class="logo">
+            <i class="fas fa-file-pdf"></i>
+          </div>
+          <div class="title">Pdfs</div>
+        </div>
+        <div class="item">
+          <div class="logo">
+            <i class="fas fa-music"></i>
+          </div>
+          <div class="title">Songs</div>
+        </div>
+        <div class="item">
+          <div class="logo">
+            <i class="fas fa-file-word"></i>
+          </div>
+          <div class="title">Word files</div>
+        </div>
+        <div class="item">
+          <div class="logo">
+            <i class="fas fa-video"></i>
+          </div>
+          <div class="title">Videos</div>
+        </div>
+        <div class="item">
+          <div class="logo">
+            <i class="fas fa-file-image"></i>
+          </div>
+          <div class="title">Images</div>
+        </div>
+        <div class="item">
+          <div class="logo">
+            <i class="fas fa-file-alt"></i>
+          </div>
+          <div class="title">Other Files</div>
+        </div>
+      </div>
+      <div class="bottom section">
+        <div class="item">
+          <div class="logo success">
+            <i class="fas fa-plus"></i>
+          </div>
+          <div class="title">Add or create file/folder</div>
+        </div>
+        <div class="item">
+          <div class="logo danger">
+            <i class="fas fa-sign-out-alt"></i>
+          </div>
+          <div class="title">Logout</div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="menu" #menu>
-    <div class="top section">
-      <div class="item">
-        <div class="logo">
-          <i class="fas fa-home"></i>
-        </div>
-        <div class="title">Home</div>
+</div>
+<div class="small-screen">
+  <div class="small-menu">
+    <div class="item">
+      <div class="logo">
+        <i class="fas fa-home"></i>
       </div>
-      <div class="item selected">
-        <div class="logo">
-          <i class="fas fa-user"></i>
-        </div>
-        <div class="title">User</div>
-      </div>
+      <div class="title">Home</div>
     </div>
-    <div class="middle section">
-      <div class="item">
-        <div class="logo">All</div>
-        <div class="title">All files</div>
+    <div class="item">
+      <div class="logo">
+        <i class="fas fa-folder"></i>
       </div>
-      <div class="item">
-        <div class="logo">
-          <i class="fas fa-file-pdf"></i>
-        </div>
-        <div class="title">Pdfs</div>
-      </div>
-      <div class="item">
-        <div class="logo">
-          <i class="fas fa-music"></i>
-        </div>
-        <div class="title">Songs</div>
-      </div>
-      <div class="item">
-        <div class="logo">
-          <i class="fas fa-file-word"></i>
-        </div>
-        <div class="title">Word files</div>
-      </div>
-      <div class="item">
-        <div class="logo">
-          <i class="fas fa-video"></i>
-        </div>
-        <div class="title">Videos</div>
-      </div>
-      <div class="item">
-        <div class="logo">
-          <i class="fas fa-file-image"></i>
-        </div>
-        <div class="title">Images</div>
-      </div>
-      <div class="item">
-        <div class="logo">
-          <i class="fas fa-file-alt"></i>
-        </div>
-        <div class="title">Other Files</div>
-      </div>
+      <div class="title">Files</div>
     </div>
-    <div class="bottom section">
-      <div class="item">
-        <div class="logo success">
-          <i class="fas fa-plus"></i>
-        </div>
-        <div class="title">Add or create file/folder</div>
+    <div class="item selected">
+      <div class="logo">
+        <i class="fas fa-user"></i>
       </div>
-      <div class="item">
-        <div class="logo danger">
-          <i class="fas fa-sign-out-alt"></i>
-        </div>
-        <div class="title">Logout</div>
-      </div>
+      <div class="title">User</div>
     </div>
   </div>
 </div>
