@@ -6,17 +6,17 @@ main {
   overflow: hidden;
   height: 120vh;
 }
-section,
+.section,
 .wrap-up {
   padding-top: 3rem;
   padding-bottom: 3rem;
   position: relative;
   z-index: 1;
 }
-section {
+.section {
   background: var(--background-secondary);
 }
-section > img {
+.section > img {
   width: 100vw;
   position: absolute;
   top: -120px;
@@ -32,7 +32,7 @@ section > img {
 }
 
 @media (max-width: 1200px) {
-  section > img {
+  .section > img {
     height: 300px;
   }
 }
@@ -46,7 +46,7 @@ section > img {
   }
 }
 @media (max-width: 600px) {
-  section > img {
+  .section > img {
     display: none;
   }
   .wrap-up > img {

@@ -61,7 +61,7 @@ button:disabled {
   display: inline;
 }
 .other-options {
-  width: 70%;
+  width: min(500px, 50%);
 }
 #email:disabled {
   border: 2px solid var(--color-success);

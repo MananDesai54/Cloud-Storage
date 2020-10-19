@@ -7,6 +7,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { CloudComponent } from './Components/cloud/cloud.component';
 import { AuthGuard } from './components/auth/auth.guard';
 import { ProfileComponent } from './components/cloud/profile/profile.component';
+import { RootComponent } from './components/cloud/root/root.component';
 
 const routes: Routes = [
   {
@@ -22,7 +23,10 @@ const routes: Routes = [
     path: 'cloud',
     component: CloudComponent,
     canActivate: [AuthGuard],
-    children: [{ path: '', component: ProfileComponent, pathMatch: 'full' }],
+    children: [
+      { path: '', component: RootComponent, pathMatch: 'full' },
+      { path: 'setting', component: ProfileComponent },
+    ],
   },
   { path: '**', redirectTo: 'not-found' },
 ];

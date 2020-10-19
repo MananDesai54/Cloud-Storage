@@ -47,7 +47,7 @@ router.post(
         username: username.toLowerCase(),
         email: {
           value: email.toLowerCase(),
-          verified: false,
+          verified: method.toLowerCase() !== "local",
         },
       });
 
@@ -85,8 +85,8 @@ router.post(
         avatar: {
           url: profileUrl
             ? profileUrl
-            : "https://cloud-storage-uploads.s3.amazonaws.com/profile.png",
-          key: "profile.png",
+            : "https://cloud-storage-uploads.s3.amazonaws.com/profile.jpg",
+          key: "profile.jpg",
         },
       });
       await Cloud.create({
@@ -106,7 +106,7 @@ router.post(
         tokenExpiration: new Date().getTime() + 24 * 60 * 60 * 1000,
         profileUrl: profileUrl
           ? profileUrl
-          : "https://cloud-storage-uploads.s3.amazonaws.com/profile.png",
+          : "https://cloud-storage-uploads.s3.amazonaws.com/profile.jpg",
       });
     } catch (error) {
       showError(res, error);

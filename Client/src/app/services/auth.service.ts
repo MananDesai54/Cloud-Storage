@@ -59,7 +59,7 @@ export class AuthService {
       .pipe(
         catchError(this.handleError),
         tap((userData) => {
-          this.user.next(userData);
+          this.handleAuthentication(userData);
         })
       );
   }
@@ -110,6 +110,9 @@ export class AuthService {
         loadedUser.tokenExpiration - new Date().getTime();
       this.autoLogout(expirationDuration);
       console.log(expirationDuration);
+    } else {
+      // this.logout();
+      console.log('Hello');
     }
   }
 

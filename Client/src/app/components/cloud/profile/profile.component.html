@@ -5,7 +5,7 @@
   </div>
   <div class="options" #options>
     <section>
-      <div class="title">Use Settings</div>
+      <div class="title">User Settings</div>
       <div class="settings">
         <span>My Account</span>
         <span>Privacy & Safety</span>
@@ -21,7 +21,7 @@
       </div>
     </section>
     <section>
-      <div class="logout">Logout</div>
+      <div class="logout" (click)="onLogout()">Logout</div>
     </section>
     <section>
       <div class="social-media">
@@ -42,18 +42,46 @@
     <section>
       <div class="title">My Account</div>
       <div class="details">
-        <img
-          src="https://graph.facebook.com/1301556730193393/picture?type=normal"
-          alt="DP"
-        />
+        <img [src]="user.profileUrl" alt="DP" />
         <div class="basic">
           <div class="username">
             <div class="title">Username</div>
-            <div class="value">Manan#7117</div>
+            <div class="value">{{ user.username | titlecase }}</div>
           </div>
           <div class="Email">
             <div class="title">Email</div>
-            <div class="value">manan5401desai@gmail.com</div>
+            <div class="value">
+              {{ user.email.value }}
+              <span
+                style="
+                  height: 10px;
+                  width: 10px;
+                  border-radius: 50%;
+                  font-size: 1rem;
+                "
+                [ngStyle]="{
+                  color: user.email.verified ? '#43b581' : '#f04747'
+                }"
+              >
+                <i
+                  title="Verified"
+                  *ngIf="user.email.verified"
+                  class="fas fa-check-circle"
+                ></i>
+                <i
+                  title="Not verified"
+                  *ngIf="!user.email.verified"
+                  class="fas fa-times-circle"
+                ></i>
+              </span>
+            </div>
+            <button
+              *ngIf="!user.email.verified"
+              class="button success-btn"
+              type="button"
+            >
+              Verify Email
+            </button>
           </div>
         </div>
         <div class="edit">
@@ -66,6 +94,11 @@
       <div class="switch">
         <div class="roller"></div>
       </div>
+    </section>
+    <section>
+      <button style="margin-top: 2rem" type="button" class="button danger-btn">
+        Delete Account
+      </button>
     </section>
   </div>
 </div>

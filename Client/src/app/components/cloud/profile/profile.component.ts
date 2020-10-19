@@ -7,33 +7,41 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { User } from 'src/app/models/user.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { CloudService } from 'src/app/services/cloud.service';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-  subscription: Subscription;
-  isNavOpen: boolean;
   @ViewChild('options') options: ElementRef;
   @ViewChild('backdrop') backdrop: ElementRef;
+  subscription: Subscription;
+  authSubscription: Subscription;
+  isNavOpen: boolean;
+  user: User;
 
-  constructor(private cloudService: CloudService) {}
+  constructor(
+    private cloudService: CloudService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.subscription = this.cloudService.navToggle.subscribe(
       (isOpen: boolean) => {
         this.isNavOpen = isOpen;
-        console.log(isOpen);
       }
     );
-  }
 
-  ngOnDestroy() {
-    this.subscription?.unsubscribe();
+    this.authSubscription = this.authService.user.subscribe(
+      (user: User) => {
+        this.user = user;
+      },
+      (error) => console.log(error)
+    );
   }
 
   onSideMenuToggle() {
@@ -42,5 +50,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
   onBackdropClick() {
     this.onSideMenuToggle();
+  }
+  onLogout() {
+    this.authService.logout();
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
+    this.authSubscription?.unsubscribe();
   }
 }

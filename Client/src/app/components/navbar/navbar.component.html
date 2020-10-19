@@ -5,18 +5,30 @@
     </div>
     <div class="menu" #menu>
       <div class="top section">
-        <div class="item">
-          <div class="logo">
-            <i class="fas fa-home"></i>
+        <a routerLink="/cloud">
+          <div
+            class="item"
+            routerLinkActive="selected"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <div class="logo">
+              <i class="fas fa-home"></i>
+            </div>
+            <div class="title">Home</div>
           </div>
-          <div class="title">Home</div>
-        </div>
-        <div class="item selected">
-          <div class="logo">
-            <i class="fas fa-user"></i>
+        </a>
+        <a routerLink="setting">
+          <div
+            class="item"
+            routerLinkActive="selected"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <div class="logo">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="title">User</div>
           </div>
-          <div class="title">User</div>
-        </div>
+        </a>
       </div>
       <div class="middle section">
         <div class="item">
