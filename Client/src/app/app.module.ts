@@ -36,6 +36,7 @@ import { UserResolver } from './components/cloud/user-resolver.service';
 import { ProfileComponent } from './components/cloud/profile/profile.component';
 import { CloudService } from './services/cloud.service';
 import { RootComponent } from './components/cloud/root/root.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { RootComponent } from './components/cloud/root/root.component';
     ErrorBoxComponent,
     ProfileComponent,
     RootComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,

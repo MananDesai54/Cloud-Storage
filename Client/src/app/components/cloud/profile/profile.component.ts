@@ -23,6 +23,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   authSubscription: Subscription;
   isNavOpen: boolean;
   user: User;
+  toggleAvatarOption = false;
 
   constructor(
     private cloudService: CloudService,
@@ -44,6 +45,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
     );
   }
 
+  onToggleAvatarOptions() {
+    this.toggleAvatarOption = !this.toggleAvatarOption;
+  }
   onSideMenuToggle() {
     this.options.nativeElement.classList.toggle('toggle-side-menu');
     this.backdrop.nativeElement.classList.toggle('backdrop-show');

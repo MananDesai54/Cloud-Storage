@@ -103,6 +103,7 @@
 }
 .user .option-detail .details {
   display: flex;
+  flex-direction: column;
   margin-top: 1rem;
   padding: 1rem;
   background: var(--background-secondary);
@@ -115,20 +116,84 @@
   width: 10vmax;
   border-radius: 50%;
 }
+.user .option-detail .details .avatar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--light-white);
+  position: relative;
+}
+.user .option-detail .details .avatar .menu-toggle-btn {
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.user .option-detail .details .avatar .menu-items {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+  right: 0;
+  top: 60%;
+  background: var(--background-tertiary);
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+.user .option-detail .details .avatar .menu-items::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  right: 2px;
+  height: 10px;
+  width: 10px;
+  background: var(--background-tertiary);
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+.user .option-detail .details .avatar .file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.user .option-detail .details .avatar .menu-items span {
+  margin: 0.2rem;
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 2px;
+}
+.user .option-detail .details .avatar .menu-items span:hover {
+  color: var(--light-white) !important;
+}
+.user .option-detail .details .avatar .menu-items span.danger {
+  color: var(--color-danger);
+}
+.user .option-detail .details .avatar .menu-items span.primary:hover {
+  background: var(--color-accent);
+}
+.user .option-detail .details .avatar .menu-items span.danger:hover {
+  background: var(--color-danger);
+}
 .user .option-detail .details .basic {
   flex: 1;
-  margin: 0 1rem;
+  margin: 1rem 0;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   color: #ddd;
+  padding: 1rem;
+  border-radius: 10px;
+  background: var(--background-primary);
+}
+.user .option-detail .details .basic .data {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .user .option-detail .details .basic .title {
   font-size: 0.8rem;
   font-weight: bold;
   color: gray;
+  margin-top: 1rem;
 }
-.user .option-detail .details .edit button {
+.edit button {
   padding: 0.5rem 1rem;
   border-radius: 5px;
   border: none;
