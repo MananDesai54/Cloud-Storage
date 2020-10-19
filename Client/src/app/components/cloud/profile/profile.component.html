@@ -1,4 +1,8 @@
-<div class="user" [ngStyle]="{ width: isNavOpen ? '95vw' : '100vw' }">
+<div
+  class="user"
+  [ngStyle]="{ width: isNavOpen ? '95vw' : '100vw' }"
+  style="z-index: 1"
+>
   <div class="backdrop" #backdrop (click)="onBackdropClick()"></div>
   <div class="side-menu-toggle" #sideMenuToggle (click)="onSideMenuToggle()">
     <i class="fas fa-bars"></i>
@@ -43,17 +47,35 @@
       <div class="title">My Account</div>
       <div class="details">
         <div class="avatar">
-          <input type="file" class="file-input" name="file" #fileInput />
-          <!-- <input class="fileInput-23-d-3" type="file" tabindex="0" multiple="" accept=".jpg,.jpeg,.png,.gif" aria-label="Change
-Avatar" style="position: absolute;top: 0px;left: 0px;width: 100%;height: 100%;/* opacity: 0; */cursor: pointer;"> -->
-          <img [src]="user.profileUrl" alt="avatar" />
-          <div class="menu" style="z-index: 1">
+          <input
+            type="file"
+            class="file-input"
+            name="file"
+            tabindex="0"
+            multiple=""
+            accept=".jpg,.jpeg,.png,.gif"
+            #fileInput
+          />
+          <div class="image">
+            <img [src]="user.profileUrl" alt="avatar" />
+            <div class="image-hover" (click)="fileInput.click()">
+              Change Avatar
+            </div>
+          </div>
+          <p style="flex: 1; margin-left: 1rem">
+            {{ user.username | titlecase }}
+          </p>
+          <div class="menu">
             <div class="menu-toggle-btn" (click)="onToggleAvatarOptions()">
               <i class="fas fa-ellipsis-h"></i>
             </div>
             <div class="menu-items" *ngIf="toggleAvatarOption">
-              <span class="primary">Change Avatar</span>
-              <span class="danger">Delete Avatar</span>
+              <span class="primary" (click)="onChangeAvatar()"
+                >Change Avatar</span
+              >
+              <span class="danger" (click)="onDeleteAvatar()"
+                >Delete Avatar</span
+              >
             </div>
           </div>
         </div>
@@ -64,7 +86,9 @@ Avatar" style="position: absolute;top: 0px;left: 0px;width: 100%;height: 100%;/*
               <div class="value">{{ user.username | titlecase }}</div>
             </div>
             <div class="edit">
-              <button>Edit</button>
+              <button (click)="onEditField('username', 'text', user.username)">
+                Edit
+              </button>
             </div>
           </div>
           <div class="Email data">
@@ -97,7 +121,9 @@ Avatar" style="position: absolute;top: 0px;left: 0px;width: 100%;height: 100%;/*
               </div>
             </div>
             <div class="edit" *ngIf="user.email.verified">
-              <button>Edit</button>
+              <button (click)="onEditField('email', 'email', user.email.value)">
+                Edit
+              </button>
             </div>
             <button
               *ngIf="!user.email.verified"
@@ -113,7 +139,9 @@ Avatar" style="position: absolute;top: 0px;left: 0px;width: 100%;height: 100%;/*
     <section>
       <div class="title">Password</div>
       <div class="edit" style="margin-top: 0.5rem">
-        <button>Change Password</button>
+        <button (click)="onEditField('password', 'password', '')">
+          Change Password
+        </button>
       </div>
     </section>
     <section>
@@ -127,5 +155,14 @@ Avatar" style="position: absolute;top: 0px;left: 0px;width: 100%;height: 100%;/*
         Delete Account
       </button>
     </section>
+    <app-modal
+      *ngIf="isModalOpen"
+      [input]="{
+        field: selectedField,
+        type: selectedType,
+        value: selectedValue
+      }"
+      (closeModal)="isModalOpen = false"
+    ></app-modal>
   </div>
 </div>

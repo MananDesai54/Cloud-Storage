@@ -37,6 +37,7 @@ import { ProfileComponent } from './components/cloud/profile/profile.component';
 import { CloudService } from './services/cloud.service';
 import { RootComponent } from './components/cloud/root/root.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { ProfileService } from './services/profile.service';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { ModalComponent } from './components/modal/modal.component';
     AuthGuard,
     UserResolver,
     CloudService,
+    ProfileService,
   ],
   bootstrap: [AppComponent],
 })

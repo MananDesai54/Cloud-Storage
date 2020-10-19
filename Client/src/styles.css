@@ -1,100 +1,105 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap");
 
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: 'Whitney', 'Whitney SSm B', 'Noto Sans SC', sans-serif;
-    outline: none;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Whitney", "Whitney SSm B", "Noto Sans SC", sans-serif;
+  outline: none;
 }
 *::-webkit-scrollbar-thumb {
-    background: var(--interactive-muted);
-    border-radius: 10px;    
+  background: var(--interactive-muted);
+  border-radius: 10px;
 }
 *::-webkit-scrollbar {
-    background: var(--background-tertiary);
-    width: 10px;
+  background: var(--background-tertiary);
+  width: 10px;
 }
 *::selection {
-    background: var(--light-white);
-    color: var(--background-floating);
+  background: var(--light-white);
+  color: var(--background-floating);
 }
 html {
-    scroll-behavior: smooth;
-    overflow-x: hidden;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 a {
-    color: var(--text-link);
+  color: var(--text-link);
+}
+button:active {
+  transform: scale(0.9);
+  transition: all 400ms;
 }
 
 :root {
-    --light-white:#e3def3;
-    --dark-white:#8e9297;
-    --dark-blue:#1E1E64;
-    --light-grey:#8B8CB2;
-    --light-blue:#24A5F4;
-    --dark-pink:#CA3185;
-    --dark-grey:#7C7C94;
-    --black:#222;
-    --light-black:#333;
-    --dark-skin:#f5cac3;
-    --light-skin:#f7ede2;
-    --splash-screen: #202225;
-    --color-accent: #7289da;
-    --color-success: #43b581;
-    --color-danger: #f04747;
+  --light-white: #e3def3;
+  --dark-white: #8e9297;
+  --dark-blue: #1e1e64;
+  --light-grey: #8b8cb2;
+  --light-blue: #24a5f4;
+  --dark-pink: #ca3185;
+  --dark-grey: #7c7c94;
+  --black: #222;
+  --light-black: #333;
+  --dark-skin: #f5cac3;
+  --light-skin: #f7ede2;
+  --splash-screen: #202225;
+  --color-accent: #7289da;
+  --color-success: #43b581;
+  --color-danger: #f04747;
 
-    --header-primary: #fff;
-    --header-secondary: #b9bbbe;
-    --text-normal: #dcddde;
-    --text-muted: #72767d;
-    --text-link: #00b0f4;
-    --channels-default: #8e9297;
-    --interactive-normal: #b9bbbe;
-    --interactive-hover: #dcddde;
-    --interactive-active: #fff;
-    --interactive-muted: #4f545c;
-    --background-primary: #36393f;
-    --background-secondary: #2f3136;
-    --background-secondary-alt: #292b2f;
-    --background-tertiary: #202225;
-    --background-accent: #4f545c;
-    --background-floating: #18191c;
-    --background-mobile-primary: #36393f;
-    --background-mobile-secondary: #2f3136;
-    --background-modifier-hover: rgba(79,84,92,0.16);
-    --background-modifier-active: rgba(79,84,92,0.24);
-    --background-modifier-selected: rgba(79,84,92,0.32);
-    --background-modifier-accent: hsla(0,0%,100%,0.06);
-    --background-mentioned: rgba(250,166,26,0.05);
-    --background-mentioned-hover: rgba(250,166,26,0.08);
-    --background-message-hover: rgba(4,4,5,0.07);
-    --background-help-warning: rgba(250,166,26,0.1);
-    --background-help-info: rgba(0,176,244,0.1);
-    --scrollbar-thin-thumb: #202225;
-    --scrollbar-thin-track: transparent;
-    --scrollbar-auto-thumb: #202225;
-    --scrollbar-auto-track: #2e3338;
-    --scrollbar-auto-scrollbar-color-thumb: #202225;
-    --scrollbar-auto-scrollbar-color-track: #2f3136;
-    --elevation-stroke: 0 0 0 1px rgba(4,4,5,0.15);
-    --elevation-low: 0 1px 0 rgba(4,4,5,0.2),0 1.5px 0 rgba(6,6,7,0.05),0 2px 0 rgba(4,4,5,0.05);
-    --elevation-medium: 0 4px 4px rgba(0,0,0,0.16);
-    --elevation-high: 0 8px 16px rgba(0,0,0,0.24);
-    --logo-primary: #fff;
-    --focus-primary: #00b0f4;
-    --guild-header-text-shadow: 0 1px 1px rgba(0,0,0,0.4);
-    --channeltextarea-background: #40444b;
-    --activity-card-background: #202225;
-    --textbox-markdown-syntax: #8e9297;
-    --deprecated-card-bg: rgba(32,34,37,0.6);
-    --deprecated-card-editable-bg: rgba(32,34,37,0.3);
-    --deprecated-store-bg: #36393f;
-    --deprecated-quickswitcher-input-background: #72767d;
-    --deprecated-quickswitcher-input-placeholder: hsla(0,0%,100%,0.3);
-    --deprecated-text-input-bg: rgba(0,0,0,0.1);
-    --deprecated-text-input-border: rgba(0,0,0,0.3);
+  --header-primary: #fff;
+  --header-secondary: #b9bbbe;
+  --text-normal: #dcddde;
+  --text-muted: #72767d;
+  --text-link: #00b0f4;
+  --channels-default: #8e9297;
+  --interactive-normal: #b9bbbe;
+  --interactive-hover: #dcddde;
+  --interactive-active: #fff;
+  --interactive-muted: #4f545c;
+  --background-primary: #36393f;
+  --background-secondary: #2f3136;
+  --background-secondary-alt: #292b2f;
+  --background-tertiary: #202225;
+  --background-accent: #4f545c;
+  --background-floating: #18191c;
+  --background-mobile-primary: #36393f;
+  --background-mobile-secondary: #2f3136;
+  --background-modifier-hover: rgba(79, 84, 92, 0.16);
+  --background-modifier-active: rgba(79, 84, 92, 0.24);
+  --background-modifier-selected: rgba(79, 84, 92, 0.32);
+  --background-modifier-accent: hsla(0, 0%, 100%, 0.06);
+  --background-mentioned: rgba(250, 166, 26, 0.05);
+  --background-mentioned-hover: rgba(250, 166, 26, 0.08);
+  --background-message-hover: rgba(4, 4, 5, 0.07);
+  --background-help-warning: rgba(250, 166, 26, 0.1);
+  --background-help-info: rgba(0, 176, 244, 0.1);
+  --scrollbar-thin-thumb: #202225;
+  --scrollbar-thin-track: transparent;
+  --scrollbar-auto-thumb: #202225;
+  --scrollbar-auto-track: #2e3338;
+  --scrollbar-auto-scrollbar-color-thumb: #202225;
+  --scrollbar-auto-scrollbar-color-track: #2f3136;
+  --elevation-stroke: 0 0 0 1px rgba(4, 4, 5, 0.15);
+  --elevation-low: 0 1px 0 rgba(4, 4, 5, 0.2), 0 1.5px 0 rgba(6, 6, 7, 0.05),
+    0 2px 0 rgba(4, 4, 5, 0.05);
+  --elevation-medium: 0 4px 4px rgba(0, 0, 0, 0.16);
+  --elevation-high: 0 8px 16px rgba(0, 0, 0, 0.24);
+  --logo-primary: #fff;
+  --focus-primary: #00b0f4;
+  --guild-header-text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  --channeltextarea-background: #40444b;
+  --activity-card-background: #202225;
+  --textbox-markdown-syntax: #8e9297;
+  --deprecated-card-bg: rgba(32, 34, 37, 0.6);
+  --deprecated-card-editable-bg: rgba(32, 34, 37, 0.3);
+  --deprecated-store-bg: #36393f;
+  --deprecated-quickswitcher-input-background: #72767d;
+  --deprecated-quickswitcher-input-placeholder: hsla(0, 0%, 100%, 0.3);
+  --deprecated-text-input-bg: rgba(0, 0, 0, 0.1);
+  --deprecated-text-input-border: rgba(0, 0, 0, 0.3);
 
-    /* --animation-function: cubic-bezier(.15,.3,.14,1.36); */
-    --animation-function: cubic-bezier(.15,.3,.04,1.09);
+  /* --animation-function: cubic-bezier(.15,.3,.14,1.36); */
+  --animation-function: cubic-bezier(0.15, 0.3, 0.04, 1.09);
 }

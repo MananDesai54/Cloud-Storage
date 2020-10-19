@@ -19,11 +19,16 @@ import { CloudService } from 'src/app/services/cloud.service';
 export class ProfileComponent implements OnInit, OnDestroy {
   @ViewChild('options') options: ElementRef;
   @ViewChild('backdrop') backdrop: ElementRef;
+  @ViewChild('fileInput') fileInput: ElementRef;
   subscription: Subscription;
   authSubscription: Subscription;
   isNavOpen: boolean;
   user: User;
   toggleAvatarOption = false;
+  isModalOpen = false;
+  selectedField: string;
+  selectedType: string;
+  selectedValue: string;
 
   constructor(
     private cloudService: CloudService,
@@ -55,6 +60,21 @@ export class ProfileComponent implements OnInit, OnDestroy {
   onBackdropClick() {
     this.onSideMenuToggle();
   }
+  onChangeAvatar() {
+    this.fileInput.nativeElement.click();
+    this.onToggleAvatarOptions();
+  }
+  onDeleteAvatar() {
+    this.onToggleAvatarOptions();
+  }
+  onEditField(field: string, type: string, value?: string) {
+    console.log('Hello');
+    this.isModalOpen = true;
+    this.selectedField = field;
+    this.selectedType = type;
+    this.selectedValue = value;
+  }
+
   onLogout() {
     this.authService.logout();
   }

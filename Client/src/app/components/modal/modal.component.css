@@ -1,0 +1,117 @@
+.modal {
+  position: absolute;
+  z-index: 10000001;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  transition: all 400ms;
+}
+.backdrop {
+  position: absolute;
+  z-index: 10000000;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  opacity: 1;
+  transition: all 600ms;
+}
+.form {
+  background: var(--background-primary);
+  padding: 2rem;
+  color: var(--header-primary);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 5px;
+  position: relative;
+  width: 90vw;
+  max-width: 500px;
+}
+.form .svg {
+  color: var(--text-muted);
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.form h2 {
+  text-align: center;
+}
+.form p {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.form label {
+  margin: 1rem 0 0;
+  color: var(--text-muted);
+  font-weight: bold;
+}
+.form label input {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  background: var(--background-secondary);
+  border-radius: 5px;
+  border: 1px solid var(--background-tertiary);
+  color: var(--header-primary);
+  transition: all 600ms;
+}
+.form label input:focus {
+  border-color: var(--color-accent);
+  transition: all 600ms;
+}
+.form .buttons {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.form .buttons button {
+  cursor: pointer;
+  color: var(--header-primary);
+}
+.form .buttons .cancel {
+  background: transparent;
+  border: none;
+}
+.form .buttons .primary {
+  background: var(--color-accent);
+  border-radius: 5px;
+  border: none;
+  padding: 0.5rem;
+  margin-left: 0.5rem;
+}
+.form .buttons .primary:disabled {
+  filter: brightness(0.5);
+  cursor: not-allowed;
+}
+.form label input.ng-invalid.ng-touched {
+  border-color: var(--color-danger);
+}
+
+.close {
+  animation: anime 400ms forwards;
+}
+.hide {
+  opacity: 0;
+  z-index: -1000;
+  transition: all 600ms;
+}
+
+@keyframes anime {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+    z-index: -1000;
+    transform: translate(-50%, -50%) scale(0.08);
+  }
+}

@@ -1,1 +1,44 @@
-<p>modal works!</p>
+<div class="modal" #modal>
+  <form class="form" [formGroup]="updateProfileForm" (ngSubmit)="onUpdate()">
+    <div class="svg" (click)="onCloseModal()">
+      <i class="fas fa-times" style="cursor: pointer"></i>
+    </div>
+
+    <h2>Change your {{ input.field | titlecase }}</h2>
+    <p>Enter new {{ input.field | titlecase }} and current password.</p>
+    <label>
+      <small>
+        {{ input.field === "password" ? "New " : "" }}
+        {{ input.field | titlecase }}</small
+      >
+      <input
+        [type]="input.type"
+        [name]="input.field"
+        [formControlName]="input.field"
+        [value]="input.value"
+      />
+    </label>
+    <label>
+      <small>Current Password</small>
+      <input
+        type="password"
+        name="currentPassword"
+        formControlName="currentPassword"
+      />
+    </label>
+    <div class="buttons">
+      <button type="button" class="cancel" (click)="onCloseModal()">
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="primary"
+        [disabled]="!updateProfileForm.valid || isLoading"
+      >
+        <span *ngIf="!isLoading"> Done </span>
+        <app-loader *ngIf="isLoading"></app-loader>
+      </button>
+    </div>
+  </form>
+</div>
+<div class="backdrop" #backdrop (click)="onCloseModal()"></div>
