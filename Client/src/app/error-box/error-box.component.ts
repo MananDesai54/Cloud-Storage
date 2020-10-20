@@ -8,6 +8,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 export class ErrorBoxComponent implements OnInit {
   @Input() errorMessage: any;
   @Input() modal: boolean;
+  @Input() success: boolean;
   @ViewChild('box') box: ElementRef;
   constructor() {}
 

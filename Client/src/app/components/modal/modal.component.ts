@@ -55,10 +55,9 @@ export class ModalComponent implements OnInit, OnDestroy {
 
   onUpdate() {
     this.isLoading = true;
-    console.log('hello modal');
     this.subscription = this.profileService
       .updateProfile(this.updateProfileForm.value, this.user)
-      // .pipe(take(1))
+      .pipe(take(1))
       .subscribe(
         (res) => {
           console.log(res);

@@ -9,12 +9,25 @@ import { catchError, tap } from 'rxjs/operators';
 export class ProfileService {
   constructor(private authService: AuthService, private http: HttpClient) {}
 
-  updateProfile(userData, user) {
-    console.log('Hello profile');
+  updateProfile(userData: any, user: User) {
     return this.http.put(`${env.SERVER_URL}/users`, userData).pipe(
       catchError((error) => this.authService.handleError(error)),
       tap((updatedUser) => {
-        this.authService.user.next({ ...user, ...updatedUser });
+        const updatedUserData = new User(
+          user.method,
+          user.username,
+          user.email,
+          user.id,
+          user.profileUrl,
+          user.token,
+          user.tokenExpiration
+        );
+        for (const field in userData) {
+          if (userData.hasOwnProperty(field)) {
+            updatedUserData[field] = userData[field];
+          }
+        }
+        this.authService.user.next(updatedUserData);
         this.authService.updateUser(updatedUser);
       })
     );

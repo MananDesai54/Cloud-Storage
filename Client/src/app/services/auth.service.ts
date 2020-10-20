@@ -123,7 +123,6 @@ export class AuthService {
   }
 
   updateUser(updatedData) {
-    console.log('Hello auth');
     const user = JSON.parse(localStorage.getItem('userData'));
     localStorage.setItem(
       'userData',
