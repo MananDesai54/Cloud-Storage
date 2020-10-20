@@ -32,4 +32,10 @@ export class ProfileService {
       })
     );
   }
+
+  sendEmailVerificationMail(email) {
+    return this.http
+      .post(`${env.SERVER_URL}/auth/send-verification-mail`, { email })
+      .pipe(catchError((error) => this.authService.handleError(error)));
+  }
 }

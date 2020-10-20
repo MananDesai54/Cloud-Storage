@@ -22,12 +22,12 @@ import { ProfileService } from 'src/app/services/profile.service';
 export class ModalComponent implements OnInit, OnDestroy {
   @Input() input: { field: string; type: string; value: string };
   @Input() user: User;
-  @Output() closeModal = new EventEmitter<void>();
+  @Output() closeModal = new EventEmitter<boolean>();
   @ViewChild('modal', { static: true }) modal: ElementRef;
   @ViewChild('backdrop', { static: true }) backdrop: ElementRef;
   updateProfileForm: FormGroup;
   isLoading = false;
-  errorMessage: any;
+  message: any;
   subscription: Subscription;
 
   constructor(private profileService: ProfileService) {}
@@ -60,21 +60,20 @@ export class ModalComponent implements OnInit, OnDestroy {
       .pipe(take(1))
       .subscribe(
         (res) => {
-          console.log(res);
           this.resetStuff();
-          this.emitCloseModal();
+          this.emitCloseModal(true);
         },
         (error) => {
           console.log(error);
-          this.setError(error);
+          this.setMessage(error);
           this.resetStuff();
         }
       );
   }
 
-  private emitCloseModal() {
+  private emitCloseModal(success?: boolean) {
     setTimeout(() => {
-      this.closeModal.emit();
+      this.closeModal.emit(success);
     }, 500);
   }
 
@@ -83,10 +82,10 @@ export class ModalComponent implements OnInit, OnDestroy {
     this.updateProfileForm.reset();
   }
 
-  private setError(error) {
-    this.errorMessage = error;
+  private setMessage(error) {
+    this.message = error;
     setTimeout(() => {
-      this.errorMessage = null;
+      this.message = null;
     }, 5000);
   }
 

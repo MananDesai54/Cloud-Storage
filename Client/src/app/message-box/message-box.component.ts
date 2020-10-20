@@ -1,12 +1,12 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'app-error-box',
-  templateUrl: './error-box.component.html',
-  styleUrls: ['./error-box.component.css'],
+  selector: 'app-message-box',
+  templateUrl: './message-box.component.html',
+  styleUrls: ['./message-box.component.css'],
 })
-export class ErrorBoxComponent implements OnInit {
-  @Input() errorMessage: any;
+export class MessageBoxComponent implements OnInit {
+  @Input() message: any;
   @Input() modal: boolean;
   @Input() success: boolean;
   @ViewChild('box') box: ElementRef;

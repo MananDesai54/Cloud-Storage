@@ -23,7 +23,7 @@ const forgotPasswordHtml = (token) => `
   </div>
 `;
 
-module.exports = (token, email, subject, verify) => {
+module.exports = async (token, email, subject, verify) => {
   const transporter = nodeMailer.createTransport({
     service: "gmail",
     auth: {
@@ -39,8 +39,6 @@ module.exports = (token, email, subject, verify) => {
     html: verify ? verifyHtml(token) : forgotPasswordHtml(token),
   };
 
-  transporter.sendMail(mailOptions, (err, info) => {
-    if (err) return console.log(err.message);
-    console.log("Mail sent.");
-  });
+  let info = await transporter.sendMail(mailOptions);
+  return info;
 };

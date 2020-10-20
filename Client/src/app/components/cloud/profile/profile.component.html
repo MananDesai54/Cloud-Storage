@@ -93,7 +93,15 @@
           </div>
           <div class="Email data">
             <div class="detail">
-              <div class="title">Email</div>
+              <div class="title">
+                Email
+                <small
+                  class="verify-message"
+                  style="color: var(--color-danger); font-size: 0.6rem"
+                  *ngIf="!user.email.verified"
+                  >*Check mail or press Verify Button to verify email
+                </small>
+              </div>
               <div class="value">
                 {{ user.email.value | lowercase }}
                 <span
@@ -129,6 +137,7 @@
               *ngIf="!user.email.verified"
               class="button success-btn"
               type="button"
+              (click)="onSendVerificationMail()"
             >
               Verify Email
             </button>
@@ -155,6 +164,7 @@
         style="margin: 2rem 0 4rem"
         type="button"
         class="button danger-btn"
+        (click)="onDeleteAccount()"
       >
         Delete Account
       </button>
@@ -167,7 +177,12 @@
         value: selectedValue
       }"
       [user]="user"
-      (closeModal)="isModalOpen = false"
+      (closeModal)="onCloseModal($event)"
     ></app-modal>
+  </div>
+</div>
+<div *ngIf="message">
+  <div class="errors-profile">
+    <app-message-box [message]="message" [success]="success"></app-message-box>
   </div>
 </div>

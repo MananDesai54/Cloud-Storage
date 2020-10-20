@@ -29,7 +29,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LoaderComponent } from './loader/loader.component';
-import { ErrorBoxComponent } from './error-box/error-box.component';
+import { MessageBoxComponent } from './message-box/message-box.component';
 import { AuthInterceptorService } from './components/auth/auth-interceptor.service';
 import { AuthGuard } from './components/auth/auth.guard';
 import { UserResolver } from './components/cloud/user-resolver.service';
@@ -56,7 +56,7 @@ import { ProfileService } from './services/profile.service';
     SocialButtonComponent,
     NotFoundComponent,
     LoaderComponent,
-    ErrorBoxComponent,
+    MessageBoxComponent,
     ProfileComponent,
     RootComponent,
     ModalComponent,

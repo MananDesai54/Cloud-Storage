@@ -20,6 +20,7 @@
   color: var(--light-white);
 }
 .errorBox .error {
+  background: transparent !important;
   color: var(--color-danger);
   text-align: center;
   margin: 0.5rem;

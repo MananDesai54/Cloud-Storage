@@ -1,0 +1,12 @@
+<div [ngClass]="{ box: !modal, errorBox: modal }" #box>
+  <div
+    class="error"
+    [ngStyle]="{
+      backgroundColor: success ? '#43b581' : '#f04747',
+      borderColor: success ? '#43b581' : '#f04747'
+    }"
+  >
+    {{ message | uppercase }}
+  </div>
+  <!-- <i class="fas fa-times" (click)="onClose()"></i> -->
+</div>

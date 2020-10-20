@@ -6,12 +6,9 @@
 
     <h2>Change your {{ input.field | titlecase }}</h2>
     <p>Enter new {{ input.field | titlecase }} and current password.</p>
-    <div *ngIf="errorMessage">
+    <div *ngIf="message">
       <div class="errors">
-        <app-error-box
-          [errorMessage]="errorMessage"
-          [modal]="true"
-        ></app-error-box>
+        <app-message-box [message]="message" [modal]="true"></app-message-box>
       </div>
     </div>
     <label>

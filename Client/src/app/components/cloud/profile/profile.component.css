@@ -310,6 +310,20 @@
   pointer-events: all;
 }
 
+.errors-profile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: 100%;
+  height: 100vh;
+  pointer-events: none;
+}
+
 @media (max-width: 900px) {
   .user .option-detail .details {
     flex-direction: column;
@@ -322,6 +336,13 @@
   }
   .user .options section {
     margin-left: 1rem;
+  }
+}
+
+@media (max-width: 850px) {
+  .errors-profile {
+    align-items: center;
+    justify-content: flex-start;
   }
 }
 

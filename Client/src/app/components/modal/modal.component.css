@@ -105,9 +105,22 @@
   z-index: 100000000000;
   pointer-events: none;
 }
+.success-message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: 100%;
+  height: 100vh;
+  pointer-events: none;
+}
 
 @media (max-width: 850px) {
-  .errors {
+  .success-message {
     align-items: center;
     justify-content: flex-start;
   }

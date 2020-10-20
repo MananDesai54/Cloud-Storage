@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const bCrypt = require("bcryptjs");
 const passport = require("passport");
 const showError = require("../config/showError");
+const sendMail = require("../config/sendMail");
 
 const { authUser, loginUser } = require("../controllers/authController");
 
@@ -64,6 +65,33 @@ router.get("/verification/:token", async (req, res) => {
       error: error.message,
     });
   }
+});
+
+//@route    GET api/auth/send-verification-mail
+//@desc     Verify user
+//@access   Public
+router.post("/send-verification-mail", async (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    return res.status(400).json({
+      message: "Please provide email",
+    });
+  }
+  const mailStatus = await sendMail(
+    req.header("x-auth-token"),
+    email.toLowerCase(),
+    "VERIFY EMAIL",
+    true
+  );
+  console.log(mailStatus);
+  if (mailStatus.rejected.length > 0) {
+    return res.status(400).json({
+      message: "Something went wrong",
+    });
+  }
+  return res.status(200).json({
+    message: "Email sent",
+  });
 });
 
 //@route    GET api/auth/google

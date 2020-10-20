@@ -96,14 +96,14 @@
 </div>
 <div *ngIf="errorMessage">
   <div class="errors-login" *ngIf="errorMessage[0]?.msg; else error">
-    <app-error-box
-      [errorMessage]="error.msg"
+    <app-message-box
+      [message]="error.msg"
       *ngFor="let error of errorMessage"
-    ></app-error-box>
+    ></app-message-box>
   </div>
   <ng-template #error>
     <div class="errors-login">
-      <app-error-box [errorMessage]="errorMessage"></app-error-box>
+      <app-message-box [message]="errorMessage"></app-message-box>
     </div>
   </ng-template>
 </div>

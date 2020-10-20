@@ -165,10 +165,7 @@ router.delete("/", [auth, verifyItsYou], async (req, res) => {
         error: "User not found",
       });
     }
-    /*
-            Todo - Delete files of user from s3
-            this logic is not deleting
-        */
+
     const profileUrl = profile.avatar.url;
     const key = profile.avatar.key;
     console.log(profileUrl);

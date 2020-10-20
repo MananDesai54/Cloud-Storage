@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { CloudService } from 'src/app/services/cloud.service';
+import { ProfileService } from 'src/app/services/profile.service';
 
 @Component({
   selector: 'app-profile',
@@ -29,10 +30,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
   selectedField: string;
   selectedType: string;
   selectedValue: string;
+  isLoading = false;
+  message: any;
+  success: boolean;
 
   constructor(
     private cloudService: CloudService,
-    private authService: AuthService
+    private authService: AuthService,
+    private profileService: ProfileService
   ) {}
 
   ngOnInit(): void {
@@ -73,9 +78,41 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.selectedType = type;
     this.selectedValue = value;
   }
+  onSendVerificationMail() {
+    this.profileService
+      .sendEmailVerificationMail(this.user.email.value)
+      .subscribe(
+        (res) => {
+          console.log(res);
+          this.setSuccess('Mail sent');
+        },
+        (error) => {
+          console.log(error);
+          this.message = 'Something went wrong';
+        }
+      );
+  }
+  onCloseModal(success: boolean) {
+    if (success) {
+      this.setSuccess(`${this.selectedField} Updated Successfully`);
+    }
+    this.isModalOpen = false;
+  }
 
   onLogout() {
     this.authService.logout();
+  }
+  onDeleteAccount() {
+    alert('Are you sure?');
+  }
+
+  private setSuccess(message) {
+    this.success = true;
+    this.message = message;
+    setTimeout(() => {
+      this.message = '';
+      this.success = false;
+    }, 5000);
   }
 
   ngOnDestroy() {
