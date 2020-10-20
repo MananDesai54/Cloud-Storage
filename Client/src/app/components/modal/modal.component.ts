@@ -58,7 +58,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     console.log('hello modal');
     this.subscription = this.profileService
       .updateProfile(this.updateProfileForm.value, this.user)
-      .pipe(take(1))
+      // .pipe(take(1))
       .subscribe(
         (res) => {
           console.log(res);
@@ -81,6 +81,7 @@ export class ModalComponent implements OnInit, OnDestroy {
 
   private resetStuff() {
     this.isLoading = false;
+    this.updateProfileForm.reset();
   }
 
   private setError(error) {

@@ -6,6 +6,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { exhaustMap, take } from 'rxjs/operators';
+import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Injectable()
@@ -15,12 +16,15 @@ export class AuthInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     return this.authService.user.pipe(
       take(1),
-      exhaustMap((user) => {
+      exhaustMap((user: User) => {
         if (!user) {
           return next.handle(req);
         }
         const reqClone = req.clone({
-          headers: new HttpHeaders({ 'x-auth-token': user.token }),
+          headers: new HttpHeaders().set(
+            'x-auth-token',
+            user.token || user._token
+          ),
         });
         return next.handle(reqClone);
       })

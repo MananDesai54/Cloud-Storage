@@ -9,19 +9,19 @@ export class User {
     public id: string,
     public profileUrl: string,
     // tslint:disable-next-line: variable-name
-    private _token: string,
+    public _token: string,
     // tslint:disable-next-line: variable-name
     private _tokenExpiration: number
   ) {}
 
-  get token() {
+  public get token() {
     if (+this._tokenExpiration < +new Date().getTime().toFixed(0)) {
       return null;
     }
     return this._token;
   }
 
-  get tokenExpiration() {
+  public get tokenExpiration() {
     return this._tokenExpiration;
   }
 }
