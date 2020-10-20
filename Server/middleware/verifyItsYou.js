@@ -7,7 +7,7 @@ module.exports = async (req, res, next) => {
     const user = await User.findById(reqUser.id);
     if (!user) {
       return res.status(404).json({
-        error: "User not found.M",
+        message: "User not found",
       });
     }
     const registerType = user.method;
@@ -15,13 +15,13 @@ module.exports = async (req, res, next) => {
       const { password } = req.body;
       if (!password) {
         return res.status(400).json({
-          error: "Please provide password.M",
+          message: "Please provide password",
         });
       }
       const isMatch = await bcrypt.compare(password, user.local.password);
       if (!isMatch) {
         return res.status(400).json({
-          error: "Invalid Password.M",
+          message: "Invalid Password",
         });
       }
       next();
@@ -29,7 +29,7 @@ module.exports = async (req, res, next) => {
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({
-      error: "Server error.M",
+      message: "Server error",
     });
   }
 };

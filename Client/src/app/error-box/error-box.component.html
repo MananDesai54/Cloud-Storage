@@ -1,6 +1,6 @@
-<div class="box" #box>
+<div [ngClass]="{ box: !modal, errorBox: modal }" #box>
   <div class="error">
-    {{ errorMessage | uppercase }}
+    {{ errorMessage }}
   </div>
   <!-- <i class="fas fa-times" (click)="onClose()"></i> -->
 </div>

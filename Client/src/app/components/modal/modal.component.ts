@@ -3,26 +3,34 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { User } from 'src/app/models/user.model';
+import { ProfileService } from 'src/app/services/profile.service';
 
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.css'],
 })
-export class ModalComponent implements OnInit {
+export class ModalComponent implements OnInit, OnDestroy {
   @Input() input: { field: string; type: string; value: string };
+  @Input() user: User;
   @Output() closeModal = new EventEmitter<void>();
   @ViewChild('modal', { static: true }) modal: ElementRef;
   @ViewChild('backdrop', { static: true }) backdrop: ElementRef;
   updateProfileForm: FormGroup;
-  isLoading: false;
+  isLoading = false;
+  errorMessage: any;
+  subscription: Subscription;
 
-  constructor() {}
+  constructor(private profileService: ProfileService) {}
 
   ngOnInit(): void {
     this.backdrop.nativeElement.classList.remove('hide');
@@ -35,19 +43,54 @@ export class ModalComponent implements OnInit {
           ? [Validators.required, Validators.email]
           : Validators.required
       ),
-      currentPassword: new FormControl(null, Validators.required),
+      password: new FormControl(null, Validators.required),
     });
   }
 
   onCloseModal() {
     this.backdrop.nativeElement.classList.add('hide');
     this.modal.nativeElement.classList.add('close');
+    this.emitCloseModal();
+  }
+
+  onUpdate() {
+    this.isLoading = true;
+    console.log('hello modal');
+    this.subscription = this.profileService
+      .updateProfile(this.updateProfileForm.value, this.user)
+      .pipe(take(1))
+      .subscribe(
+        (res) => {
+          console.log(res);
+          this.resetStuff();
+          this.emitCloseModal();
+        },
+        (error) => {
+          console.log(error);
+          this.setError(error);
+          this.resetStuff();
+        }
+      );
+  }
+
+  private emitCloseModal() {
     setTimeout(() => {
       this.closeModal.emit();
     }, 500);
   }
 
-  onUpdate() {
-    console.log(this.updateProfileForm.value);
+  private resetStuff() {
+    this.isLoading = false;
+  }
+
+  private setError(error) {
+    this.errorMessage = error;
+    setTimeout(() => {
+      this.errorMessage = null;
+    }, 5000);
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }

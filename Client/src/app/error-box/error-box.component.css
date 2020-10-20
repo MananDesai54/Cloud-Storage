@@ -1,20 +1,28 @@
 .box {
   position: relative;
+  z-index: 100000000000;
 }
 .error {
+  width: min(400px, 70vw);
+  opacity: 0;
+  transform: translateY(50px);
+  animation: animate 400ms forwards var(--animation-function);
+}
+.box .error {
+  margin: 1rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
   border-radius: 5px;
   padding: 0.5rem 1rem;
   background: rgba(240, 71, 71, 0.8);
   border: 1px solid rgb(240, 71, 71);
   color: var(--light-white);
-  margin: 1rem;
-  width: min(400px, 70vw);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(50px);
-  animation: animate 400ms forwards var(--animation-function);
+}
+.errorBox .error {
+  color: var(--color-danger);
+  text-align: center;
+  margin: 0.5rem;
 }
 i {
   position: absolute;

@@ -6,6 +6,14 @@
 
     <h2>Change your {{ input.field | titlecase }}</h2>
     <p>Enter new {{ input.field | titlecase }} and current password.</p>
+    <div *ngIf="errorMessage">
+      <div class="errors">
+        <app-error-box
+          [errorMessage]="errorMessage"
+          [modal]="true"
+        ></app-error-box>
+      </div>
+    </div>
     <label>
       <small>
         {{ input.field === "password" ? "New " : "" }}
@@ -23,7 +31,7 @@
       <input
         type="password"
         name="currentPassword"
-        formControlName="currentPassword"
+        formControlName="password"
       />
     </label>
     <div class="buttons">
@@ -34,6 +42,7 @@
         type="submit"
         class="primary"
         [disabled]="!updateProfileForm.valid || isLoading"
+        [ngStyle]="{ fontSize: isLoading ? '0.8rem' : '1rem' }"
       >
         <span *ngIf="!isLoading"> Done </span>
         <app-loader *ngIf="isLoading"></app-loader>

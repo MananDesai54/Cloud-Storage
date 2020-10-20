@@ -200,7 +200,7 @@
 }
 .user .option-detail .details .basic {
   flex: 1;
-  margin: 1rem 0;
+  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -213,6 +213,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 .user .option-detail .details .basic .title {
   font-size: 0.8rem;

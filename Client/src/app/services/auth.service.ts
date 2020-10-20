@@ -122,6 +122,15 @@ export class AuthService {
     }, expirationDuration);
   }
 
+  updateUser(updatedData) {
+    console.log('Hello auth');
+    const user = JSON.parse(localStorage.getItem('userData'));
+    localStorage.setItem(
+      'userData',
+      JSON.stringify({ ...user, ...updatedData })
+    );
+  }
+
   private handleAuthentication({
     email,
     id,
@@ -144,9 +153,11 @@ export class AuthService {
     localStorage.setItem('userData', JSON.stringify(user));
   }
 
-  private handleError(error: HttpErrorResponse) {
+  handleError(error: HttpErrorResponse) {
+    console.log(error);
     const errorMessage =
-      error.error.message || error.error.messages || error.message;
+      error.error?.message || error.error?.messages || error.message;
+    console.log(errorMessage);
     return throwError(errorMessage);
   }
 }

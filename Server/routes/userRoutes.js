@@ -44,7 +44,7 @@ router.post(
 
       user = new User({
         method,
-        username: username.toLowerCase(),
+        username: username,
         email: {
           value: email.toLowerCase(),
           verified: method.toLowerCase() !== "local",
@@ -173,7 +173,7 @@ router.put("/", [auth, verifyItsYou], async (req, res) => {
         })
       ) {
         return res.status(400).json({
-          error: "You cannot use the password that you have used before.",
+          message: "You cannot use the password that you have used before.",
         });
       }
       user.local.oldPasswords.push(bcrypt.hashSync(newPassword, sault));
@@ -183,8 +183,8 @@ router.put("/", [auth, verifyItsYou], async (req, res) => {
 
     await user.save();
     return res.status(200).json({
-      data: user,
-      message: "User updated",
+      username: user.username,
+      email: user.email,
     });
   } catch (error) {
     showError(res, error);

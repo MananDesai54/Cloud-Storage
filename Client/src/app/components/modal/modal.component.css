@@ -81,7 +81,7 @@
   background: var(--color-accent);
   border-radius: 5px;
   border: none;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   margin-left: 0.5rem;
 }
 .form .buttons .primary:disabled {
@@ -99,6 +99,18 @@
   opacity: 0;
   z-index: -1000;
   transition: all 600ms;
+}
+
+.errors {
+  z-index: 100000000000;
+  pointer-events: none;
+}
+
+@media (max-width: 850px) {
+  .errors {
+    align-items: center;
+    justify-content: flex-start;
+  }
 }
 
 @keyframes anime {

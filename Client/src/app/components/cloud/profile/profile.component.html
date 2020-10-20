@@ -63,7 +63,7 @@
             </div>
           </div>
           <p style="flex: 1; margin-left: 1rem">
-            {{ user.username | titlecase }}
+            {{ user.username }}
           </p>
           <div class="menu">
             <div class="menu-toggle-btn" (click)="onToggleAvatarOptions()">
@@ -83,7 +83,7 @@
           <div class="username data">
             <div class="detail">
               <div class="title">Username</div>
-              <div class="value">{{ user.username | titlecase }}</div>
+              <div class="value">{{ user.username }}</div>
             </div>
             <div class="edit">
               <button (click)="onEditField('username', 'text', user.username)">
@@ -95,7 +95,7 @@
             <div class="detail">
               <div class="title">Email</div>
               <div class="value">
-                {{ user.email.value }}
+                {{ user.email.value | lowercase }}
                 <span
                   style="
                     height: 10px;
@@ -139,7 +139,7 @@
     <section>
       <div class="title">Password</div>
       <div class="edit" style="margin-top: 0.5rem">
-        <button (click)="onEditField('password', 'password', '')">
+        <button (click)="onEditField('newPassword', 'password', '')">
           Change Password
         </button>
       </div>
@@ -151,7 +151,11 @@
       </div>
     </section>
     <section>
-      <button style="margin-top: 2rem" type="button" class="button danger-btn">
+      <button
+        style="margin: 2rem 0 4rem"
+        type="button"
+        class="button danger-btn"
+      >
         Delete Account
       </button>
     </section>
@@ -162,6 +166,7 @@
         type: selectedType,
         value: selectedValue
       }"
+      [user]="user"
       (closeModal)="isModalOpen = false"
     ></app-modal>
   </div>

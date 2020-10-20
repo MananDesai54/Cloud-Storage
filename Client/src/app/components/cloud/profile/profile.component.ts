@@ -68,7 +68,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.onToggleAvatarOptions();
   }
   onEditField(field: string, type: string, value?: string) {
-    console.log('Hello');
     this.isModalOpen = true;
     this.selectedField = field;
     this.selectedType = type;
