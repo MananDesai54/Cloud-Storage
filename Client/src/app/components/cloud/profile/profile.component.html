@@ -11,6 +11,7 @@
     <section>
       <div class="title">User Settings</div>
       <div class="settings">
+        <a routerLink="/cloud/setting" [queryParams]="{ edit: true }"></a>
         <span>My Account</span>
         <span>Privacy & Safety</span>
         <span>Password</span>
@@ -160,14 +161,39 @@
       </div>
     </section>
     <section>
-      <button
-        style="margin: 2rem 0 4rem"
-        type="button"
-        class="button danger-btn"
-        (click)="onDeleteAccount()"
+      <form
+        [formGroup]="deleteProfileForm"
+        (ngSubmit)="onConfirmDeleteAccount()"
+        class="deleteForm"
       >
-        Delete Account
-      </button>
+        <label *ngIf="confirmDelete">
+          Password
+          <input
+            type="password"
+            name="password"
+            formControlName="password"
+            placeholder="Enter password to confirm"
+            autofocus
+          />
+        </label>
+        <button
+          type="button"
+          class="button danger-btn"
+          (click)="onDeleteAccount()"
+          [type]="confirmDelete ? 'submit' : 'button'"
+          [disabled]="confirmDelete && !deleteProfileForm.valid"
+        >
+          Delete Account
+        </button>
+        <button
+          *ngIf="confirmDelete"
+          type="button"
+          class="cancelBtn"
+          (click)="confirmDelete = false"
+        >
+          Cancel
+        </button>
+      </form>
     </section>
     <app-modal
       *ngIf="isModalOpen"

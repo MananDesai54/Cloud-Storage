@@ -122,7 +122,7 @@ export class AuthService {
     }, expirationDuration);
   }
 
-  updateUser(updatedData) {
+  updateUser(updatedData: any) {
     const user = JSON.parse(localStorage.getItem('userData'));
     localStorage.setItem(
       'userData',

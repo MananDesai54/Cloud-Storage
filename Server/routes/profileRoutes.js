@@ -166,9 +166,12 @@ router.delete("/", [auth, verifyItsYou], async (req, res) => {
       });
     }
 
+    /**
+     * delete files of deleted user from S3
+     */
+
     const profileUrl = profile.avatar.url;
     const key = profile.avatar.key;
-    console.log(profileUrl);
 
     await User.findByIdAndDelete(req.user.id);
     await Profile.findOneAndDelete({

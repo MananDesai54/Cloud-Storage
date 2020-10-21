@@ -35,20 +35,24 @@ router.get("/verification/:token", async (req, res) => {
   try {
     const decoded = jwt.decode(token, process.env.JWT_SECRET_KEY);
     if (!decoded) {
-      return res.status(400).json({
-        error: "Invalid token",
-      });
+      return res
+        .status(400)
+        .redirect(
+          `http://localhost:4200/cloud/setting?email=false&message=Invalid&user=${user.id}`
+        );
     }
     const user = await User.findById(decoded.user.id);
     if (!user) {
-      return res.status(404).json({
-        error: "User not found",
-      });
+      return res
+        .status(404)
+        .redirect(
+          `http://localhost:4200/cloud/setting?email=false&message=Not found&user=${user.id}`
+        );
     }
     if (user.email.verified) {
-      return res.status(403).json({
-        error: "User already verified",
-      });
+      return res.redirect(
+        `http://localhost:4200/cloud/setting?email=true&message=Already&user=${user.id}`
+      );
     }
     user.email = {
       ...user.email,
@@ -56,14 +60,16 @@ router.get("/verification/:token", async (req, res) => {
     };
     // user.markModified("email");
     user.save();
-    return res.status(200).json({
-      message: "User verified, redirected to client",
-    });
+    return res.redirect(
+      `http://localhost:4200/cloud/setting?email=true&message=Email verified successfully&user=${user.id}`
+    );
   } catch (error) {
     console.log(error.message);
-    return res.status(400).json({
-      error: error.message,
-    });
+    return res
+      .status(400)
+      .redirect(
+        `http://localhost:4200/cloud/setting?email=false&message=Invalid`
+      );
   }
 });
 

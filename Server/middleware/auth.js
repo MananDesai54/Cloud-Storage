@@ -12,6 +12,7 @@ module.exports = async function (req, res, next) {
 
   try {
     const decoded = jwt.decode(token, process.env.JWT_SECRET_KEY);
+    //use verify instead of decode
     if (!decoded) {
       return res.status(400).json({
         message: "Invalid token",

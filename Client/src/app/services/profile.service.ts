@@ -13,29 +13,58 @@ export class ProfileService {
     return this.http.put(`${env.SERVER_URL}/users`, userData).pipe(
       catchError((error) => this.authService.handleError(error)),
       tap((updatedUser) => {
-        const updatedUserData = new User(
-          user.method,
-          user.username,
-          user.email,
-          user.id,
-          user.profileUrl,
-          user.token,
-          user.tokenExpiration
-        );
-        for (const field in userData) {
-          if (userData.hasOwnProperty(field)) {
-            updatedUserData[field] = userData[field];
-          }
-        }
+        const updatedUserData = this.setUser(user, userData);
+        console.log(updatedUserData);
         this.authService.user.next(updatedUserData);
         this.authService.updateUser(updatedUser);
       })
     );
   }
 
-  sendEmailVerificationMail(email) {
+  sendEmailVerificationMail(email: string) {
     return this.http
       .post(`${env.SERVER_URL}/auth/send-verification-mail`, { email })
       .pipe(catchError((error) => this.authService.handleError(error)));
+  }
+
+  deleteAccount(password: string) {
+    const options = {
+      body: {
+        password,
+      },
+    };
+
+    return this.http
+      .request('delete', `${env.SERVER_URL}/profile`, { body: { password } })
+      .pipe(
+        catchError((error) => this.authService.handleError(error)),
+        tap(() => {
+          this.authService.logout();
+        })
+      );
+  }
+
+  verifyEmail(user: User, userData: any) {
+    const updatedUserData = this.setUser(user, userData);
+    this.authService.user.next(updatedUserData);
+    this.authService.updateUser(updatedUserData);
+  }
+
+  private setUser(user: User, userData: any) {
+    const updatedUserData = new User(
+      user.method,
+      user.username,
+      user.email,
+      user.id,
+      user.profileUrl,
+      user.token,
+      user.tokenExpiration
+    );
+    for (const field in userData) {
+      if (userData.hasOwnProperty(field)) {
+        updatedUserData[field] = userData[field];
+      }
+    }
+    return updatedUserData;
   }
 }

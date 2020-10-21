@@ -6,11 +6,19 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { CloudService } from 'src/app/services/cloud.service';
 import { ProfileService } from 'src/app/services/profile.service';
+
+const MESSAGES = {
+  Invalid: 'Invalid token, Press verify button to resend mail',
+  'Not found': 'User not found',
+  Already: 'User already verified',
+};
 
 @Component({
   selector: 'app-profile',
@@ -23,6 +31,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   @ViewChild('fileInput') fileInput: ElementRef;
   subscription: Subscription;
   authSubscription: Subscription;
+  routeSubscription: Subscription;
   isNavOpen: boolean;
   user: User;
   toggleAvatarOption = false;
@@ -33,11 +42,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
   isLoading = false;
   message: any;
   success: boolean;
+  deleteProfileForm: FormGroup;
+  confirmDelete: boolean;
 
   constructor(
     private cloudService: CloudService,
     private authService: AuthService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -52,6 +64,31 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.user = user;
       },
       (error) => console.log(error)
+    );
+
+    this.deleteProfileForm = new FormGroup({
+      password: new FormControl(null, Validators.required),
+    });
+    this.authSubscription = this.route.queryParams.subscribe(
+      (params: Params) => {
+        if (Object.keys(params).length > 0) {
+          const { email, message, user } = params;
+          if (email.toLowerCase() === 'false') {
+            this.setMessage(MESSAGES[message], true);
+          } else {
+            this.profileService.updateProfile(
+              {
+                email: {
+                  value: this.user.email.value,
+                  verified: true,
+                },
+              },
+              this.user
+            );
+            this.setMessage(MESSAGES[message]);
+          }
+        }
+      }
     );
   }
 
@@ -84,7 +121,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .subscribe(
         (res) => {
           console.log(res);
-          this.setSuccess('Mail sent');
+          this.setMessage('Mail sent');
         },
         (error) => {
           console.log(error);
@@ -94,7 +131,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
   onCloseModal(success: boolean) {
     if (success) {
-      this.setSuccess(`${this.selectedField} Updated Successfully`);
+      this.setMessage(`${this.selectedField} Updated Successfully`);
     }
     this.isModalOpen = false;
   }
@@ -103,11 +140,33 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.authService.logout();
   }
   onDeleteAccount() {
-    alert('Are you sure?');
+    if (
+      !this.confirmDelete &&
+      confirm('Are you sure want to delete your account?')
+    ) {
+      this.confirmDelete = true;
+    }
+  }
+  onConfirmDeleteAccount() {
+    this.profileService
+      .deleteAccount(this.deleteProfileForm.value.password)
+      .subscribe(
+        (res) => {
+          console.log('Profile deleted');
+        },
+        (error) => {
+          console.log(error);
+          this.setMessage(error, true);
+        }
+      );
   }
 
-  private setSuccess(message) {
-    this.success = true;
+  private setMessage(message, isError?: boolean) {
+    if (isError) {
+      this.success = false;
+    } else {
+      this.success = true;
+    }
     this.message = message;
     setTimeout(() => {
       this.message = '';
@@ -118,5 +177,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription?.unsubscribe();
     this.authSubscription?.unsubscribe();
+    this.routeSubscription?.unsubscribe();
   }
 }
