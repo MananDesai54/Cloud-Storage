@@ -47,18 +47,23 @@
     <section>
       <div class="title">My Account</div>
       <div class="details">
-        <div class="avatar">
+        <form class="avatar" [formGroup]="imageUploadForm">
           <input
+            formControlName="file"
             type="file"
             class="file-input"
             name="file"
             tabindex="0"
-            multiple=""
             accept=".jpg,.jpeg,.png,.gif"
+            (change)="onUploadProfilePhoto($event)"
             #fileInput
           />
           <div class="image">
-            <img [src]="user.profileUrl" alt="avatar" />
+            <img
+              [src]="isLoading ? 'assets/gif/loading.gif' : user.profileUrl"
+              alt="avatar"
+              style="object-fit: cover"
+            />
             <div class="image-hover" (click)="fileInput.click()">
               Change Avatar
             </div>
@@ -74,12 +79,12 @@
               <span class="primary" (click)="onChangeAvatar()"
                 >Change Avatar</span
               >
-              <span class="danger" (click)="onDeleteAvatar()"
+              <span class="danger" (click)="onDeleteProfilePhoto()"
                 >Delete Avatar</span
               >
             </div>
           </div>
-        </div>
+        </form>
         <div class="basic">
           <div class="username data">
             <div class="detail">

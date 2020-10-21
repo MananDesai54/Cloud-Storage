@@ -34,7 +34,6 @@ export class AuthGuard implements CanActivate {
               router.url[0].path === 'login' ||
               router.url[0].path === 'signup'
             ) {
-              console.log('redirect');
               return this.router.createUrlTree(['/cloud']);
             }
             return true;

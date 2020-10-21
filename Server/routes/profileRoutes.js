@@ -99,7 +99,7 @@ router.put("/update", [auth, verifyItsYou], async (req, res) => {
 router.post("/avatar/upload", auth, localUpload, async (req, res) => {
   if (!req.file) {
     return res.status(404).json({
-      error: "Please attach file to upload",
+      message: "Please attach file to upload",
     });
   }
   console.log(req.file);
@@ -121,14 +121,27 @@ router.post("/avatar/upload", auth, localUpload, async (req, res) => {
     });
     if (!profile) {
       return res.status(404).json({
-        error: "Profile not found please create one.",
+        message: "Profile not found please create one.",
       });
     }
     S3.upload(params, async (err, data) => {
-      if (err)
+      if (err) {
         return res.status(400).json({
-          error: err.message,
+          message: err.message,
         });
+      }
+      if (!profile.avatar.url.includes("profile")) {
+        S3.deleteObject(
+          {
+            Bucket: process.env.AWS_BUCKET_NAME,
+            Key: profile.avatar.key,
+          },
+          (err, data) => {
+            if (err) return console.log(err.message);
+            console.log(data);
+          }
+        );
+      }
 
       const awsUploadURL = data.Location;
       profile.avatar.url = awsUploadURL;
@@ -138,7 +151,7 @@ router.post("/avatar/upload", auth, localUpload, async (req, res) => {
       await profile.save();
 
       return res.status(200).json({
-        data: profile,
+        profileUrl: awsUploadURL,
       });
     }).on("httpUploadProgress", (e) => {
       console.log(e.loaded);
@@ -146,6 +159,62 @@ router.post("/avatar/upload", auth, localUpload, async (req, res) => {
   } catch (error) {
     showError(res, error);
   }
+});
+
+//@route    POST api/profile/avatar
+//@desc     delete user avatar
+//@access   Private
+router.delete("/avatar", auth, async (req, res) => {
+  const { profileUrl } = req.body;
+  if (!profileUrl) {
+    return res.status(404).json({
+      message: "Provide profileUrl",
+    });
+  }
+  try {
+    const profile = await Profile.findOne({
+      user: req.user.id,
+    });
+    if (!profile) {
+      return res.status(404).json({
+        message: "Profile not found please create one.",
+      });
+    }
+
+    const urlArray = profileUrl.split("/");
+    const key = urlArray[urlArray.length - 1];
+    if (key === "profile.jpg") {
+      return res.status(400).json({
+        message: "You haven't set any profile photo",
+      });
+    }
+
+    S3.deleteObject(
+      {
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: key,
+      },
+      (err, data) => {
+        if (err) return console.log(err.message);
+        console.log(data);
+      }
+    );
+
+    profile.markModified("avatar");
+    profile.avatar = {
+      url: "https://cloud-storage-uploads.s3.amazonaws.com/profile.jpg",
+      key: "profile.jpg",
+    };
+    profile.save();
+
+    return res.status(200).json({
+      profileUrl: "https://cloud-storage-uploads.s3.amazonaws.com/profile.jpg",
+    });
+  } catch (error) {
+    showError(res, error);
+  }
+  const urlArray = profileUrl.split("/");
+  const key = urlArray[urlArray.length];
 });
 
 //@route    DELETE api/profile
@@ -162,7 +231,7 @@ router.delete("/", [auth, verifyItsYou], async (req, res) => {
       }))
     ) {
       return res.status(404).json({
-        error: "User not found",
+        message: "User not found",
       });
     }
 

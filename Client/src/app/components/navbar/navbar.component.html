@@ -26,6 +26,7 @@
             <div class="logo">
               <i class="fas fa-user"></i>
             </div>
+            <!-- <div class="title">{{ user?.username?.charAt(0) }}</div> -->
             <div class="title">User</div>
           </div>
         </a>
@@ -83,7 +84,7 @@
           <div class="logo danger">
             <i class="fas fa-sign-out-alt"></i>
           </div>
-          <div class="title">Logout</div>
+          <div class="title" (click)="onLogout()">Logout</div>
         </div>
       </div>
     </div>

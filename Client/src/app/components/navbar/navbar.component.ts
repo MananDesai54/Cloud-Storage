@@ -1,12 +1,12 @@
 import {
   Component,
   ElementRef,
-  EventEmitter,
+  Input,
   OnInit,
-  Output,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { CloudService } from '../../services/cloud.service';
 

@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Observer, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -15,15 +16,15 @@ export class CloudComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    // this.subscription = this.authService.user.subscribe((user) => {
-    //   this.authService
-    //     .authUser()
-    //     .pipe(take(1))
-    //     .subscribe(
-    //       (res) => console.log(res),
-    //       (err) => console.log(err)
-    //     );
-    // });
+    this.subscription = this.authService.user.subscribe((user) => {
+      // this.authService
+      //   .authUser()
+      //   .pipe(take(1))
+      //   .subscribe(
+      //     (res) => (this.user = res),
+      //     (err) => console.log(err)
+      //   );
+    });
   }
   ngOnDestroy() {
     this.subscription?.unsubscribe();

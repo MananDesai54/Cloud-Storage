@@ -32,6 +32,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   authSubscription: Subscription;
   routeSubscription: Subscription;
+  imageUploadSubscription: Subscription;
   isNavOpen: boolean;
   user: User;
   toggleAvatarOption = false;
@@ -43,6 +44,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   message: any;
   success: boolean;
   deleteProfileForm: FormGroup;
+  imageUploadForm: FormGroup;
   confirmDelete: boolean;
 
   constructor(
@@ -69,6 +71,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.deleteProfileForm = new FormGroup({
       password: new FormControl(null, Validators.required),
     });
+
+    this.imageUploadForm = new FormGroup({
+      file: new FormControl(null, Validators.required),
+    });
+
     this.authSubscription = this.route.queryParams.subscribe(
       (params: Params) => {
         if (Object.keys(params).length > 0) {
@@ -76,7 +83,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
           if (email.toLowerCase() === 'false') {
             this.setMessage(MESSAGES[message], true);
           } else {
-            this.profileService.updateProfile(
+            this.profileService.verifyEmail(
               {
                 email: {
                   value: this.user.email.value,
@@ -104,9 +111,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
   onChangeAvatar() {
     this.fileInput.nativeElement.click();
-    this.onToggleAvatarOptions();
-  }
-  onDeleteAvatar() {
     this.onToggleAvatarOptions();
   }
   onEditField(field: string, type: string, value?: string) {
@@ -160,6 +164,39 @@ export class ProfileComponent implements OnInit, OnDestroy {
         }
       );
   }
+  onUploadProfilePhoto(event: any) {
+    this.isLoading = true;
+    this.imageUploadSubscription = this.profileService
+      .uploadProfilePhoto(event.target.files[0], this.user)
+      .subscribe(
+        (res) => {
+          this.setMessage('Profile photo updated');
+          this.isLoading = false;
+        },
+        (error) => {
+          console.log(error);
+          this.setMessage(error, true);
+        }
+      );
+  }
+
+  onDeleteProfilePhoto() {
+    this.isLoading = true;
+    this.onToggleAvatarOptions();
+    this.imageUploadSubscription = this.profileService
+      .deleteAvatar(this.user.profileUrl, this.user)
+      .subscribe(
+        (res) => {
+          this.setMessage('Profile photo deleted');
+          this.isLoading = false;
+        },
+        (error) => {
+          console.log(error);
+          this.setMessage(error, true);
+          this.isLoading = false;
+        }
+      );
+  }
 
   private setMessage(message, isError?: boolean) {
     if (isError) {
@@ -178,5 +215,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.subscription?.unsubscribe();
     this.authSubscription?.unsubscribe();
     this.routeSubscription?.unsubscribe();
+    this.imageUploadSubscription?.unsubscribe();
   }
 }
