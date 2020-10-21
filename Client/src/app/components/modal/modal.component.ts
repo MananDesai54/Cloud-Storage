@@ -84,9 +84,9 @@ export class ModalComponent implements OnInit, OnDestroy {
 
   private setMessage(error) {
     this.message = error;
-    setTimeout(() => {
-      this.message = null;
-    }, 5000);
+    // setTimeout(() => {
+    //   this.message = null;
+    // }, 5000);
   }
 
   ngOnDestroy() {

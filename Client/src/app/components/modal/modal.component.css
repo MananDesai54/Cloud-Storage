@@ -101,7 +101,7 @@
   transition: all 600ms;
 }
 
-.errors {
+.errors-modal {
   z-index: 100000000000;
   pointer-events: none;
 }
