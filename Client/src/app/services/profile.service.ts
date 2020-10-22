@@ -21,6 +21,11 @@ export class ProfileService {
     );
   }
 
+  findMe(user: User) {
+    this.authService.user.next(user);
+    this.authService.updateUser(user);
+  }
+
   sendEmailVerificationMail(email: string) {
     return this.http
       .post(`${env.SERVER_URL}/auth/send-verification-mail`, { email })

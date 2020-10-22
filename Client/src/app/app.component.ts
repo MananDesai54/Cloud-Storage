@@ -7,7 +7,7 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements DoCheck, OnInit {
-  showSplashScreen = true;
+  showSplashScreen = false;
 
   constructor(private authService: AuthService) {}
 

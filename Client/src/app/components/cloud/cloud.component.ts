@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, Observer, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { ProfileService } from 'src/app/services/profile.service';
 
 @Component({
   selector: 'app-cloud',
@@ -13,18 +14,28 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class CloudComponent implements OnInit, OnDestroy {
   subscription: Subscription;
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private profileService: ProfileService
+  ) {}
 
   ngOnInit(): void {
-    this.subscription = this.authService.user.subscribe((user) => {
-      // this.authService
-      //   .authUser()
-      //   .pipe(take(1))
-      //   .subscribe(
-      //     (res) => (this.user = res),
-      //     (err) => console.log(err)
-      //   );
-    });
+    // this.subscription = this.authService.user.subscribe((user) => {
+    this.subscription = this.authService
+      .authUser()
+      .pipe(take(1))
+      .subscribe(
+        (userData) => {
+          this.profileService.findMe(userData);
+          console.log(userData);
+        },
+        (error) => {
+          console.log(error);
+          this.authService.logout();
+        }
+      );
+    // });
   }
   ngOnDestroy() {
     this.subscription?.unsubscribe();
