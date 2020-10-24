@@ -39,6 +39,7 @@ import { RootComponent } from './components/cloud/root/root.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { ProfileService } from './services/profile.service';
 import { CloudResolver } from './components/cloud/cloud.resolver';
+import { FolderComponent } from './components/cloud/folder/folder.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { CloudResolver } from './components/cloud/cloud.resolver';
     ProfileComponent,
     RootComponent,
     ModalComponent,
+    FolderComponent,
   ],
   imports: [
     BrowserModule,

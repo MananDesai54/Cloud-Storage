@@ -1,6 +1,6 @@
 <div
   class="no-data"
-  *ngIf="!(cloud.files.length && cloud.folders.length); else cloudData"
+  *ngIf="!(cloud.files.length || cloud.folders.length); else cloudData"
 >
   <svg
     id="b21613c9-2bf0-4d37-bef0-3b193d34fc5d"
@@ -52,8 +52,13 @@
       <circle cx="433.63626" cy="105.17383" r="12.18187" fill="#fff" />
     </g>
   </svg>
-  <h3 style="text-align: center">No files or folders use + to add</h3>
+  <h3 style="text-align: center">No files or folders use add button</h3>
 </div>
 <ng-template #cloudData>
-  <p>Hello</p>
+  <div class="folders">
+    <div class="folder" *ngFor="let folder of cloud.folders">
+      <i class="fas fa-folder"></i>
+      <p>{{ folder.name }}</p>
+    </div>
+  </div>
 </ng-template>

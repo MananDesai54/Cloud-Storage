@@ -122,15 +122,15 @@
   >
     <i class="fas fa-times"></i>
   </div>
-  <div class="add-item">
+  <div class="add-item" (click)="isCreateFolder = true; onOpenUploadOption()">
     <i class="fas fa-folder-plus" style="margin-right: 0.2rem"></i>
     <span> Create folder </span>
   </div>
-  <div class="add-item">
+  <div class="add-item" (click)="fileInput.click(); onOpenUploadOption()">
     <i class="fas fa-file-upload" style="margin-right: 0.2rem"></i>
-    <span>File upload</span>
+    <span> File upload</span>
   </div>
-  <div class="add-item">
+  <div class="add-item" (click)="folderInput.click(); onOpenUploadOption()">
     <i class="fas fa-upload" style="margin-right: 0.2rem"></i>
     <span> Folder upload</span>
   </div>
@@ -142,4 +142,48 @@
   tabindex="0"
   (change)="onFileUpload($event.target.files)"
   #fileInput
+  style="opacity: 0; pointer-events: none; position: fixed; top: 0"
 />
+<input
+  type="file"
+  name="folder"
+  id="folder"
+  webkitdirectory
+  mozdirectory
+  msdirectory
+  odirectory
+  directory
+  multiple
+  (change)="onFileUpload($event.target.files)"
+  #folderInput
+  style="opacity: 0; pointer-events: none; position: fixed; top: 0"
+/>
+<form
+  *ngIf="isCreateFolder"
+  class="form"
+  [formGroup]="folderNameForm"
+  (ngSubmit)="onCreateFolder()"
+>
+  <div *ngIf="message">
+    <div class="errors-modal">
+      <app-message-box [message]="message" [modal]="true"></app-message-box>
+    </div>
+  </div>
+  <label>
+    Folder name
+    <input type="text" name="name" formControlName="name" />
+  </label>
+  <div class="buttons">
+    <button type="button" class="cancel" (click)="isCreateFolder = false">
+      Cancel
+    </button>
+    <button
+      type="submit"
+      [disabled]="isLoading || !folderNameForm.valid"
+      class="primary"
+    >
+      <span *ngIf="!isLoading"> Create </span>
+      <app-loader *ngIf="isLoading"></app-loader>
+    </button>
+  </div>
+</form>

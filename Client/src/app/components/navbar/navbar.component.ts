@@ -6,6 +6,8 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Params } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { CloudService } from '../../services/cloud.service';
@@ -20,13 +22,27 @@ export class NavbarComponent implements OnInit {
   @ViewChild('menuToggle') menuToggle: ElementRef;
   @ViewChild('menu') menu: ElementRef;
   @ViewChild('addMenu') addMenu: ElementRef;
+  location: string;
+  folderNameForm: FormGroup;
+  isLoading: boolean;
+  isCreateFolder = false;
+  message: string;
 
   constructor(
     private authService: AuthService,
-    private cloudService: CloudService
+    private cloudService: CloudService,
+    private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.params.subscribe((param: Params) => {
+      this.location = param.id;
+    });
+
+    this.folderNameForm = new FormGroup({
+      name: new FormControl(null, Validators.required),
+    });
+  }
 
   onMenuToggle() {
     this.menuToggle.nativeElement.classList.toggle('toggle-move');
@@ -38,7 +54,33 @@ export class NavbarComponent implements OnInit {
     this.addMenu.nativeElement.classList.toggle('open');
   }
   onFileUpload(files: any) {
-    console.log(files);
+    [...files].forEach((file) => {
+      console.log(file);
+    });
+  }
+  onCreateFolder() {
+    this.isLoading = true;
+    this.isCreateFolder = false;
+    this.cloudService
+      .createFolder(this.folderNameForm.value.name, this.location || 'root')
+      .subscribe(
+        (res) => {
+          this.isLoading = false;
+          console.log(res);
+        },
+        (error) => {
+          this.isLoading = false;
+          console.log(error);
+          this.setMessage(error);
+        }
+      );
+  }
+
+  private setMessage(message) {
+    this.message = message;
+    setTimeout(() => {
+      this.message = '';
+    }, 5000);
   }
 
   onLogout() {

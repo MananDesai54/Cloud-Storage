@@ -21,6 +21,18 @@ export class RootComponent implements OnInit {
   ngOnInit(): void {
     this.route.data.subscribe((data: Data) => {
       this.cloud = data.cloud;
+      console.log(this.cloud);
     });
+
+    this.cloudSubscription = this.cloudService.cloud.subscribe(
+      (cloud) => {
+        if (cloud) {
+          this.cloud = cloud;
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 }

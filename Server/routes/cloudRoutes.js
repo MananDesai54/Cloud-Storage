@@ -93,7 +93,10 @@ router.post(
       }
       await cloud.save();
       return res.status(200).json({
-        data: cloud.folders[cloud.folders.length - 1],
+        storage: cloud.storage,
+        files: cloud.files,
+        folders: cloud.folders,
+        userId: cloud.user,
       });
     } catch (error) {
       showError(res, error);

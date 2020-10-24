@@ -9,6 +9,7 @@ import { AuthGuard } from './components/auth/auth.guard';
 import { ProfileComponent } from './components/cloud/profile/profile.component';
 import { RootComponent } from './components/cloud/root/root.component';
 import { CloudResolver } from './components/cloud/cloud.resolver';
+import { FolderComponent } from './components/cloud/folder/folder.component';
 
 const routes: Routes = [
   {
@@ -31,7 +32,14 @@ const routes: Routes = [
         pathMatch: 'full',
         resolve: { cloud: CloudResolver },
       },
-      { path: 'setting', component: ProfileComponent },
+      {
+        path: 'setting',
+        component: ProfileComponent,
+      },
+      {
+        path: 'folder/:id',
+        component: FolderComponent,
+      },
     ],
   },
   { path: '**', redirectTo: 'not-found' },
