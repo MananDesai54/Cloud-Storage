@@ -32,10 +32,11 @@ router.get("/", auth, cloudMiddleware, (req, res) => {
       storage: cloud.storage,
       files: cloud.files,
       folders: cloud.folders,
+      userId: cloud.user,
     };
 
     return res.status(200).json({
-      data,
+      ...data,
     });
   } catch (error) {
     showError(res, error);

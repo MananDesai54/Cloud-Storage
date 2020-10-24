@@ -28,7 +28,6 @@ export class CloudComponent implements OnInit, OnDestroy {
       .subscribe(
         (userData) => {
           this.profileService.findMe(userData);
-          console.log(userData);
         },
         (error) => {
           console.log(error);

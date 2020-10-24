@@ -38,6 +38,7 @@ import { CloudService } from './services/cloud.service';
 import { RootComponent } from './components/cloud/root/root.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { ProfileService } from './services/profile.service';
+import { CloudResolver } from './components/cloud/cloud.resolver';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { ProfileService } from './services/profile.service';
     UserResolver,
     CloudService,
     ProfileService,
+    CloudResolver,
   ],
   bootstrap: [AppComponent],
 })

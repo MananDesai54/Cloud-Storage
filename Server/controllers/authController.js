@@ -7,7 +7,6 @@ const Profile = require("../models/profileModel");
 const generateToken = require("../config/generateToken");
 
 const authUser = async (req, res) => {
-  console.log("Hello");
   try {
     let user = await User.findById(req.user.id);
     if (user.method === "local") {

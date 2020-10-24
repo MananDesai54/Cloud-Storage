@@ -116,7 +116,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         })
         .subscribe(
           (res) => {
-            console.log(res);
             this.resetStuff();
             this.router.navigate(['/cloud']);
           },

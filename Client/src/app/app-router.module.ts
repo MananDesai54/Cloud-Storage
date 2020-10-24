@@ -8,6 +8,7 @@ import { CloudComponent } from './Components/cloud/cloud.component';
 import { AuthGuard } from './components/auth/auth.guard';
 import { ProfileComponent } from './components/cloud/profile/profile.component';
 import { RootComponent } from './components/cloud/root/root.component';
+import { CloudResolver } from './components/cloud/cloud.resolver';
 
 const routes: Routes = [
   {
@@ -24,7 +25,12 @@ const routes: Routes = [
     component: CloudComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', component: RootComponent, pathMatch: 'full' },
+      {
+        path: '',
+        component: RootComponent,
+        pathMatch: 'full',
+        resolve: { cloud: CloudResolver },
+      },
       { path: 'setting', component: ProfileComponent },
     ],
   },

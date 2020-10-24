@@ -1,9 +1,9 @@
 <div class="big-screen">
   <div class="side-menu">
-    <div class="menu-toggle" #menuToggle (click)="onMenuToggle()">
+    <div class="menu-toggle toggle-move" #menuToggle (click)="onMenuToggle()">
       <i class="fas fa-angle-double-right"></i>
     </div>
-    <div class="menu" #menu>
+    <div class="menu menu-move" #menu>
       <div class="top section">
         <a routerLink="/cloud">
           <div
@@ -73,8 +73,8 @@
           <div class="title">Other Files</div>
         </div>
       </div>
-      <div class="bottom section">
-        <div class="item">
+      <div class="bottom section upload-btn">
+        <div class="item" (click)="onOpenUploadOption()">
           <div class="logo success">
             <i class="fas fa-plus"></i>
           </div>
@@ -111,4 +111,35 @@
       <div class="title">User</div>
     </div>
   </div>
+  <div class="add-btn" (click)="onOpenUploadOption()">
+    <i class="fas fa-plus"></i>
+  </div>
 </div>
+<div class="add-menu" #addMenu>
+  <div
+    (click)="onOpenUploadOption()"
+    style="position: absolute; top: 3px; right: 5px; cursor: pointer"
+  >
+    <i class="fas fa-times"></i>
+  </div>
+  <div class="add-item">
+    <i class="fas fa-folder-plus" style="margin-right: 0.2rem"></i>
+    <span> Create folder </span>
+  </div>
+  <div class="add-item">
+    <i class="fas fa-file-upload" style="margin-right: 0.2rem"></i>
+    <span>File upload</span>
+  </div>
+  <div class="add-item">
+    <i class="fas fa-upload" style="margin-right: 0.2rem"></i>
+    <span> Folder upload</span>
+  </div>
+</div>
+<input
+  type="file"
+  class="file-input"
+  name="file"
+  tabindex="0"
+  (change)="onFileUpload($event.target.files)"
+  #fileInput
+/>

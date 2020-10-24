@@ -42,7 +42,7 @@
   width: 0px;
   background: var(--background-tertiary);
   transition: all 400ms, width 200ms ease-in-out 400ms;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 .side-menu .menu .logo {
@@ -106,7 +106,7 @@
   pointer-events: none;
 }
 .menu .item:hover .title {
-  opacity: 1;
+  opacity: 0;
   transition: opacity 200ms;
 }
 .menu .item {
@@ -120,6 +120,7 @@
   content: "";
   position: absolute;
   width: 10px;
+  left: -18px;
   background: var(--light-white);
   top: 50%;
   transform: translateY(-50%);
@@ -128,17 +129,27 @@
 }
 .menu .item.selected::before {
   height: 40px !important;
-  left: -13px;
   transition: all 400ms;
 }
 .menu .item:hover::before {
   height: 10px;
-  left: -13px;
   transition: all 400ms;
 }
-
 .small-screen {
   display: none;
+}
+.add-btn {
+  position: fixed;
+  height: 50px;
+  width: 50px;
+  bottom: 4rem;
+  right: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--color-success);
+  color: var(--light-white);
+  border-radius: 50%;
 }
 .small-menu {
   background: var(--background-tertiary);
@@ -162,11 +173,65 @@
   color: var(--color-accent);
 }
 
+.add-menu {
+  position: fixed;
+  bottom: 2rem;
+  left: 80px;
+  background: var(--background-tertiary);
+  color: var(--light-white);
+  padding: 0.2rem;
+  border-radius: 5px;
+  transition: all 200ms;
+  transform: scaleY(0);
+  opacity: 0;
+  transform-origin: top;
+}
+.add-menu .add-item {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  opacity: 0;
+}
+.add-menu .add-item:hover {
+  background: var(--color-success);
+  border-radius: 5px;
+  transition: all 200ms;
+}
+
+.add-menu.open {
+  transform: scaleY(1);
+  opacity: 1;
+  transform-origin: bottom;
+}
+.add-menu.open .add-item {
+  opacity: 1;
+}
+
 @media (max-width: 600px) {
   .big-screen {
     display: none;
   }
   .small-screen {
     display: block;
+  }
+  .add-menu {
+    width: 100vw;
+    left: 0;
+    bottom: 0;
+    z-index: 100000000000;
+    text-align: center;
+    transform: translateY(100%);
+  }
+  .add-menu .add-item + .add-item {
+    padding: 1rem;
+    border-top: 1px solid var(--background-primary);
+  }
+  .add-menu + div {
+    right: 10px;
+    top: 10px;
+  }
+  .add-menu.open {
+    transform: translateY(1);
+    opacity: 1;
   }
 }

@@ -1,0 +1,21 @@
+.no-data {
+  padding: 1rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--background-accent);
+  border-radius: 50%;
+  height: 40vmax;
+  width: 40vmax;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--light-white);
+}
+
+.no-data svg {
+  height: 40%;
+  width: 40%;
+}

@@ -130,7 +130,8 @@ router.post("/avatar/upload", auth, localUpload, async (req, res) => {
           message: err.message,
         });
       }
-      if (!profile.avatar.url.includes("profile")) {
+      if (!(profile.avatar.key === "profile.jpg")) {
+        console.log("delete none");
         S3.deleteObject(
           {
             Bucket: process.env.AWS_BUCKET_NAME,
