@@ -1,15 +1,7 @@
 <h3 class="data-title">Files</h3>
 <div class="files">
-  <h2
-    style="color: var(--color-danger); text-align: center; margin-bottom: 4rem"
-    *ngIf="!files.length; else file"
-  >
-    No files
-  </h2>
-  <ng-template #file>
-    <div class="file" *ngFor="let file of files">
-      <i class="fas fa-file" style="margin-right: 1rem"></i>
-      <p>{{ file.name }}</p>
-    </div>
-  </ng-template>
+  <div class="file" *ngFor="let file of files">
+    <i class="fas fa-file" style="margin-right: 1rem"></i>
+    <p>{{ file.name }}</p>
+  </div>
 </div>

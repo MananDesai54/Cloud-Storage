@@ -18,6 +18,13 @@
   color: var(--light-white);
   display: flex;
   align-items: center;
+  text-decoration: none;
+  transition: all 400ms;
+}
+
+.folders .folder:hover {
+  background: rgba(114, 137, 218, 0.2);
+  transition: all 400ms;
 }
 
 @media (max-width: 699px) {

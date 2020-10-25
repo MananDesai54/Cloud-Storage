@@ -42,6 +42,7 @@ import { CloudResolver } from './components/cloud/cloud.resolver';
 import { FolderComponent } from './components/cloud/folder/folder.component';
 import { FoldersComponent } from './components/cloud/folders/folders.component';
 import { FilesComponent } from './components/cloud/files/files.component';
+import { NoDataComponent } from './components/cloud/no-data/no-data.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { FilesComponent } from './components/cloud/files/files.component';
     FolderComponent,
     FoldersComponent,
     FilesComponent,
+    NoDataComponent,
   ],
   imports: [
     BrowserModule,
