@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Data, Params } from '@angular/router';
+import { Folder } from 'src/app/models/folder.model';
+import { CloudService } from 'src/app/services/cloud.service';
 
 @Component({
   selector: 'app-folder',
@@ -7,11 +9,20 @@ import { ActivatedRoute, Params } from '@angular/router';
   styleUrls: ['./folder.component.css'],
 })
 export class FolderComponent implements OnInit {
-  constructor(private route: ActivatedRoute) {}
+  folder: Folder;
+  constructor(
+    private route: ActivatedRoute,
+    private cloudService: CloudService
+  ) {}
 
   ngOnInit(): void {
+    this.route.data.subscribe((data: Data) => {
+      this.folder = data.folder;
+      console.log(this.folder);
+    });
+
     this.route.params.subscribe((params: Params) => {
-      console.log(params);
+      this.cloudService.currentLocation.next(params.id);
     });
   }
 }

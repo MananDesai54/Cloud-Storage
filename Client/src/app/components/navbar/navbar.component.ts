@@ -30,13 +30,12 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private cloudService: CloudService,
-    private route: ActivatedRoute
+    private cloudService: CloudService
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((param: Params) => {
-      this.location = param.id;
+    this.cloudService.currentLocation.subscribe((location) => {
+      this.location = location;
     });
 
     this.folderNameForm = new FormGroup({

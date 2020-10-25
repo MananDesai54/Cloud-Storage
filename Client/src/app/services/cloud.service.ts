@@ -5,6 +5,7 @@ import { env } from '../../environments/env';
 import { HttpClient } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
+import { Folder } from '../models/folder.model';
 
 @Injectable()
 export class CloudService {
@@ -12,6 +13,7 @@ export class CloudService {
   navToggle = new Subject();
 
   cloud = new BehaviorSubject<CloudModel>(null);
+  currentLocation = new BehaviorSubject<string>(null);
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -39,5 +41,11 @@ export class CloudService {
           this.cloud.next(cloud);
         })
       );
+  }
+
+  getFolder(id: string) {
+    return this.http
+      .get<Folder>(`${env.SERVER_URL}/cloud/folders/${id}`)
+      .pipe(catchError((error) => this.authService.handleError(error)));
   }
 }

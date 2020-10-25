@@ -1,1 +1,15 @@
-<p>folder works!</p>
+<div class="folder-data">
+  <h2 class="folder-name">{{ folder.name | uppercase }}</h2>
+  <div *ngIf="!(folder.files.length || folder.folders.length); else folderData">
+    <app-no-data></app-no-data>
+  </div>
+  <ng-template #folderData>
+    <div class="data">
+      <app-folders
+        *ngIf="folder.folders.length"
+        [folders]="folder.folders"
+      ></app-folders>
+      <app-files *ngIf="folder.files.length" [files]="folder.files"></app-files>
+    </div>
+  </ng-template>
+</div>

@@ -22,6 +22,7 @@ export class RootComponent implements OnInit {
     this.route.data.subscribe((data: Data) => {
       this.cloud = data.cloud;
     });
+    this.cloudService.currentLocation.next('root');
 
     this.cloudSubscription = this.cloudService.cloud.subscribe(
       (cloud) => {

@@ -10,6 +10,7 @@ import { ProfileComponent } from './components/cloud/profile/profile.component';
 import { RootComponent } from './components/cloud/root/root.component';
 import { CloudResolver } from './components/cloud/cloud.resolver';
 import { FolderComponent } from './components/cloud/folder/folder.component';
+import { FolderResolver } from './components/cloud/folder.resolver';
 
 const routes: Routes = [
   {
@@ -39,6 +40,7 @@ const routes: Routes = [
       {
         path: 'folder/:id',
         component: FolderComponent,
+        resolve: { folder: FolderResolver },
       },
     ],
   },

@@ -43,6 +43,7 @@ import { FolderComponent } from './components/cloud/folder/folder.component';
 import { FoldersComponent } from './components/cloud/folders/folders.component';
 import { FilesComponent } from './components/cloud/files/files.component';
 import { NoDataComponent } from './components/cloud/no-data/no-data.component';
+import { FolderResolver } from './components/cloud/folder.resolver';
 
 @NgModule({
   declarations: [
@@ -106,6 +107,7 @@ import { NoDataComponent } from './components/cloud/no-data/no-data.component';
     CloudService,
     ProfileService,
     CloudResolver,
+    FolderResolver,
   ],
   bootstrap: [AppComponent],
 })

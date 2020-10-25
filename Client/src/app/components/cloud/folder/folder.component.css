@@ -1,0 +1,19 @@
+.folder-name {
+  color: var(--header-primary);
+  margin-bottom: 1rem;
+}
+
+.folder-data {
+  margin-left: 4rem;
+  flex: 1;
+  width: 100vw;
+  padding: 2rem 3rem;
+  overflow-y: auto;
+}
+
+@media (max-width: 699px) {
+  .folder-data {
+    margin-left: 0;
+    padding: 2rem;
+  }
+}

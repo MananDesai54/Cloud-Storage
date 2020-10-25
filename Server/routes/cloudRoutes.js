@@ -115,8 +115,15 @@ router.get(
   (req, res) => {
     try {
       if (req.folder) {
+        const folder = req.folder;
         return res.status(200).json({
-          data: req.folder,
+          name: folder.name,
+          files: folder.files,
+          folders: folder.folders,
+          location: folder.location,
+          sharable: folder.sharable,
+          sharedWith: folder.sharedWith,
+          sharableLink: folder.sharableLink,
         });
       } else {
         return res.status(404).json({
