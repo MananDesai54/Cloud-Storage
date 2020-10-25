@@ -55,10 +55,8 @@
   <h3 style="text-align: center">No files or folders use add button</h3>
 </div>
 <ng-template #cloudData>
-  <div class="folders">
-    <div class="folder" *ngFor="let folder of cloud.folders">
-      <i class="fas fa-folder"></i>
-      <p>{{ folder.name }}</p>
-    </div>
+  <div class="data">
+    <app-folders [folders]="cloud.folders"></app-folders>
+    <app-files [files]="cloud.files"></app-files>
   </div>
 </ng-template>

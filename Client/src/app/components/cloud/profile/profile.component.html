@@ -1,8 +1,4 @@
-<div
-  class="user"
-  [ngStyle]="{ width: isNavOpen ? '95vw' : '100vw' }"
-  style="z-index: 1"
->
+<div class="user" style="z-index: 1; width: 100vw">
   <div class="backdrop" #backdrop (click)="onBackdropClick()"></div>
   <div class="side-menu-toggle" #sideMenuToggle (click)="onSideMenuToggle()">
     <i class="fas fa-bars"></i>

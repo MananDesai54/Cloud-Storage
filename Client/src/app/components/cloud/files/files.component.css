@@ -1,0 +1,14 @@
+.data-title {
+  color: var(--header-primary);
+  border-bottom: 1px solid var(--header-primary);
+  padding: 0.2rem;
+  width: 90%;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 699px) {
+  .data-title {
+    width: 100%;
+  }
+}

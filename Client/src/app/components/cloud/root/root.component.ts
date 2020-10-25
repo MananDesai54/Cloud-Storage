@@ -5,7 +5,7 @@ import { CloudModel } from 'src/app/models/cloud.model';
 import { CloudService } from 'src/app/services/cloud.service';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-cloud-root',
   templateUrl: './root.component.html',
   styleUrls: ['./root.component.css'],
 })

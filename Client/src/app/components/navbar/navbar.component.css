@@ -33,6 +33,9 @@
   transition: all 400ms;
 }
 .side-menu .menu {
+  position: fixed;
+  top: 0;
+  left: 0;
   transform: translateX(-75px);
   display: flex;
   flex-direction: column;
@@ -150,6 +153,10 @@
   background: var(--color-success);
   color: var(--light-white);
   border-radius: 50%;
+}
+.small-menu a {
+  text-decoration: none;
+  color: var(--header-primary);
 }
 .small-menu {
   background: var(--background-tertiary);
@@ -277,7 +284,7 @@
   pointer-events: none;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 699px) {
   .big-screen {
     display: none;
   }

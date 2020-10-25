@@ -375,9 +375,6 @@ button.cancelBtn {
   .user .option-detail img {
     align-self: center;
   }
-  .user .options section {
-    margin-left: 1rem;
-  }
 }
 
 @media (max-width: 850px) {
@@ -388,27 +385,27 @@ button.cancelBtn {
 }
 
 @media (max-width: 700px) {
-  .user .options section {
-    margin-left: 0;
-  }
-  .user {
-    padding-left: 0;
-  }
   .user .option-detail .basic {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
+  .user .options section {
+    margin-left: 1rem;
+  }
+  .user {
+    margin-left: 1rem;
+  }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 699px) {
+  .user {
+    margin-left: 0;
+    padding-left: 0;
+  }
   .user .side-menu-toggle {
     display: flex;
     z-index: 100;
-  }
-  .user {
-    width: 100vw;
-    margin: 0;
   }
   *::-webkit-scrollbar {
     background: var(--background-primary) !important;

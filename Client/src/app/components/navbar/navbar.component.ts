@@ -60,13 +60,14 @@ export class NavbarComponent implements OnInit {
   }
   onCreateFolder() {
     this.isLoading = true;
-    this.isCreateFolder = false;
     this.cloudService
       .createFolder(this.folderNameForm.value.name, this.location || 'root')
       .subscribe(
         (res) => {
           this.isLoading = false;
           console.log(res);
+          this.isCreateFolder = false;
+          this.folderNameForm.reset();
         },
         (error) => {
           this.isLoading = false;

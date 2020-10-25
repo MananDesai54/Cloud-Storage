@@ -14,8 +14,22 @@
   align-items: center;
   color: var(--light-white);
 }
-
 .no-data svg {
   height: 40%;
   width: 40%;
+}
+
+.data {
+  margin-left: 4rem;
+  flex: 1;
+  width: 100vw;
+  padding: 3rem;
+  overflow-y: auto;
+}
+
+@media (max-width: 699px) {
+  .data {
+    margin-left: 0;
+    padding: 2rem;
+  }
 }

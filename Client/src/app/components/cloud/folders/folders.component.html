@@ -1,0 +1,12 @@
+<h3 class="data-title">Folders</h3>
+<div class="folders">
+  <h2 *ngIf="!folders.length; else folder">No folders</h2>
+  <ng-template #folder>
+    <div class="folder" *ngFor="let folder of folders">
+      <div class="logo" style="margin-right: 1rem">
+        <i class="fas fa-folder"></i>
+      </div>
+      <p>{{ folder.name }}</p>
+    </div>
+  </ng-template>
+</div>

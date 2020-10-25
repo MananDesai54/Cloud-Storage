@@ -92,24 +92,29 @@
 </div>
 <div class="small-screen">
   <div class="small-menu">
-    <div class="item">
+    <a
+      routerLink="/cloud"
+      routerLinkActive="selected"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="item"
+    >
       <div class="logo">
         <i class="fas fa-home"></i>
       </div>
       <div class="title">Home</div>
-    </div>
-    <div class="item">
+    </a>
+    <a href="#" routerLinkActive="selected" class="item">
       <div class="logo">
         <i class="fas fa-folder"></i>
       </div>
       <div class="title">Files</div>
-    </div>
-    <div class="item selected">
+    </a>
+    <a routerLink="setting" routerLinkActive="selected" class="item">
       <div class="logo">
         <i class="fas fa-user"></i>
       </div>
       <div class="title">User</div>
-    </div>
+    </a>
   </div>
   <div class="add-btn" (click)="onOpenUploadOption()">
     <i class="fas fa-plus"></i>

@@ -12,6 +12,7 @@ const hasAccessToFolder = async (req, res, next) => {
     });
     if (result.success) {
       req.folder = result.data;
+      console.log("You have permission");
       return next();
     } else {
       return res.status(400).json({
