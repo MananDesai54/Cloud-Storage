@@ -16,13 +16,13 @@ const hasAccessToFolder = async (req, res, next) => {
       return next();
     } else {
       return res.status(400).json({
-        error: result.data,
+        message: result.data,
       });
     }
   } catch (error) {
     console.log(error.message);
     return res.status(400).json({
-      error: error.message,
+      message: error.message,
     });
   }
 };
@@ -40,13 +40,13 @@ const hasAccessToFile = async (req, res, next) => {
       return next();
     } else {
       return res.status(400).json({
-        error: result.data,
+        message: result.data,
       });
     }
   } catch (error) {
     console.log(error.message);
     return res.status(400).json({
-      error: error.message,
+      message: error.message,
     });
   }
 };

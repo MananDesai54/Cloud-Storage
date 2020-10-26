@@ -165,13 +165,31 @@ router.put(
       const folder = await cloud.folders.find((folder) => folder.id === id);
       if (!folder) {
         return res.status(404).json({
-          error: "Folder not found.",
+          message: "Folder not found.",
         });
       }
+      if (!(folder.location === "root")) {
+        const parent = await cloud.folders.find(
+          (Folder) => Folder.id === folder.location
+        );
+        const inParentIndex = await parent.folders.findIndex(
+          (Folder) => Folder._id.toString() === id
+        );
+        // console.log(inParentIndex);
+        parent.folders[inParentIndex].name = name;
+      }
       folder.name = name;
+      cloud.markModified("folders");
       await cloud.save();
       return res.status(200).json({
-        data: folder,
+        name: folder.name,
+        files: folder.files,
+        folders: folder.folders,
+        location: folder.location,
+        sharable: folder.sharable,
+        sharedWith: folder.sharedWith,
+        sharableLink: folder.sharableLink,
+        id: folder.id,
       });
     } catch (error) {
       showError(res, error);
@@ -201,7 +219,8 @@ router.delete("/folders/:id", auth, cloudMiddleware, async (req, res) => {
       //   return folderId.toString() === id;
       // });
       const inParentIndex = parent.folders.findIndex((folder) => {
-        return folder.id.toString() === id;
+        console.log(folder._id, id);
+        return folder._id.toString() === id;
       });
       parent.folders.splice(inParentIndex, 1);
     }
@@ -214,10 +233,17 @@ router.delete("/folders/:id", auth, cloudMiddleware, async (req, res) => {
         console.log("Done");
         await cloud.save();
         return res.status(200).json({
-          message: "Folder Deleted",
+          name: folder.name,
+          files: folder.files,
+          folders: folder.folders,
+          location: folder.location,
+          sharable: folder.sharable,
+          sharedWith: folder.sharedWith,
+          sharableLink: folder.sharableLink,
+          id: folder.id,
         });
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => console.log(error));
   } catch (error) {
     showError(res, error);
   }

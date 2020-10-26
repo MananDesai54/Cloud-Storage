@@ -1,13 +1,13 @@
 <h3 class="data-title">Folders</h3>
 <div class="folders">
-  <a
-    [routerLink]="['/cloud', 'folder', folder._id]"
-    class="folder"
-    *ngFor="let folder of folders"
-  >
-    <div class="logo" style="margin-right: 1rem">
+  <div class="folder" *ngFor="let folder of folders">
+    <a
+      [routerLink]="['/cloud', 'folder', folder._id]"
+      class="logo"
+      style="margin-right: 1rem"
+    >
       <i class="fas fa-folder"></i>
-    </div>
+    </a>
     <div
       class="folder-data"
       style="
@@ -17,10 +17,125 @@
         width: 100%;
       "
     >
-      <p>{{ folder.name }}</p>
-      <div class="edit">
+      <a [routerLink]="['/cloud', 'folder', folder._id]" style="width: 80%">{{
+        folder.name
+      }}</a>
+      <div
+        class="edit"
+        style="cursor: pointer"
+        (click)="onOpenFolderSettings(folder); isRename = false"
+      >
         <i class="fas fa-ellipsis-v"></i>
       </div>
     </div>
-  </a>
+  </div>
+</div>
+
+<form
+  *ngIf="isRename"
+  class="folder-form"
+  [formGroup]="renameForm"
+  (ngSubmit)="onRename()"
+>
+  <div *ngIf="message">
+    <div class="errors-modal">
+      <app-message-box [message]="message" [modal]="true"></app-message-box>
+    </div>
+  </div>
+  <label>
+    New name
+    <input
+      type="text"
+      [placeholder]="selectedEditFolder.name"
+      name="name"
+      formControlName="name"
+      autofocus
+    />
+  </label>
+  <div class="buttons">
+    <button
+      type="button"
+      class="cancel"
+      (click)="isRename = false; renameForm.reset()"
+    >
+      Cancel
+    </button>
+    <button
+      type="submit"
+      [disabled]="isLoading || !renameForm.valid"
+      class="primary"
+    >
+      <span *ngIf="!isLoading"> Rename </span>
+      <app-loader *ngIf="isLoading"></app-loader>
+    </button>
+  </div>
+</form>
+
+<div class="edit-box" #editOption>
+  <div class="close-btn" (click)="editOption.classList.remove('open')">
+    <i class="fas fa-times"></i>
+  </div>
+  <div class="edit-option">
+    <div class="edit-logo">
+      <i class="fas fa-user-plus"></i>
+    </div>
+    <div class="edit-name">Share</div>
+  </div>
+  <div class="edit-option">
+    <div class="edit-logo">
+      <i class="fas fa-link"></i>
+    </div>
+    <div class="edit-name">Get link</div>
+  </div>
+  <div class="edit-option">
+    <div class="edit-logo">
+      <i class="fas fa-copy"></i>
+    </div>
+    <div class="edit-name">Copy to</div>
+  </div>
+  <div class="edit-option">
+    <div class="edit-logo">
+      <i class="fas fa-copy"></i>
+    </div>
+    <div class="edit-name">Move to</div>
+  </div>
+  <div
+    class="edit-option"
+    (click)="isRename = true; editOption.classList.remove('open')"
+  >
+    <div class="edit-logo">
+      <i class="fas fa-edit"></i>
+    </div>
+    <div class="edit-name">Rename</div>
+  </div>
+  <div class="edit-option">
+    <div class="edit-logo">
+      <i class="far fa-star"></i>
+    </div>
+    <div class="edit-name">Add to stared</div>
+  </div>
+  <div class="edit-option">
+    <div class="edit-logo">
+      <i class="fas fa-info-circle"></i>
+    </div>
+    <div class="edit-name">View details</div>
+  </div>
+  <div class="edit-option">
+    <div class="edit-logo">
+      <i class="fas fa-download"></i>
+    </div>
+    <div class="edit-name">Download</div>
+  </div>
+  <div
+    class="edit-option"
+    style="color: var(--color-danger)"
+    (click)="
+      onDeleteFolder(); isRename = false; editOption.classList.remove('open')
+    "
+  >
+    <div class="edit-logo">
+      <i class="fas fa-trash"></i>
+    </div>
+    <div class="edit-name">Delete</div>
+  </div>
 </div>

@@ -32,7 +32,7 @@ async function deleteSubFolders(folder, cloud) {
   // });
   folder.folders.forEach((Folder) => {
     const subFolderIndex = cloud.folders.findIndex(
-      (folder) => folder.id === Folder.id.toString()
+      (folder) => folder.id === Folder._id.toString()
     );
     deleteSubFolders(cloud.folders[subFolderIndex], cloud);
     cloud.folders.splice(subFolderIndex, 1);

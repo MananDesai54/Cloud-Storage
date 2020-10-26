@@ -7,6 +7,12 @@ import { catchError, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { Folder } from '../models/folder.model';
 
+export const STATUS = {
+  CREATED: 'created',
+  EDITED: 'edited',
+  DELETED: 'deleted',
+};
+
 @Injectable()
 export class CloudService {
   isNavOpen = false;
@@ -14,7 +20,7 @@ export class CloudService {
 
   cloud = new BehaviorSubject<CloudModel>(null);
   currentLocation = new BehaviorSubject<string>(null);
-  folderCreated = new Subject<any>();
+  folderAction = new Subject<{ folder: any; status: string }>();
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -38,7 +44,10 @@ export class CloudService {
       catchError((error) => this.authService.handleError(error)),
       tap((res: any) => {
         this.cloud.next(res.cloud);
-        this.folderCreated.next(res.newFolder);
+        this.folderAction.next({
+          folder: res.newFolder,
+          status: STATUS.CREATED,
+        });
       })
     );
   }
@@ -47,5 +56,23 @@ export class CloudService {
     return this.http
       .get<Folder>(`${env.SERVER_URL}/cloud/folders/${id}`)
       .pipe(catchError((error) => this.authService.handleError(error)));
+  }
+
+  editFolder(data: any) {
+    return this.http.put(`${env.SERVER_URL}/cloud/folders`, data).pipe(
+      catchError((error) => this.authService.handleError(error)),
+      tap((res) => {
+        this.folderAction.next({ folder: res, status: STATUS.EDITED });
+      })
+    );
+  }
+
+  deleteFolder(id: string) {
+    return this.http.delete(`${env.SERVER_URL}/cloud/folders/${id}`).pipe(
+      catchError((error) => this.authService.handleError(error)),
+      tap((res) => {
+        this.folderAction.next({ folder: res, status: STATUS.DELETED });
+      })
+    );
   }
 }

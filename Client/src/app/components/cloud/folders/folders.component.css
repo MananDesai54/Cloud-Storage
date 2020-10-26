@@ -10,6 +10,11 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 }
+.folder .logo,
+.folder-data a {
+  color: var(--light-white);
+  text-decoration: none;
+}
 .folders .folder {
   margin: 0.5rem;
   padding: 0.8rem;
@@ -27,13 +32,58 @@
   transition: all 400ms;
 }
 
+.edit-box {
+  width: 100%;
+  max-width: 400px;
+  background: var(--background-tertiary);
+  color: var(--header-primary);
+  border-radius: 1rem 1rem 0 0;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(100vh) scale(0);
+  transform-origin: top;
+  z-index: -1000000000;
+  opacity: 0;
+  transition: all 400ms var(--animation-function);
+}
+.edit-box.open {
+  transform: translateX(-50%) translateY(0) scale(1);
+  z-index: 1000000000;
+  opacity: 1;
+  transition: all 400ms var(--animation-function);
+}
+.edit-box .edit-option {
+  display: flex;
+  margin: 0.5rem 1rem;
+  padding: 0.5rem;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 400ms;
+}
+.edit-box .edit-option:hover {
+  background: var(--background-secondary);
+  transition: all 400ms;
+}
+.edit-option + .edit-option {
+  border-top: 1px solid var(--background-primary);
+}
+.edit-box .edit-logo {
+  margin-right: 1rem;
+}
+.edit-box .close-btn {
+  position: absolute;
+  right: 1rem;
+  top: 10px;
+}
+
 @media (max-width: 699px) {
   .folders {
-    width: 100%;
-    padding: 2rem 1rem;
+    width: 95%;
+    padding: 1rem 1rem 2rem;
   }
   .data-title {
-    width: 100%;
+    width: 95%;
   }
 }
 
@@ -55,7 +105,7 @@
     height: 100%;
     width: 100%;
   }
-  .folder-data p {
+  .folder-data a {
     flex: 1;
     text-align: center;
   }

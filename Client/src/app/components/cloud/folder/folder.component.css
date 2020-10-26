@@ -1,6 +1,7 @@
 .folder-name {
   color: var(--header-primary);
   margin-bottom: 1rem;
+  margin-left: 0.5rem;
 }
 
 .folder-data {
@@ -9,6 +10,7 @@
   width: 100vw;
   padding: 2rem 3rem;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 @media (max-width: 699px) {

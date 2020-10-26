@@ -26,15 +26,15 @@ export class FolderComponent implements OnInit {
       this.cloudService.currentLocation.next(params.id);
     });
 
-    this.folderCreated = this.cloudService.folderCreated.subscribe(
-      (folder) => {
-        const updatedFolder = { ...this.folder };
-        updatedFolder.folders.push(folder);
-        // this.folder = { ...updatedFolder };
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    // this.folderCreated = this.cloudService.folderAction.subscribe(
+    //   (res) => {
+    //     const updatedFolder = { ...this.folder };
+    //     updatedFolder.folders.push(res.folder);
+    //     // this.folder = { ...updatedFolder };
+    //   },
+    //   (error) => {
+    //     console.log(error);
+    //   }
+    // );
   }
 }
