@@ -6,6 +6,7 @@
     <app-folders
       *ngIf="cloud.folders.length"
       [folders]="cloud.folders"
+      [location]="'root'"
     ></app-folders>
     <app-files *ngIf="cloud.files.length" [files]="cloud.files"></app-files>
   </div>

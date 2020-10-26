@@ -179,7 +179,11 @@
     <input type="text" name="name" formControlName="name" />
   </label>
   <div class="buttons">
-    <button type="button" class="cancel" (click)="isCreateFolder = false">
+    <button
+      type="button"
+      class="cancel"
+      (click)="isCreateFolder = false; folderNameForm.reset()"
+    >
       Cancel
     </button>
     <button

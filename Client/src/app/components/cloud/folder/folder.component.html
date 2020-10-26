@@ -1,5 +1,16 @@
 <div class="folder-data">
-  <h2 class="folder-name">{{ folder.name | uppercase }}</h2>
+  <h2 class="folder-name">
+    <a
+      [routerLink]="
+        folder.location === 'root'
+          ? ['/cloud']
+          : ['/cloud', 'folder', folder.location]
+      "
+    >
+      <i class="fas fa-arrow-left" style="color: var(--text-link)"></i>
+    </a>
+    {{ folder.name | uppercase }}
+  </h2>
   <div *ngIf="!(folder.files.length || folder.folders.length); else folderData">
     <app-no-data></app-no-data>
   </div>
@@ -8,6 +19,7 @@
       <app-folders
         *ngIf="folder.folders.length"
         [folders]="folder.folders"
+        [location]="folder.id"
       ></app-folders>
       <app-files *ngIf="folder.files.length" [files]="folder.files"></app-files>
     </div>

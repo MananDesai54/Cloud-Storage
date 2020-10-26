@@ -1,5 +1,6 @@
 export class Folder {
   constructor(
+    public id: string,
     public name: string,
     public files: [string],
     public folders: [string],

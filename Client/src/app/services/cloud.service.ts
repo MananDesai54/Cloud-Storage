@@ -14,6 +14,7 @@ export class CloudService {
 
   cloud = new BehaviorSubject<CloudModel>(null);
   currentLocation = new BehaviorSubject<string>(null);
+  folderCreated = new Subject<any>();
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -33,14 +34,13 @@ export class CloudService {
       name,
       location,
     };
-    return this.http
-      .post<CloudModel>(`${env.SERVER_URL}/cloud/folder`, body)
-      .pipe(
-        catchError((error) => this.authService.handleError(error)),
-        tap((cloud) => {
-          this.cloud.next(cloud);
-        })
-      );
+    return this.http.post(`${env.SERVER_URL}/cloud/folder`, body).pipe(
+      catchError((error) => this.authService.handleError(error)),
+      tap((res: any) => {
+        this.cloud.next(res.cloud);
+        this.folderCreated.next(res.newFolder);
+      })
+    );
   }
 
   getFolder(id: string) {

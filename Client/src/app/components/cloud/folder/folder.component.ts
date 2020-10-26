@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, Params } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Folder } from 'src/app/models/folder.model';
 import { CloudService } from 'src/app/services/cloud.service';
 
@@ -10,6 +11,7 @@ import { CloudService } from 'src/app/services/cloud.service';
 })
 export class FolderComponent implements OnInit {
   folder: Folder;
+  folderCreated: Subscription;
   constructor(
     private route: ActivatedRoute,
     private cloudService: CloudService
@@ -18,11 +20,21 @@ export class FolderComponent implements OnInit {
   ngOnInit(): void {
     this.route.data.subscribe((data: Data) => {
       this.folder = data.folder;
-      console.log(this.folder);
     });
 
     this.route.params.subscribe((params: Params) => {
       this.cloudService.currentLocation.next(params.id);
     });
+
+    this.folderCreated = this.cloudService.folderCreated.subscribe(
+      (folder) => {
+        const updatedFolder = { ...this.folder };
+        updatedFolder.folders.push(folder);
+        // this.folder = { ...updatedFolder };
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 }

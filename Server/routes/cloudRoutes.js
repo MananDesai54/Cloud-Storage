@@ -94,10 +94,13 @@ router.post(
       }
       await cloud.save();
       return res.status(200).json({
-        storage: cloud.storage,
-        files: cloud.files,
-        folders: cloud.folders,
-        userId: cloud.user,
+        cloud: {
+          storage: cloud.storage,
+          files: cloud.files,
+          folders: cloud.folders,
+          userId: cloud.user,
+        },
+        newFolder: cloud.folders[cloud.folders.length - 1],
       });
     } catch (error) {
       showError(res, error);
@@ -125,6 +128,7 @@ router.get(
           sharable: folder.sharable,
           sharedWith: folder.sharedWith,
           sharableLink: folder.sharableLink,
+          id: folder.id,
         });
       } else {
         return res.status(404).json({

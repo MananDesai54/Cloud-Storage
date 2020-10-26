@@ -64,7 +64,6 @@ export class NavbarComponent implements OnInit {
       .subscribe(
         (res) => {
           this.isLoading = false;
-          console.log(res);
           this.isCreateFolder = false;
           this.folderNameForm.reset();
         },
