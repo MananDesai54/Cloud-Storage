@@ -1,0 +1,35 @@
+.verify-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  padding: 4rem;
+  color: var(--header-primary);
+}
+
+.verify-box h3 {
+  margin: 1rem 0;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  background: var(--color-accent);
+  color: var(--header-primary);
+  border: none;
+  cursor: pointer;
+}
+
+.errors-profile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: 100%;
+  height: 100vh;
+  pointer-events: none;
+}

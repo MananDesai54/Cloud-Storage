@@ -77,7 +77,7 @@ export class AuthService {
   authUser() {
     return this.http
       .get<User>(`${env.SERVER_URL}/auth`)
-      .pipe(catchError(this.handleError));
+      .pipe(catchError((error) => this.handleError(error)));
   }
 
   logout() {

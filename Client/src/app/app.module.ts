@@ -44,6 +44,8 @@ import { FoldersComponent } from './components/cloud/folders/folders.component';
 import { FilesComponent } from './components/cloud/files/files.component';
 import { NoDataComponent } from './components/cloud/no-data/no-data.component';
 import { FolderResolver } from './components/cloud/folder.resolver';
+import { VerifyComponent } from './components/cloud/verify/verify.component';
+import { CloudGuard } from './components/cloud/cloud.guard';
 
 @NgModule({
   declarations: [
@@ -70,6 +72,7 @@ import { FolderResolver } from './components/cloud/folder.resolver';
     FoldersComponent,
     FilesComponent,
     NoDataComponent,
+    VerifyComponent,
   ],
   imports: [
     BrowserModule,
@@ -108,6 +111,7 @@ import { FolderResolver } from './components/cloud/folder.resolver';
     ProfileService,
     CloudResolver,
     FolderResolver,
+    CloudGuard,
   ],
   bootstrap: [AppComponent],
 })

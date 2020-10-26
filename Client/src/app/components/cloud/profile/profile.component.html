@@ -184,7 +184,8 @@
           [type]="confirmDelete ? 'submit' : 'button'"
           [disabled]="confirmDelete && !deleteProfileForm.valid"
         >
-          Delete Account
+          <span *ngIf="!isLoading"> Delete Account </span>
+          <app-loader *ngIf="isLoading"></app-loader>
         </button>
         <button
           *ngIf="confirmDelete"

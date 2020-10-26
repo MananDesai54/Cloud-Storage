@@ -1,0 +1,13 @@
+<div class="verify-box">
+  <h2>
+    To explore all the features of Buckiee, Please get you self verified first.
+  </h2>
+  <h3>Please check mail to verify your self.</h3>
+  <p>Or</p>
+  <button type="button" (click)="onSendVerificationMail()">Re-send Mail</button>
+</div>
+<div *ngIf="message">
+  <div class="errors-profile">
+    <app-message-box [message]="message" [success]="true"></app-message-box>
+  </div>
+</div>

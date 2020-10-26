@@ -214,7 +214,7 @@
   opacity: 1;
 }
 
-.form {
+.folder-form {
   position: absolute !important;
   top: 50%;
   left: 50%;
@@ -232,12 +232,12 @@
   width: 90vw;
   max-width: 500px;
 }
-.form label {
+.folder-form label {
   margin: 1rem 0 0;
   color: var(--text-muted);
   font-weight: bold;
 }
-.form label input {
+.folder-form label input {
   display: block;
   width: 100%;
   padding: 0.5rem;
@@ -247,36 +247,36 @@
   color: var(--header-primary);
   transition: all 600ms;
 }
-.form label input:focus {
+.folder-form label input:focus {
   border-color: var(--color-accent);
   transition: all 600ms;
 }
-.form .buttons {
+.folder-form .buttons {
   margin-top: 1rem;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
-.form .buttons button {
+.folder-form .buttons button {
   cursor: pointer;
   color: var(--header-primary);
 }
-.form .buttons .cancel {
+.folder-form .buttons .cancel {
   background: transparent;
   border: none;
 }
-.form .buttons .primary {
+.folder-form .buttons .primary {
   background: var(--color-accent);
   border-radius: 5px;
   border: none;
   padding: 0.5rem 1rem;
   margin-left: 0.5rem;
 }
-.form .buttons .primary:disabled {
+.folder-form .buttons .primary:disabled {
   filter: brightness(0.5);
   cursor: not-allowed;
 }
-.form label input.ng-invalid.ng-touched {
+.folder-form label input.ng-invalid.ng-touched {
   border-color: var(--color-danger);
 }
 .errors-modal {

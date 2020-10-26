@@ -33,6 +33,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   authSubscription: Subscription;
   routeSubscription: Subscription;
   imageUploadSubscription: Subscription;
+  emailSubscription: Subscription;
   isNavOpen: boolean;
   user: User;
   toggleAvatarOption = false;
@@ -120,7 +121,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.selectedValue = value;
   }
   onSendVerificationMail() {
-    this.profileService
+    this.emailSubscription = this.profileService
       .sendEmailVerificationMail(this.user.email.value)
       .subscribe(
         (res) => {
@@ -152,15 +153,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
   onConfirmDeleteAccount() {
+    this.isLoading = true;
     this.profileService
       .deleteAccount(this.deleteProfileForm.value.password)
       .subscribe(
         (res) => {
           console.log('Profile deleted');
+          this.isLoading = false;
         },
         (error) => {
           console.log(error);
           this.setMessage(error, true);
+          this.isLoading = false;
         }
       );
   }
@@ -216,5 +220,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.authSubscription?.unsubscribe();
     this.routeSubscription?.unsubscribe();
     this.imageUploadSubscription?.unsubscribe();
+    this.emailSubscription?.unsubscribe();
   }
 }

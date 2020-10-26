@@ -88,7 +88,8 @@ router.post(
       });
       if (location !== "root") {
         cloud.folders[folderIndex].folders.push(
-          cloud.folders[cloud.folders.length - 1].id
+          // cloud.folders[cloud.folders.length - 1].id
+          cloud.folders[cloud.folders.length - 1]
         );
       }
       await cloud.save();
@@ -192,8 +193,11 @@ router.delete("/folders/:id", auth, cloudMiddleware, async (req, res) => {
       const parent = cloud.folders.find(
         (folder) => folder.id === folderLocation
       );
-      const inParentIndex = parent.folders.findIndex((folderId) => {
-        return folderId.toString() === id;
+      // const inParentIndex = parent.folders.findIndex((folderId) => {
+      //   return folderId.toString() === id;
+      // });
+      const inParentIndex = parent.folders.findIndex((folder) => {
+        return folder.id.toString() === id;
       });
       parent.folders.splice(inParentIndex, 1);
     }
@@ -277,7 +281,8 @@ router.post(
         };
         cloud.files.push(uploadedData);
         if (folderId !== "root") {
-          folder.files.push(cloud.files[cloud.files.length - 1].id);
+          // folder.files.push(cloud.files[cloud.files.length - 1].id);
+          folder.files.push(cloud.files[cloud.files.length - 1]);
         }
         cloud.storage = +cloud.storage - sizeInGb;
         await cloud.save();
@@ -383,6 +388,7 @@ router.delete("/files/:fileId", auth, cloudMiddleware, async (req, res) => {
             (folder) => folder.id.toString() === cloud.files[fileIndex].location
           );
           const inFolderIndex = folder.files.findIndex(
+            // (file) => file.toString() === fileId
             (file) => file.id.toString() === fileId
           );
           folder.files.splice(inFolderIndex, 1);
@@ -483,7 +489,7 @@ router.put(
 /**
  * File download
  */
-//@route    PUT api/cloud/download/:id
+//@route    GET api/cloud/download/:id
 //@desc     download file
 //@access   Private
 router.get("/download/:id", auth, cloudMiddleware, async (req, res) => {

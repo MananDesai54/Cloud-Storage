@@ -23,9 +23,16 @@ async function deleteSubFolders(folder, cloud) {
   if (folder.folders.length === 0) {
     return;
   }
-  folder.folders.forEach((folderId) => {
+  // folder.folders.forEach((folderId) => {
+  //   const subFolderIndex = cloud.folders.findIndex(
+  //     (folder) => folder.id === folderId.toString()
+  //   );
+  //   deleteSubFolders(cloud.folders[subFolderIndex], cloud);
+  //   cloud.folders.splice(subFolderIndex, 1);
+  // });
+  folder.folders.forEach((Folder) => {
     const subFolderIndex = cloud.folders.findIndex(
-      (folder) => folder.id === folderId.toString()
+      (folder) => folder.id === Folder.id.toString()
     );
     deleteSubFolders(cloud.folders[subFolderIndex], cloud);
     cloud.folders.splice(subFolderIndex, 1);
@@ -37,9 +44,16 @@ function deleteFiles(folder, cloud) {
   if (folder.folders.length === 0) {
     return;
   }
-  folder.files.forEach((fileId) => {
+  // folder.files.forEach((fileId) => {
+  //   const subFolderIndex = cloud.files.findIndex(
+  //     (folder) => folder.id === fileId.toString()
+  //   );
+  //   deleteSubFolders(cloud.folders[subFolderIndex], cloud);
+  //   cloud.folders.splice(subFolderIndex, 1);
+  // });
+  folder.files.forEach((file) => {
     const subFolderIndex = cloud.files.findIndex(
-      (folder) => folder.id === fileId.toString()
+      (folder) => folder.id === file.id.toString()
     );
     deleteSubFolders(cloud.folders[subFolderIndex], cloud);
     cloud.folders.splice(subFolderIndex, 1);

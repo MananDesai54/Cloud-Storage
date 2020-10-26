@@ -11,6 +11,8 @@ import { RootComponent } from './components/cloud/root/root.component';
 import { CloudResolver } from './components/cloud/cloud.resolver';
 import { FolderComponent } from './components/cloud/folder/folder.component';
 import { FolderResolver } from './components/cloud/folder.resolver';
+import { VerifyComponent } from './components/cloud/verify/verify.component';
+import { CloudGuard } from './components/cloud/cloud.guard';
 
 const routes: Routes = [
   {
@@ -32,15 +34,22 @@ const routes: Routes = [
         component: RootComponent,
         pathMatch: 'full',
         resolve: { cloud: CloudResolver },
+        canActivate: [CloudGuard],
       },
       {
         path: 'setting',
         component: ProfileComponent,
       },
       {
+        path: 'verify',
+        component: VerifyComponent,
+        canActivate: [CloudGuard],
+      },
+      {
         path: 'folder/:id',
         component: FolderComponent,
         resolve: { folder: FolderResolver },
+        canActivate: [CloudGuard],
       },
     ],
   },

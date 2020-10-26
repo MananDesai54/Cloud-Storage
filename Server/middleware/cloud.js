@@ -6,7 +6,7 @@ module.exports = async (req, res, next) => {
   });
   if (!cloud) {
     return res.status(404).json({
-      error: "Cloud not found !!!",
+      message: "Cloud not found !!!",
     });
   }
   req.cloud = cloud;
