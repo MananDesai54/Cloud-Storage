@@ -260,6 +260,7 @@
   border-radius: 50%;
   background: gray;
   position: absolute;
+  z-index: 1;
   left: 0;
   transition: all 200ms;
   cursor: pointer;

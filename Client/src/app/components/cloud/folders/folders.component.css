@@ -28,10 +28,11 @@
 }
 
 @media (max-width: 699px) {
-  .data-title {
-    width: 100%;
-  }
   .folders {
+    width: 100%;
+    padding: 2rem 1rem;
+  }
+  .data-title {
     width: 100%;
   }
 }
@@ -53,5 +54,9 @@
   .folder .logo svg {
     height: 100%;
     width: 100%;
+  }
+  .folder-data p {
+    flex: 1;
+    text-align: center;
   }
 }
