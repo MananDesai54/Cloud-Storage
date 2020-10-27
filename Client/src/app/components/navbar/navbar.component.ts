@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
+import { take } from 'rxjs/operators';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { CloudService } from '../../services/cloud.service';
@@ -54,7 +55,17 @@ export class NavbarComponent implements OnInit {
   }
   onFileUpload(files: any) {
     [...files].forEach((file) => {
-      console.log(file);
+      this.cloudService
+        .uploadFile(file, this.location)
+        .pipe(take(1))
+        .subscribe(
+          (res) => {
+            console.log(res);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
     });
   }
   onCreateFolder() {

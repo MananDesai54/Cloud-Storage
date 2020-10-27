@@ -80,4 +80,15 @@ export class CloudService {
       })
     );
   }
+
+  uploadFile(file: any, folderId: string) {
+    const fd = new FormData();
+    fd.append('file', file);
+    return this.http.post(`${env.SERVER_URL}/cloud/file/${folderId}`, fd).pipe(
+      catchError((error) => this.authService.handleError(error)),
+      tap((res) => {
+        console.log(res);
+      })
+    );
+  }
 }
