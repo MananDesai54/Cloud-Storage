@@ -101,6 +101,7 @@ router.post(
           userId: cloud.user,
         },
         newFolder: cloud.folders[cloud.folders.length - 1],
+        currentFolder: cloud.folders[folderIndex],
       });
     } catch (error) {
       showError(res, error);
@@ -211,8 +212,9 @@ router.delete("/folders/:id", auth, cloudMiddleware, async (req, res) => {
       });
     }
     const folderLocation = folder.location;
+    let parent;
     if (folderLocation !== "root") {
-      const parent = cloud.folders.find(
+      parent = await cloud.folders.find(
         (folder) => folder.id === folderLocation
       );
       // const inParentIndex = parent.folders.findIndex((folderId) => {
@@ -233,14 +235,17 @@ router.delete("/folders/:id", auth, cloudMiddleware, async (req, res) => {
         console.log("Done");
         await cloud.save();
         return res.status(200).json({
-          name: folder.name,
-          files: folder.files,
-          folders: folder.folders,
-          location: folder.location,
-          sharable: folder.sharable,
-          sharedWith: folder.sharedWith,
-          sharableLink: folder.sharableLink,
-          id: folder.id,
+          folder: {
+            name: folder.name,
+            files: folder.files,
+            folders: folder.folders,
+            location: folder.location,
+            sharable: folder.sharable,
+            sharedWith: folder.sharedWith,
+            sharableLink: folder.sharableLink,
+            id: folder.id,
+          },
+          parent: parent || cloud.folders,
         });
       })
       .catch((error) => console.log(error));

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Folder } from 'src/app/models/folder.model';
-import { CloudService } from 'src/app/services/cloud.service';
+import { CloudService, STATUS } from 'src/app/services/cloud.service';
 
 @Component({
   selector: 'app-folder',
@@ -12,6 +12,7 @@ import { CloudService } from 'src/app/services/cloud.service';
 export class FolderComponent implements OnInit {
   folder: Folder;
   folderCreated: Subscription;
+  id: string;
   constructor(
     private route: ActivatedRoute,
     private cloudService: CloudService
@@ -23,18 +24,22 @@ export class FolderComponent implements OnInit {
     });
 
     this.route.params.subscribe((params: Params) => {
+      this.id = params.id;
       this.cloudService.currentLocation.next(params.id);
     });
 
-    // this.folderCreated = this.cloudService.folderAction.subscribe(
-    //   (res) => {
-    //     const updatedFolder = { ...this.folder };
-    //     updatedFolder.folders.push(res.folder);
-    //     // this.folder = { ...updatedFolder };
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //   }
-    // );
+    this.folderCreated = this.cloudService.folderAction.subscribe(
+      (res) => {
+        if (res.status === STATUS.CREATED) {
+          this.folder = res.parent;
+        } else if (res.status === STATUS.DELETED) {
+          // this.folder = res.parent;
+          console.log(this.folder);
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 }

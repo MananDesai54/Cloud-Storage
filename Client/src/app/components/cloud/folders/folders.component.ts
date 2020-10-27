@@ -1,4 +1,13 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  DoCheck,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -10,11 +19,12 @@ import { CloudService, STATUS } from 'src/app/services/cloud.service';
   templateUrl: './folders.component.html',
   styleUrls: ['./folders.component.css'],
 })
-export class FoldersComponent implements OnInit {
+export class FoldersComponent implements OnInit, OnDestroy, OnChanges {
   @Input() folders: Folder[];
   @Input() location: string;
   @ViewChild('editOption') editOption: ElementRef;
   folderCreated: Subscription;
+  locationSubscription: Subscription;
   selectedEditFolder: any;
   renameForm: FormGroup;
   isRename: boolean;
@@ -26,18 +36,23 @@ export class FoldersComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.locationSubscription = this.cloudService.currentLocation.subscribe(
+      (location) => {
+        this.location = location;
+      }
+    );
     this.folders = this.folders.filter(
       (folder) => folder.location === this.location
     );
     this.folderCreated = this.cloudService.folderAction.subscribe(
       (res) => {
         if (res.status === STATUS.CREATED) {
-          this.folders.push(res.folder);
-          console.log(this.folders);
+          // this.folders.push(res.folder);
         } else if (res.status === STATUS.EDITED) {
           this.folders = this.folders.map((folder: any) => {
             if (folder._id === res.folder.id) {
               folder = res.folder;
+              folder._id = folder.id;
             }
             return folder;
           });
@@ -55,6 +70,12 @@ export class FoldersComponent implements OnInit {
     this.renameForm = new FormGroup({
       name: new FormControl(null, Validators.required),
     });
+  }
+
+  ngOnChanges() {
+    this.folders = this.folders.filter(
+      (folder) => folder.location === this.location
+    );
   }
 
   onOpenFolderSettings(folder: Folder) {
@@ -96,5 +117,10 @@ export class FoldersComponent implements OnInit {
     this.isLoading = false;
     this.isRename = false;
     this.renameForm.reset();
+  }
+
+  ngOnDestroy() {
+    this.folderCreated?.unsubscribe();
+    this.locationSubscription?.unsubscribe();
   }
 }

@@ -20,7 +20,7 @@ export class CloudService {
 
   cloud = new BehaviorSubject<CloudModel>(null);
   currentLocation = new BehaviorSubject<string>(null);
-  folderAction = new Subject<{ folder: any; status: string }>();
+  folderAction = new Subject<{ folder: any; status: string; parent?: any }>();
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -47,6 +47,7 @@ export class CloudService {
         this.folderAction.next({
           folder: res.newFolder,
           status: STATUS.CREATED,
+          parent: res.currentFolder,
         });
       })
     );
@@ -70,8 +71,12 @@ export class CloudService {
   deleteFolder(id: string) {
     return this.http.delete(`${env.SERVER_URL}/cloud/folders/${id}`).pipe(
       catchError((error) => this.authService.handleError(error)),
-      tap((res) => {
-        this.folderAction.next({ folder: res, status: STATUS.DELETED });
+      tap((res: any) => {
+        this.folderAction.next({
+          folder: res.folder,
+          status: STATUS.DELETED,
+          parent: res.parent,
+        });
       })
     );
   }

@@ -22,7 +22,6 @@ export class RootComponent implements OnInit {
     this.route.data.subscribe(
       (data: Data) => {
         this.cloud = data.cloud;
-        console.log(this.cloud);
       },
       (error) => {
         console.log(error);
