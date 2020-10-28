@@ -1,7 +1,23 @@
 <h3 class="data-title">Files</h3>
 <div class="files">
   <div class="file" *ngFor="let file of files">
-    <i class="fas fa-file" style="margin-right: 1rem"></i>
-    <p>{{ file.name }}</p>
+    <div class="file-preview">
+      <img [src]="file.awsData.url" [alt]="file.name" />
+    </div>
+    <div class="file-detail">
+      <div class="logo" style="margin-right: 1rem">
+        <i
+          [class]="
+            checkFileType(file) ? checkFileType(file) : 'fas fa-file-alt'
+          "
+        ></i>
+      </div>
+      <div class="file-data">
+        <div class="file-name">{{ file.name }}</div>
+        <div class="edit" style="cursor: pointer">
+          <i class="fas fa-ellipsis-v"></i>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
