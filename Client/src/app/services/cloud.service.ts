@@ -21,6 +21,7 @@ export class CloudService {
   cloud = new BehaviorSubject<CloudModel>(null);
   currentLocation = new BehaviorSubject<string>(null);
   folderAction = new Subject<{ folder: any; status: string; parent?: any }>();
+  fileAction = new Subject<{ file: any; status: string; parent?: any }>();
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -86,8 +87,35 @@ export class CloudService {
     fd.append('file', file);
     return this.http.post(`${env.SERVER_URL}/cloud/file/${folderId}`, fd).pipe(
       catchError((error) => this.authService.handleError(error)),
+      tap((res: any) => {
+        this.cloud.next(res.cloud);
+        this.fileAction.next({
+          file: res.file,
+          status: STATUS.CREATED,
+          parent: res.parent,
+        });
+      })
+    );
+  }
+
+  editFile(data: any) {
+    return this.http.put(`${env.SERVER_URL}/cloud/files`, data).pipe(
+      catchError((error) => this.authService.handleError(error)),
       tap((res) => {
-        console.log(res);
+        this.fileAction.next({ file: res, status: STATUS.EDITED });
+      })
+    );
+  }
+
+  deleteFile(id: string) {
+    return this.http.delete(`${env.SERVER_URL}/cloud/files/${id}`).pipe(
+      catchError((error) => this.authService.handleError(error)),
+      tap((res: any) => {
+        this.fileAction.next({
+          file: res.file,
+          status: STATUS.DELETED,
+          parent: res.parent,
+        });
       })
     );
   }

@@ -1,14 +1,16 @@
 const S3 = require("../config/aws");
 
 async function deleteSubFolders(folder, cloud) {
-  folder.files.forEach((fileId) => {
-    const fileIndex = cloud.files.findIndex(
-      (file) => file.id === fileId.toString()
-    );
+  folder.files.forEach((File) => {
+    const fileIndex = cloud.files.findIndex((file) => {
+      return file._id.toString() === File._id.toString();
+    });
+    console.log(fileIndex);
     const awsKey = cloud.files[fileIndex].awsData.key;
     cloud.storage =
       +cloud.storage + (+cloud.files[fileIndex].size / 1024) * 10 ** -6;
     cloud.files.splice(fileIndex, 1);
+    // cloud.save();
     S3.deleteObject({
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: awsKey,
@@ -53,7 +55,7 @@ function deleteFiles(folder, cloud) {
   // });
   folder.files.forEach((file) => {
     const subFolderIndex = cloud.files.findIndex(
-      (folder) => folder.id === file.id.toString()
+      (folder) => folder.id === file._id.toString()
     );
     deleteSubFolders(cloud.folders[subFolderIndex], cloud);
     cloud.folders.splice(subFolderIndex, 1);

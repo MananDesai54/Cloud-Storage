@@ -93,6 +93,7 @@ router.post(
         );
       }
       await cloud.save();
+      const currentFolder = cloud.folders[folderIndex];
       return res.status(200).json({
         cloud: {
           storage: cloud.storage,
@@ -101,7 +102,18 @@ router.post(
           userId: cloud.user,
         },
         newFolder: cloud.folders[cloud.folders.length - 1],
-        currentFolder: cloud.folders[folderIndex],
+        currentFolder: currentFolder
+          ? {
+              name: currentFolder.name,
+              files: currentFolder.files,
+              folders: currentFolder.folders,
+              location: currentFolder.location,
+              sharable: currentFolder.sharable,
+              sharedWith: currentFolder.sharedWith,
+              sharableLink: currentFolder.sharableLink,
+              id: currentFolder.id,
+            }
+          : cloud.folders,
       });
     } catch (error) {
       showError(res, error);
@@ -232,7 +244,6 @@ router.delete("/folders/:id", auth, cloudMiddleware, async (req, res) => {
           (Folder) => Folder.id === folder.id
         );
         cloud.folders.splice(folderIndex, 1);
-        console.log("Done");
         await cloud.save();
         return res.status(200).json({
           folder: {
@@ -321,9 +332,38 @@ router.post(
         }
         cloud.storage = +cloud.storage - sizeInGb;
         await cloud.save();
-
+        const file = cloud.files[cloud.files.length - 1];
         return res.status(200).json({
-          data: cloud.files[cloud.files.length - 1],
+          cloud: {
+            storage: cloud.storage,
+            files: cloud.files,
+            folders: cloud.folders,
+            userId: cloud.user,
+          },
+          file: {
+            id: file.id,
+            name: file.name,
+            fileType: file.fileType,
+            size: file.size,
+            mimeType: file.mimeType,
+            location: file.location,
+            awsData: file.awsData,
+            sharable: file.sharable,
+            sharedWith: file.sharedWith,
+            sharableLink: file.sharableLink,
+          },
+          parent: folder
+            ? {
+                name: folder.name,
+                files: folder.files,
+                folders: folder.folders,
+                location: folder.location,
+                sharable: folder.sharable,
+                sharedWith: folder.sharedWith,
+                sharableLink: folder.sharableLink,
+                id: folder.id,
+              }
+            : cloud.files,
         });
       });
     } catch (error) {
@@ -343,8 +383,18 @@ router.get(
   async (req, res) => {
     try {
       if (req.fileData) {
+        const file = req.fileData;
         return res.status(200).json({
-          data: req.fileData,
+          id: file.id,
+          name: file.name,
+          fileType: file.fileType,
+          size: file.size,
+          mimeType: file.mimeType,
+          location: file.location,
+          awsData: file.awsData,
+          sharable: file.sharable,
+          sharedWith: file.sharedWith,
+          sharableLink: file.sharableLink,
         });
       }
       return res.status(404).json({
@@ -387,7 +437,16 @@ router.put(
       file.name = name;
       await cloud.save();
       return res.status(200).json({
-        data: file,
+        id: file.id,
+        name: file.name,
+        fileType: file.fileType,
+        size: file.size,
+        mimeType: file.mimeType,
+        location: file.location,
+        awsData: file.awsData,
+        sharable: file.sharable,
+        sharedWith: file.sharedWith,
+        sharableLink: file.sharableLink,
       });
     } catch (error) {
       showError(res, error);
@@ -403,37 +462,48 @@ router.delete("/files/:fileId", auth, cloudMiddleware, async (req, res) => {
   try {
     const { cloud } = req;
     const fileIndex = await cloud.files.findIndex(
-      (file) => file.id.toString() === fileId
+      (file) => file._id.toString() === fileId
     );
-    if (!cloud.files[fileIndex]) {
+    const file = cloud.files[fileIndex];
+    if (!file) {
       return res.status(404).json({
         error: "File not found",
       });
     }
     const params = {
       Bucket: process.env.AWS_BUCKET_NAME,
-      Key: cloud.files[fileIndex].awsData.key,
+      Key: file.awsData.key,
     };
+    let folder;
     S3.deleteObject(params)
       .promise()
       .then(async (data) => {
         console.log(data);
-        if (cloud.files[fileIndex].location !== "root") {
-          const folder = cloud.folders.find(
-            (folder) => folder.id.toString() === cloud.files[fileIndex].location
+        if (file.location !== "root") {
+          folder = cloud.folders.find(
+            (folder) => folder._id.toString() === file.location
           );
           const inFolderIndex = folder.files.findIndex(
             // (file) => file.toString() === fileId
-            (file) => file.id.toString() === fileId
+            (file) => file._id.toString() === fileId
           );
           folder.files.splice(inFolderIndex, 1);
         }
-        cloud.storage =
-          +cloud.storage + (cloud.files[fileIndex].size / 1024) * 10 ** -6;
+        cloud.storage = +cloud.storage + (file.size / 1024) * 10 ** -6;
         cloud.files.splice(fileIndex, 1);
         await cloud.save();
         return res.status(200).json({
-          message: "File Deleted",
+          file: {
+            name: file.name,
+            files: file.files,
+            folders: file.folders,
+            location: file.location,
+            sharable: file.sharable,
+            sharedWith: file.sharedWith,
+            sharableLink: file.sharableLink,
+            id: file.id,
+          },
+          parent: folder || cloud.files,
         });
       })
       .catch((error) => {

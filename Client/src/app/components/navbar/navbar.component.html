@@ -80,11 +80,11 @@
           </div>
           <div class="title">Add or create file/folder</div>
         </div>
-        <div class="item">
+        <div class="item" (click)="onLogout()">
           <div class="logo danger">
             <i class="fas fa-sign-out-alt"></i>
           </div>
-          <div class="title" (click)="onLogout()">Logout</div>
+          <div class="title">Logout</div>
         </div>
       </div>
     </div>
@@ -151,7 +151,7 @@
   class="file-input"
   name="file"
   tabindex="0"
-  (change)="onFileUpload($event.target.files)"
+  (change)="onFileUpload($event.target.files); fileInput.value = ''"
   #fileInput
   style="opacity: 0; pointer-events: none; position: fixed; top: 0"
 />

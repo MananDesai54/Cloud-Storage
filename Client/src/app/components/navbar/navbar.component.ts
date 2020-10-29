@@ -54,6 +54,7 @@ export class NavbarComponent implements OnInit {
     this.addMenu.nativeElement.classList.toggle('open');
   }
   onFileUpload(files: any) {
+    console.log(files);
     [...files].forEach((file) => {
       this.cloudService
         .uploadFile(file, this.location)

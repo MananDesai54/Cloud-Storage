@@ -26,6 +26,7 @@
   text-decoration: none;
   transition: all 400ms;
   height: 250px;
+  cursor: pointer;
 }
 .file-preview {
   height: 80%;
@@ -37,13 +38,14 @@
   height: 20%;
   width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 0.5rem;
   overflow: hidden;
+  background: var(--background-primary);
+  border-radius: 0 0 10px 10px;
 }
 .file-detail .file-name {
-  width: 70%;
+  width: 100px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

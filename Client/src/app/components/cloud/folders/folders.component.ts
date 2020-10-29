@@ -25,6 +25,8 @@ export class FoldersComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChild('editOption') editOption: ElementRef;
   folderCreated: Subscription;
   locationSubscription: Subscription;
+  renameSubscription: Subscription;
+  deleteSubscription: Subscription;
   selectedEditFolder: any;
   renameForm: FormGroup;
   isRename: boolean;
@@ -73,9 +75,9 @@ export class FoldersComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges() {
-    this.folders = this.folders.filter(
-      (folder) => folder.location === this.location
-    );
+    this.folders = this.folders.filter((folder) => {
+      return folder.location === this.location;
+    });
   }
 
   onOpenFolderSettings(folder: Folder) {
@@ -85,7 +87,7 @@ export class FoldersComponent implements OnInit, OnDestroy, OnChanges {
   onRename() {
     console.log(this.renameForm.value.name, this.selectedEditFolder._id);
     this.isLoading = true;
-    this.cloudService
+    this.renameSubscription = this.cloudService
       .editFolder({
         name: this.renameForm.value.name,
         id: this.selectedEditFolder._id,
@@ -103,14 +105,16 @@ export class FoldersComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onDeleteFolder() {
-    this.cloudService.deleteFolder(this.selectedEditFolder._id).subscribe(
-      (res) => {
-        console.log(res);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    this.deleteSubscription = this.cloudService
+      .deleteFolder(this.selectedEditFolder._id)
+      .subscribe(
+        (res) => {
+          console.log('Folder deleted');
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   private reset() {
@@ -122,5 +126,7 @@ export class FoldersComponent implements OnInit, OnDestroy, OnChanges {
   ngOnDestroy() {
     this.folderCreated?.unsubscribe();
     this.locationSubscription?.unsubscribe();
+    this.renameSubscription?.unsubscribe();
+    this.deleteSubscription?.unsubscribe();
   }
 }

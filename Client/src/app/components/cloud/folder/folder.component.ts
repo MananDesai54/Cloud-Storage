@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Folder } from 'src/app/models/folder.model';
@@ -9,9 +9,10 @@ import { CloudService, STATUS } from 'src/app/services/cloud.service';
   templateUrl: './folder.component.html',
   styleUrls: ['./folder.component.css'],
 })
-export class FolderComponent implements OnInit {
+export class FolderComponent implements OnInit, OnDestroy {
   folder: Folder;
   folderCreated: Subscription;
+  fileCreated: Subscription;
   id: string;
   constructor(
     private route: ActivatedRoute,
@@ -32,14 +33,27 @@ export class FolderComponent implements OnInit {
       (res) => {
         if (res.status === STATUS.CREATED) {
           this.folder = res.parent;
-        } else if (res.status === STATUS.DELETED) {
-          // this.folder = res.parent;
-          console.log(this.folder);
         }
       },
       (error) => {
         console.log(error);
       }
     );
+
+    this.fileCreated = this.cloudService.fileAction.subscribe(
+      (res) => {
+        if (res.status === STATUS.CREATED) {
+          this.folder = res.parent;
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    this.fileCreated?.unsubscribe();
+    this.folderCreated?.unsubscribe();
   }
 }

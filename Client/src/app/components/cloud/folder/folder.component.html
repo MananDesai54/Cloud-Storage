@@ -21,7 +21,11 @@
         [folders]="folder.folders"
         [location]="folder.id"
       ></app-folders>
-      <app-files *ngIf="folder.files.length" [files]="folder.files"></app-files>
+      <app-files
+        *ngIf="folder.files.length"
+        [location]="folder.id"
+        [files]="folder.files"
+      ></app-files>
     </div>
   </ng-template>
 </div>

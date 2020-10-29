@@ -8,6 +8,10 @@
       [folders]="cloud.folders"
       [location]="'root'"
     ></app-folders>
-    <app-files *ngIf="cloud.files.length" [files]="cloud.files"></app-files>
+    <app-files
+      *ngIf="cloud.files.length"
+      [location]="'root'"
+      [files]="cloud.files"
+    ></app-files>
   </div>
 </ng-template>
