@@ -38,6 +38,7 @@ export class FoldersComponent implements OnInit, OnDestroy, OnChanges {
   ) {}
 
   ngOnInit(): void {
+    console.log(this.folders);
     this.locationSubscription = this.cloudService.currentLocation.subscribe(
       (location) => {
         this.location = location;

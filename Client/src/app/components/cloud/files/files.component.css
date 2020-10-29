@@ -46,6 +46,7 @@
 }
 .file-detail .file-name {
   width: 100px;
+  margin-left: 1rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -125,6 +126,21 @@
     justify-content: center;
     align-items: center !important;
     border: none !important;
+    height: 150px !important;
+  }
+  .file-preview {
+    height: 70%;
+  }
+  .file-detail {
+    height: 30%;
+  }
+  .file-name {
+    width: 50px !important;
+    margin-left: 0.1rem !important;
+  }
+  .file-detail .logo {
+    margin-right: 0 !important;
+    width: 15px !important;
   }
   .file .logo {
     height: 70%;

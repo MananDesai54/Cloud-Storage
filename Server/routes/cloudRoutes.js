@@ -34,7 +34,6 @@ router.get("/", auth, cloudMiddleware, (req, res) => {
       folders: cloud.folders,
       userId: cloud.user,
     };
-
     return res.status(200).json({
       ...data,
     });

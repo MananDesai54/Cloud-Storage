@@ -41,7 +41,6 @@ export class FilesComponent implements OnInit, OnDestroy, OnChanges {
   constructor(private cloudService: CloudService) {}
 
   ngOnInit(): void {
-    console.log(this.files);
     this.locationSubscription = this.cloudService.currentLocation.subscribe(
       (location) => {
         this.location = location;

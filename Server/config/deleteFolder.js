@@ -10,7 +10,6 @@ async function deleteSubFolders(folder, cloud) {
     cloud.storage =
       +cloud.storage + (+cloud.files[fileIndex].size / 1024) * 10 ** -6;
     cloud.files.splice(fileIndex, 1);
-    // cloud.save();
     S3.deleteObject({
       Bucket: process.env.AWS_BUCKET_NAME,
       Key: awsKey,
@@ -38,6 +37,7 @@ async function deleteSubFolders(folder, cloud) {
     );
     deleteSubFolders(cloud.folders[subFolderIndex], cloud);
     cloud.folders.splice(subFolderIndex, 1);
+    cloud.save();
   });
 }
 
@@ -59,6 +59,7 @@ function deleteFiles(folder, cloud) {
     );
     deleteSubFolders(cloud.folders[subFolderIndex], cloud);
     cloud.folders.splice(subFolderIndex, 1);
+    cloud.save();
   });
 }
 
