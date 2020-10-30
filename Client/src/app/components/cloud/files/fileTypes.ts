@@ -12,6 +12,10 @@ export const fileTypes = [
     icon: 'fas fa-music',
   },
   {
+    type: ['mp4', 'wmv', 'mkv'],
+    icon: 'fas fa-video',
+  },
+  {
     type: ['doc', 'docx'],
     icon: 'fas fa-file-word',
   },

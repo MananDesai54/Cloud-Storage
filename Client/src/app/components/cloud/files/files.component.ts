@@ -12,6 +12,7 @@ import { Subscription } from 'rxjs';
 import { File } from 'src/app/models/file.model';
 import { CloudService, STATUS } from 'src/app/services/cloud.service';
 import { fileTypes } from './fileTypes';
+import { viewer } from './viewer';
 
 interface IFileType {
   type: string[];
@@ -32,11 +33,17 @@ export class FilesComponent implements OnInit, OnDestroy, OnChanges {
   fileActionSubscription: Subscription;
   renameSubscription: Subscription;
   deleteSubscription: Subscription;
+  downloadSubscription: Subscription;
   selectedEditFile: any;
   renameForm: FormGroup;
   isRename: boolean;
   message: string;
   isLoading: boolean;
+  openFile: boolean;
+  selectedFileUrl: string;
+  selectedFileType: string;
+  viewer = viewer;
+  selectedViewer: string;
 
   constructor(private cloudService: CloudService) {}
 
@@ -112,12 +119,50 @@ export class FilesComponent implements OnInit, OnDestroy, OnChanges {
       .deleteFile(this.selectedEditFile._id)
       .subscribe(
         (res) => {
-          console.log('Folder deleted');
+          console.log('File deleted');
         },
         (error) => {
           console.log(error);
         }
       );
+  }
+
+  onDownloadFile() {
+    this.downloadSubscription = this.cloudService
+      .downloadFile(this.selectedEditFile._id)
+      .subscribe(
+        (data: any) => {
+          console.log(data);
+          const blob = new Blob([data], {
+            type: this.selectedEditFile.fileType,
+          });
+          const url = window.URL.createObjectURL(blob);
+          console.log(url);
+          const link = document.createElement('a');
+          link.href = url;
+          link.setAttribute(
+            'download',
+            `${this.selectedEditFile.name}.${this.selectedEditFile.fileType}`
+          );
+          link.click();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  onOpenFile(file: any) {
+    this.openFile = true;
+    this.selectedFileUrl = file.awsData.url;
+    this.selectedFileType = file.mimeType;
+    this.selectedViewer = this.checkFileViewer(file)?.viewer;
+  }
+
+  public checkFileViewer(file: any) {
+    return this.viewer.find((types) =>
+      types.type.includes(file.fileType.toLowerCase())
+    );
   }
 
   private reset() {
@@ -131,5 +176,6 @@ export class FilesComponent implements OnInit, OnDestroy, OnChanges {
     this.fileActionSubscription?.unsubscribe();
     this.deleteSubscription?.unsubscribe();
     this.renameSubscription?.unsubscribe();
+    this.downloadSubscription?.unsubscribe();
   }
 }

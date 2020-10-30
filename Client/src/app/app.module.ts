@@ -8,6 +8,7 @@ import {
 } from 'angularx-social-login';
 import { GoogleLoginProvider } from 'angularx-social-login';
 import { env } from '../environments/env';
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './Components/home/home.component';
@@ -81,6 +82,7 @@ import { CloudGuard } from './components/cloud/cloud.guard';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    NgxDocViewerModule,
   ],
   providers: [
     {

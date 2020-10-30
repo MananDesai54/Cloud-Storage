@@ -1,8 +1,26 @@
 <h3 class="data-title">Files</h3>
 <div class="files">
-  <div class="file" *ngFor="let file of files">
-    <div class="file-preview">
-      <img [src]="file.awsData.url" [alt]="file.name" />
+  <div class="file" *ngFor="let file of files" [title]="file.name">
+    <div class="file-preview" (click)="onOpenFile(file)">
+      <img
+        *ngIf="
+          file.fileType === 'jpg' ||
+            file.fileType === 'jpeg' ||
+            file.fileType === 'png' ||
+            file.fileType === 'gif';
+          else logo
+        "
+        [src]="file.awsData.url"
+        [alt]="file.name"
+      />
+      <ng-template #logo>
+        <ngx-doc-viewer
+          [url]="file.awsData.url"
+          [viewer]="checkFileViewer(file)?.viewer"
+          class="preview"
+        >
+        </ngx-doc-viewer>
+      </ng-template>
     </div>
     <div class="file-detail">
       <div class="logo">
@@ -16,13 +34,41 @@
         <div class="file-name">{{ file.name }}</div>
         <div
           class="edit"
-          style="cursor: pointer"
+          style="cursor: pointer; padding: 0 0.5rem"
           (click)="onOpenFileSettings(file); isRename = false"
         >
           <i class="fas fa-ellipsis-v"></i>
         </div>
       </div>
     </div>
+  </div>
+</div>
+<div class="file-display" *ngIf="openFile">
+  <div
+    class="file-backdrop"
+    (click)="openFile = false; selectedFileUrl = ''"
+  ></div>
+  <!-- <iframe frameborder="0" [src]="selectedFileUrl"></iframe> -->
+  <div class="open-file">
+    <img
+      *ngIf="selectedFileType.includes('image'); else iframe"
+      [src]="selectedFileUrl"
+      [alt]="'Image'"
+    />
+    <ng-template #iframe>
+      <ngx-doc-viewer
+        [url]="selectedFileUrl"
+        [viewer]="selectedViewer"
+        style="
+          height: 100%;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+      </ngx-doc-viewer>
+    </ng-template>
   </div>
 </div>
 <form
@@ -118,7 +164,12 @@
     </div>
     <div class="edit-name">View details</div>
   </div>
-  <div class="edit-option">
+  <div
+    class="edit-option"
+    (click)="
+      onDownloadFile(); isRename = false; editOption.classList.remove('open')
+    "
+  >
     <div class="edit-logo">
       <i class="fas fa-download"></i>
     </div>

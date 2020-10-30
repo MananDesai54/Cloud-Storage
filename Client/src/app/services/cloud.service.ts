@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, pipe, Subject } from 'rxjs';
+import { BehaviorSubject, pipe, Subject, throwError } from 'rxjs';
 import { CloudModel } from '../models/cloud.model';
 import { env } from '../../environments/env';
 import { HttpClient } from '@angular/common/http';
@@ -73,6 +73,7 @@ export class CloudService {
     return this.http.delete(`${env.SERVER_URL}/cloud/folders/${id}`).pipe(
       catchError((error) => this.authService.handleError(error)),
       tap((res: any) => {
+        this.cloud.next(res.cloud);
         this.folderAction.next({
           folder: res.folder,
           status: STATUS.DELETED,
@@ -118,5 +119,11 @@ export class CloudService {
         });
       })
     );
+  }
+
+  downloadFile(id: string) {
+    return this.http
+      .get(`${env.SERVER_URL}/cloud/download/${id}`, { responseType: 'blob' })
+      .pipe(catchError((error) => this.authService.handleError(error)));
   }
 }

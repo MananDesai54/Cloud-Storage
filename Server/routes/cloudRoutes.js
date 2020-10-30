@@ -243,7 +243,7 @@ router.delete("/folders/:id", auth, cloudMiddleware, async (req, res) => {
           (Folder) => Folder.id === folder.id
         );
         cloud.folders.splice(folderIndex, 1);
-        await cloud.save();
+        // await cloud.save();
         return res.status(200).json({
           folder: {
             name: folder.name,
@@ -492,6 +492,7 @@ router.delete("/files/:fileId", auth, cloudMiddleware, async (req, res) => {
         cloud.files.splice(fileIndex, 1);
         await cloud.save();
         return res.status(200).json({
+          cloud,
           file: {
             name: file.name,
             files: file.files,
@@ -606,13 +607,12 @@ router.get("/download/:id", auth, cloudMiddleware, async (req, res) => {
         error: "File not found",
       });
     }
-
     const fileStream = S3.getObject(
       { Bucket: process.env.AWS_BUCKET_NAME, Key: file.awsData.key },
       (err, data) => {
         if (err) {
           return res.status(400).json({
-            error: err.message,
+            message: err.message,
           });
         }
       }
@@ -621,12 +621,12 @@ router.get("/download/:id", auth, cloudMiddleware, async (req, res) => {
       .on("error", (err) => {
         console.log(err.message);
       });
-    res.attachment(file.name);
+
     fileStream.pipe(res);
+    // res.attachment(file.name);
   } catch (error) {
     showError(res, error);
   }
-  // res.download("file.png");
 });
 
 /**
