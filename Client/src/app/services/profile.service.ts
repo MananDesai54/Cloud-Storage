@@ -1,7 +1,7 @@
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
-import { env } from '../../environments/env';
+import { environment } from '../../environments/environment';
 import { User } from '../models/user.model';
 import { catchError, tap } from 'rxjs/operators';
 
@@ -10,7 +10,7 @@ export class ProfileService {
   constructor(private authService: AuthService, private http: HttpClient) {}
 
   updateProfile(userData: any, user: User) {
-    return this.http.put(`${env.SERVER_URL}/users`, userData).pipe(
+    return this.http.put(`${environment.SERVER_URL}/users`, userData).pipe(
       catchError((error) => this.authService.handleError(error)),
       tap((updatedUser) => {
         const updatedUserData = this.setUser(user, updatedUser);
@@ -28,7 +28,7 @@ export class ProfileService {
 
   sendEmailVerificationMail(email: string) {
     return this.http
-      .post(`${env.SERVER_URL}/auth/send-verification-mail`, { email })
+      .post(`${environment.SERVER_URL}/auth/send-verification-mail`, { email })
       .pipe(catchError((error) => this.authService.handleError(error)));
   }
 
@@ -40,7 +40,9 @@ export class ProfileService {
     };
 
     return this.http
-      .request('delete', `${env.SERVER_URL}/profile`, { body: { password } })
+      .request('delete', `${environment.SERVER_URL}/profile`, {
+        body: { password },
+      })
       .pipe(
         catchError((error) => this.authService.handleError(error)),
         tap(() => {
@@ -59,7 +61,7 @@ export class ProfileService {
     const fd = new FormData();
     fd.append('file', file);
     return this.http
-      .post(`${env.SERVER_URL}/profile/avatar/upload`, fd, {
+      .post(`${environment.SERVER_URL}/profile/avatar/upload`, fd, {
         // observe: 'events',
       })
       .pipe(
@@ -79,7 +81,7 @@ export class ProfileService {
 
   deleteAvatar(profileUrl, user) {
     return this.http
-      .request('delete', `${env.SERVER_URL}/profile/avatar`, {
+      .request('delete', `${environment.SERVER_URL}/profile/avatar`, {
         body: { profileUrl },
       })
       .pipe(

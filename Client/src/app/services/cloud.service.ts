@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, pipe, Subject, throwError } from 'rxjs';
 import { CloudModel } from '../models/cloud.model';
-import { env } from '../../environments/env';
+import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
@@ -32,7 +32,7 @@ export class CloudService {
 
   getCloud() {
     return this.http
-      .get<CloudModel>(`${env.SERVER_URL}/cloud`)
+      .get<CloudModel>(`${environment.SERVER_URL}/cloud`)
       .pipe(catchError((error) => this.authService.handleError(error)));
   }
 
@@ -41,7 +41,7 @@ export class CloudService {
       name,
       location,
     };
-    return this.http.post(`${env.SERVER_URL}/cloud/folder`, body).pipe(
+    return this.http.post(`${environment.SERVER_URL}/cloud/folder`, body).pipe(
       catchError((error) => this.authService.handleError(error)),
       tap((res: any) => {
         this.cloud.next(res.cloud);
@@ -56,12 +56,12 @@ export class CloudService {
 
   getFolder(id: string) {
     return this.http
-      .get<Folder>(`${env.SERVER_URL}/cloud/folders/${id}`)
+      .get<Folder>(`${environment.SERVER_URL}/cloud/folders/${id}`)
       .pipe(catchError((error) => this.authService.handleError(error)));
   }
 
   editFolder(data: any) {
-    return this.http.put(`${env.SERVER_URL}/cloud/folders`, data).pipe(
+    return this.http.put(`${environment.SERVER_URL}/cloud/folders`, data).pipe(
       catchError((error) => this.authService.handleError(error)),
       tap((res) => {
         this.folderAction.next({ folder: res, status: STATUS.EDITED });
@@ -70,37 +70,41 @@ export class CloudService {
   }
 
   deleteFolder(id: string) {
-    return this.http.delete(`${env.SERVER_URL}/cloud/folders/${id}`).pipe(
-      catchError((error) => this.authService.handleError(error)),
-      tap((res: any) => {
-        this.cloud.next(res.cloud);
-        this.folderAction.next({
-          folder: res.folder,
-          status: STATUS.DELETED,
-          parent: res.parent,
-        });
-      })
-    );
+    return this.http
+      .delete(`${environment.SERVER_URL}/cloud/folders/${id}`)
+      .pipe(
+        catchError((error) => this.authService.handleError(error)),
+        tap((res: any) => {
+          this.cloud.next(res.cloud);
+          this.folderAction.next({
+            folder: res.folder,
+            status: STATUS.DELETED,
+            parent: res.parent,
+          });
+        })
+      );
   }
 
   uploadFile(file: any, folderId: string) {
     const fd = new FormData();
     fd.append('file', file);
-    return this.http.post(`${env.SERVER_URL}/cloud/file/${folderId}`, fd).pipe(
-      catchError((error) => this.authService.handleError(error)),
-      tap((res: any) => {
-        this.cloud.next(res.cloud);
-        this.fileAction.next({
-          file: res.file,
-          status: STATUS.CREATED,
-          parent: res.parent,
-        });
-      })
-    );
+    return this.http
+      .post(`${environment.SERVER_URL}/cloud/file/${folderId}`, fd)
+      .pipe(
+        catchError((error) => this.authService.handleError(error)),
+        tap((res: any) => {
+          this.cloud.next(res.cloud);
+          this.fileAction.next({
+            file: res.file,
+            status: STATUS.CREATED,
+            parent: res.parent,
+          });
+        })
+      );
   }
 
   editFile(data: any) {
-    return this.http.put(`${env.SERVER_URL}/cloud/files`, data).pipe(
+    return this.http.put(`${environment.SERVER_URL}/cloud/files`, data).pipe(
       catchError((error) => this.authService.handleError(error)),
       tap((res) => {
         this.fileAction.next({ file: res, status: STATUS.EDITED });
@@ -109,7 +113,7 @@ export class CloudService {
   }
 
   deleteFile(id: string) {
-    return this.http.delete(`${env.SERVER_URL}/cloud/files/${id}`).pipe(
+    return this.http.delete(`${environment.SERVER_URL}/cloud/files/${id}`).pipe(
       catchError((error) => this.authService.handleError(error)),
       tap((res: any) => {
         this.fileAction.next({
@@ -123,7 +127,9 @@ export class CloudService {
 
   downloadFile(id: string) {
     return this.http
-      .get(`${env.SERVER_URL}/cloud/download/${id}`, { responseType: 'blob' })
+      .get(`${environment.SERVER_URL}/cloud/download/${id}`, {
+        responseType: 'blob',
+      })
       .pipe(catchError((error) => this.authService.handleError(error)));
   }
 }

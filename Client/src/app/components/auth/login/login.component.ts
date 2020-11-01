@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onLoginWithSocialAccount(method) {
     this.authService.signInWithSocialMedia(method, true);
-    this.isLoading = true;
+    // this.isLoading = true;
     this.subscription = this.authService.socialUserSubject.subscribe(
       (user: SocialUser) => {
         this.resetStuff();
@@ -99,6 +99,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           );
       },
       (error) => {
+        this.isLoading = false;
         this.resetStuff();
         console.log(error);
       }

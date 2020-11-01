@@ -91,7 +91,7 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   onSignUpWithSocialAccount(method) {
     this.authService.signInWithSocialMedia(method);
-    this.isLoading = true;
+    // this.isLoading = true;
     this.subscription = this.authService.socialUserSubject.subscribe(
       (user: SocialUser) => {
         this.authService
@@ -115,6 +115,7 @@ export class SignupComponent implements OnInit, OnDestroy {
           );
       },
       (error) => {
+        this.isLoading = false;
         console.log(error);
       }
     );

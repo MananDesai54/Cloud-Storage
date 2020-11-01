@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   Resolve,
+  Router,
   RouterStateSnapshot,
 } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
@@ -14,15 +15,19 @@ import { CloudService } from 'src/app/services/cloud.service';
 export class CloudResolver implements Resolve<CloudModel> {
   constructor(
     private cloudService: CloudService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<CloudModel> | Promise<CloudModel> | CloudModel {
-    return this.cloudService
-      .getCloud()
-      .pipe(catchError((error) => throwError(error)));
+    return this.cloudService.getCloud().pipe(
+      catchError((error) => {
+        this.authService.logout();
+        return throwError(error);
+      })
+    );
   }
 }

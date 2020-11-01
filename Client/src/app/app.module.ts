@@ -7,7 +7,7 @@ import {
   FacebookLoginProvider,
 } from 'angularx-social-login';
 import { GoogleLoginProvider } from 'angularx-social-login';
-import { env } from '../environments/env';
+import { environment } from '../environments/environment';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
 
 import { AppComponent } from './app.component';
@@ -94,11 +94,15 @@ import { UploadLoaderComponent } from './components/cloud/upload-loader/upload-l
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider(env.GOOGLE_OAUTH_CLIENT_ID),
+            provider: new GoogleLoginProvider(
+              environment.GOOGLE_OAUTH_CLIENT_ID
+            ),
           },
           {
             id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider(env.FACEBOOK_OAUTH_CLIENT_ID),
+            provider: new FacebookLoginProvider(
+              environment.FACEBOOK_OAUTH_CLIENT_ID
+            ),
           },
         ],
       } as SocialAuthServiceConfig,

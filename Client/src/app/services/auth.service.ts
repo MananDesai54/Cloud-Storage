@@ -10,7 +10,7 @@ import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { catchError, exhaustMap, take, tap } from 'rxjs/operators';
 import { ILoginCredential } from '../models/loginCredential.model';
 import { User } from '../models/user.model';
-import { env } from '../../environments/env';
+import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -39,7 +39,7 @@ export class AuthService {
 
   checkEmailExist(email) {
     return this.http
-      .get(`${env.SERVER_URL}/auth/${email}`, {
+      .get(`${environment.SERVER_URL}/auth/${email}`, {
         observe: 'body',
       })
       .pipe(
@@ -52,7 +52,7 @@ export class AuthService {
   registerUser(user: IUserCredential) {
     console.log(user);
     return this.http
-      .post<User>(`${env.SERVER_URL}/users`, user, {
+      .post<User>(`${environment.SERVER_URL}/users`, user, {
         // observe: 'response',
         // observe: 'body',
       })
@@ -65,7 +65,7 @@ export class AuthService {
   }
 
   loginUser(user: ILoginCredential) {
-    return this.http.post<User>(`${env.SERVER_URL}/auth`, user).pipe(
+    return this.http.post<User>(`${environment.SERVER_URL}/auth`, user).pipe(
       catchError(this.handleError),
       tap((userData) => {
         this.handleAuthentication(userData);
@@ -76,7 +76,7 @@ export class AuthService {
   // ********* run this code before all auth route **********
   authUser() {
     return this.http
-      .get<User>(`${env.SERVER_URL}/auth`)
+      .get<User>(`${environment.SERVER_URL}/auth`)
       .pipe(catchError((error) => this.handleError(error)));
   }
 
