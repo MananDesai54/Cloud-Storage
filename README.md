@@ -4,7 +4,7 @@ Web app that store your files and you can download them whenever you want.
 <br/>
 
 <h1>Live At</h1>
-<a href="https://elastic-wescoff-1ae4e3.netlify.app/">Cloud Storage</a>
+<a href="https://cloud-storage-client-b121d.web.app">Cloud Storage</a>
 
 <br/>
 
