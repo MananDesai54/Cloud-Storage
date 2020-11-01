@@ -47,6 +47,7 @@ import { NoDataComponent } from './components/cloud/no-data/no-data.component';
 import { FolderResolver } from './components/cloud/folder.resolver';
 import { VerifyComponent } from './components/cloud/verify/verify.component';
 import { CloudGuard } from './components/cloud/cloud.guard';
+import { UploadLoaderComponent } from './components/cloud/upload-loader/upload-loader.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { CloudGuard } from './components/cloud/cloud.guard';
     FilesComponent,
     NoDataComponent,
     VerifyComponent,
+    UploadLoaderComponent,
   ],
   imports: [
     BrowserModule,

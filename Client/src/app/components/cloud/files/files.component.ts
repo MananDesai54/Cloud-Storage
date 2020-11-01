@@ -93,7 +93,7 @@ export class FilesComponent implements OnInit, OnDestroy, OnChanges {
     const fileType = this.fileType.find((kind) =>
       kind.type.includes(file.fileType)
     );
-    return fileType.icon;
+    return fileType?.icon;
   }
   onRename() {
     console.log(this.renameForm.value.name, this.selectedEditFile._id);
@@ -140,10 +140,7 @@ export class FilesComponent implements OnInit, OnDestroy, OnChanges {
           console.log(url);
           const link = document.createElement('a');
           link.href = url;
-          link.setAttribute(
-            'download',
-            `${this.selectedEditFile.name}.${this.selectedEditFile.fileType}`
-          );
+          link.setAttribute('download', `${this.selectedEditFile.name}`);
           link.click();
         },
         (error) => {
