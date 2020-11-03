@@ -7,10 +7,10 @@ const expressSession = require("express-session");
 const cors = require("cors");
 const helmet = require("helmet");
 const fs = require("fs");
-const https = require("https");
+// const https = require("https");
 
-const privateKey = fs.readFileSync("server.key");
-const certificate = fs.readFileSync("server.cert");
+// const privateKey = fs.readFileSync("server.key");
+// const certificate = fs.readFileSync("server.cert");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
