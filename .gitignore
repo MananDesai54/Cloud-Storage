@@ -1,3 +1,5 @@
 node_modules/
 .env
 Assets/
+server.cert
+server.key
