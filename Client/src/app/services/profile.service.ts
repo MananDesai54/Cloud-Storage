@@ -44,7 +44,10 @@ export class ProfileService {
         body: { password },
       })
       .pipe(
-        catchError((error) => this.authService.handleError(error)),
+        catchError((error) => {
+          console.log(error);
+          return this.authService.handleError(error);
+        }),
         tap(() => {
           this.authService.logout();
         })

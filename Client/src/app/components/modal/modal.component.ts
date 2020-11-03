@@ -43,7 +43,10 @@ export class ModalComponent implements OnInit, OnDestroy {
           ? [Validators.required, Validators.email]
           : Validators.required
       ),
-      password: new FormControl(null, Validators.required),
+      password: new FormControl(
+        null,
+        this.user.method === 'local' ? Validators.required : []
+      ),
     });
   }
 

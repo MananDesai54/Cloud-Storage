@@ -147,7 +147,7 @@
         </div>
       </div>
     </section>
-    <section>
+    <section *ngIf="user.method === 'local'">
       <div class="title">Password</div>
       <div class="edit" style="margin-top: 0.5rem">
         <button (click)="onEditField('newPassword', 'password', '')">
@@ -167,7 +167,7 @@
         (ngSubmit)="onConfirmDeleteAccount()"
         class="deleteForm"
       >
-        <label *ngIf="confirmDelete">
+        <label *ngIf="confirmDelete && user.method === 'local'">
           Password
           <input
             type="password"

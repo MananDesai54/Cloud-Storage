@@ -150,12 +150,15 @@ export class ProfileComponent implements OnInit, OnDestroy {
       confirm('Are you sure want to delete your account?')
     ) {
       this.confirmDelete = true;
+      if (this.user.method === 'google' || this.user.method === 'facebook') {
+        this.onConfirmDeleteAccount();
+      }
     }
   }
   onConfirmDeleteAccount() {
     this.isLoading = true;
     this.profileService
-      .deleteAccount(this.deleteProfileForm.value.password)
+      .deleteAccount(this.deleteProfileForm.value.password || 'social-login')
       .subscribe(
         (res) => {
           console.log('Profile deleted');

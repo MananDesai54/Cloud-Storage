@@ -25,6 +25,8 @@ module.exports = async (req, res, next) => {
         });
       }
       next();
+    } else if (password === "social-login") {
+      next();
     }
   } catch (error) {
     console.log(error.message);

@@ -23,7 +23,7 @@
         [value]="input.value"
       />
     </label>
-    <label>
+    <label *ngIf="user.method === 'local'">
       <small>Current Password</small>
       <input
         type="password"
