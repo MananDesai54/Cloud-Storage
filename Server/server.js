@@ -5,7 +5,12 @@ const morgan = require("morgan");
 const passport = require("passport");
 const expressSession = require("express-session");
 const cors = require("cors");
-const sendMail = require("./config/sendMail");
+const helmet = require("helmet");
+const fs = require("fs");
+const https = require("https");
+
+const privateKey = fs.readFileSync("server.key");
+const certificate = fs.readFileSync("server.cert");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -14,8 +19,9 @@ connectToDatabase();
 //passport config
 require("./config/passport")(passport);
 
-//cors
+//cors & helmet
 app.use(cors());
+app.use(helmet());
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -52,3 +58,12 @@ app.use("/api/profile", require("./routes/profileRoutes"));
 app.use("/api/cloud", require("./routes/cloudRoutes"));
 
 app.listen(PORT, () => console.log(`Server is running at 127.0.0.1:${PORT}/`));
+// https
+//   .createServer(
+//     {
+//       key: privateKey,
+//       cert: certificate,
+//     },
+//     app
+//   )
+//   .listen(PORT, () => console.log(`Server is running at 127.0.0.1:${PORT}/`));
