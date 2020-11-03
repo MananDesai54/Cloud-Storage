@@ -73,6 +73,7 @@ router.post(
         const sault = await bcrypt.genSalt(10);
         user.local.password = await bcrypt.hash(user.local.password, sault);
         user.local.oldPasswords.push(user.local.password);
+        sendMail(token, user.email.value, "VERIFY EMAIl", true);
       } else {
         user[method.toLowerCase()] = {
           [`${method}Id`]: id,
@@ -95,7 +96,6 @@ router.post(
 
       //generate JWT token
       const token = generateToken(user);
-      sendMail(token, user.email.value, "VERIFY EMAIl", true);
 
       return res.status(200).json({
         method: user.method,

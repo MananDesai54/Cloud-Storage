@@ -6,6 +6,7 @@
   box-sizing: border-box;
   font-family: "Whitney", "Whitney SSm B", "Noto Sans SC", sans-serif;
   outline: none;
+  scroll-behavior: smooth;
 }
 *::-webkit-scrollbar-thumb {
   background: var(--interactive-muted);

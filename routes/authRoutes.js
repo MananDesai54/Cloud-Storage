@@ -38,7 +38,7 @@ router.get("/verification/:token", async (req, res) => {
       return res
         .status(400)
         .redirect(
-          `http://localhost:4200/cloud/setting?email=false&message=Invalid&user=${user.id}`
+          `https://cloud-storage-client-b121d.web.app/cloud/setting?email=false&message=Invalid&user=${user.id}`
         );
     }
     const user = await User.findById(decoded.user.id);
@@ -46,12 +46,12 @@ router.get("/verification/:token", async (req, res) => {
       return res
         .status(404)
         .redirect(
-          `http://localhost:4200/cloud/setting?email=false&message=Not found&user=${user.id}`
+          `https://cloud-storage-client-b121d.web.app/cloud/setting?email=false&message=Not found&user=${user.id}`
         );
     }
     if (user.email.verified) {
       return res.redirect(
-        `http://localhost:4200/cloud/setting?email=true&message=Already&user=${user.id}`
+        `https://cloud-storage-client-b121d.web.app/cloud/setting?email=true&message=Already&user=${user.id}`
       );
     }
     user.email = {
@@ -61,14 +61,14 @@ router.get("/verification/:token", async (req, res) => {
     // user.markModified("email");
     user.save();
     return res.redirect(
-      `http://localhost:4200/cloud/setting?email=true&message=Email verified successfully&user=${user.id}`
+      `https://cloud-storage-client-b121d.web.app/cloud/setting?email=true&message=Email verified successfully&user=${user.id}`
     );
   } catch (error) {
     console.log(error.message);
     return res
       .status(400)
       .redirect(
-        `http://localhost:4200/cloud/setting?email=false&message=Invalid`
+        `https://cloud-storage-client-b121d.web.app/cloud/setting?email=false&message=Invalid`
       );
   }
 });
