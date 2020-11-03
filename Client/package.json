@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "lint": "ng lint",
-    "client": "ng serve --open"
+    "client": "ng serve --open",
+    "build:prod": "ng build --prod"
   },
   "private": true,
   "dependencies": {

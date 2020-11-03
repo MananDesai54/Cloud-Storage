@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
-    "client": "npm run client --prefix Client"
+    "client": "npm run client --prefix Client",
+    "build": "npm run build:prod --prefix Client"
   },
   "engines": {
     "node": "14.5.0"
