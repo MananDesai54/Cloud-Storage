@@ -330,6 +330,7 @@ router.post(
           folder.files.push(cloud.files[cloud.files.length - 1]);
         }
         cloud.storage = +cloud.storage - sizeInGb;
+        cloud.markModified("files");
         await cloud.save();
         const file = cloud.files[cloud.files.length - 1];
         return res.status(200).json({

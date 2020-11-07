@@ -38,7 +38,7 @@ export class ProfileService {
         password,
       },
     };
-
+    console.log()
     return this.http
       .request('delete', `${environment.SERVER_URL}/profile`, {
         body: { password },

@@ -116,6 +116,7 @@ export class CloudService {
     return this.http.delete(`${environment.SERVER_URL}/cloud/files/${id}`).pipe(
       catchError((error) => this.authService.handleError(error)),
       tap((res: any) => {
+        this.cloud.next(res.cloud);
         this.fileAction.next({
           file: res.file,
           status: STATUS.DELETED,

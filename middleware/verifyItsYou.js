@@ -10,9 +10,9 @@ module.exports = async (req, res, next) => {
         message: "User not found",
       });
     }
+    const { password } = req.body;
     const registerType = user.method;
     if (registerType === "local") {
-      const { password } = req.body;
       if (!password) {
         return res.status(400).json({
           message: "Please provide password",
@@ -29,7 +29,7 @@ module.exports = async (req, res, next) => {
       next();
     }
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
     return res.status(500).json({
       message: "Server error",
     });
