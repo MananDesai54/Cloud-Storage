@@ -1,10 +1,11 @@
 export const viewer = [
   {
-    type: ['pdf', 'mp3', 'wav', 'ogg', 'mp4', 'wmv', 'mkv'],
+    type: ['mp3', 'wav', 'ogg', 'mp4', 'wmv', 'mkv'],
     viewer: 'url',
   },
   {
     type: [
+      'pdf',
       'txt',
       'css',
       'html',
@@ -29,6 +30,7 @@ export const viewer = [
       'zip',
       'rar',
       'gzip',
+      'py',
     ],
     viewer: 'google',
   },

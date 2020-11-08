@@ -145,6 +145,17 @@
 .preview *::-webkit-scrollbar {
   display: none !important;
 }
+.file-preview .logo {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.file-preview .logo svg {
+  height: 50%;
+  width: 50%;
+}
 
 @media (max-width: 699px) {
   .files {

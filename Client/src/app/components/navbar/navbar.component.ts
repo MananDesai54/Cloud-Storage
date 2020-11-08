@@ -7,8 +7,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { from } from 'rxjs';
-import { mergeMap, take } from 'rxjs/operators';
+import { from, of } from 'rxjs';
+import { map, mergeAll, mergeMap, take } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { CloudService } from '../../services/cloud.service';
 
@@ -54,27 +54,24 @@ export class NavbarComponent implements OnInit {
     this.addMenu.nativeElement.classList.toggle('open');
   }
   onFileUpload(files: any) {
-    this.filesToUpload = [];
     [...files].forEach((file) => {
       this.filesToUpload.push({ fileName: file.name, isUploaded: false });
     });
-    // from(files).pipe(mergeMap(file => {
-    //   this.cloudService
-    //     .uploadFile(file, this.location)
-    // }));
     [...files].forEach((file, index) => {
-      this.cloudService.uploadFile(file, this.location).subscribe(
-        (res) => {
-          const updatedData = [...this.filesToUpload];
-          updatedData[index].isUploaded = true;
-          this.filesToUpload = [...updatedData];
-          console.log(res);
-          // this.filesToUpload.splice(index, 1);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+      this.cloudService
+        .uploadFile(file, this.location)
+        .pipe(take(1))
+        .subscribe(
+          (res) => {
+            const updatedData = [...this.filesToUpload];
+            updatedData[index].isUploaded = true;
+            this.filesToUpload = [...updatedData];
+            console.log(res);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
     });
   }
   onCreateFolder() {

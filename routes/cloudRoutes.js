@@ -281,7 +281,7 @@ router.post(
     const { folderId } = req.params;
     if (!file) {
       return res.status(404).json({
-        error: "Please upload a file",
+        message: "Please upload a file",
       });
     }
     const { originalname, mimetype, buffer, size } = req.file;
@@ -296,7 +296,7 @@ router.post(
         folder = cloud.folders.find((folder) => folder.id === folderId);
         if (!folder) {
           return res.status(404).json({
-            error: "Folder not found",
+            message: "Folder not found",
           });
         }
       }
@@ -309,7 +309,7 @@ router.post(
       S3.upload(params, async (err, data) => {
         if (err)
           return res.status(400).json({
-            error: err.message,
+            message: err.message,
           });
 
         const { Location, key } = data;

@@ -14,7 +14,22 @@
         [alt]="file.name"
       />
       <ng-template #logo>
+        <div class="logo" *ngIf="checkFileViewer(file)?.viewer === 'url'">
+          <i
+            class="fas fa-music"
+            *ngIf="
+              file.fileType === 'mp3' ||
+                file.fileType === 'wav' ||
+                file.fileType === 'ogg';
+              else video
+            "
+          ></i>
+          <ng-template #video>
+            <i class="fas fa-video"></i>
+          </ng-template>
+        </div>
         <ngx-doc-viewer
+          *ngIf="!(checkFileViewer(file)?.viewer === 'url')"
           [url]="file.awsData.url"
           [viewer]="checkFileViewer(file)?.viewer"
           class="preview"

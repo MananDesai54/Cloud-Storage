@@ -74,6 +74,8 @@ export class FilesComponent implements OnInit, OnDestroy, OnChanges {
           this.files = this.files.filter(
             (file: any) => file._id !== res.file.id
           );
+        } else if (res.status === STATUS.CREATED) {
+          this.files.push(res.file);
         }
       }
     );
