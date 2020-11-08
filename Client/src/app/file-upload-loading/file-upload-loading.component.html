@@ -1,1 +1,24 @@
-<div class="loading-dialog"></div>
+<div class="loading-dialog">
+  <div class="title" style="text-align: center; text-decoration: underline">
+    Files to upload
+  </div>
+  <div class="close-btn" (click)="onCloseLoader()">
+    <i class="fas fa-times"></i>
+  </div>
+  <div class="uploading-files">
+    <div *ngFor="let file of files; index as i" class="file-data">
+      <span>{{ i + 1 }}. {{ file.fileName }}</span>
+      <img
+        *ngIf="!file.isUploaded"
+        src="/assets/gif/loading.gif"
+        alt="loading"
+      />
+
+      <i
+        class="fas fa-check-circle"
+        *ngIf="file.isUploaded"
+        style="color: var(--color-success); font-size: 1.5rem"
+      ></i>
+    </div>
+  </div>
+</div>

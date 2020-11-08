@@ -58,20 +58,17 @@ export class NavbarComponent implements OnInit {
       this.filesToUpload.push({ fileName: file.name, isUploaded: false });
     });
     [...files].forEach((file, index) => {
-      this.cloudService
-        .uploadFile(file, this.location)
-        .pipe(take(1))
-        .subscribe(
-          (res) => {
-            const updatedData = [...this.filesToUpload];
-            updatedData[index].isUploaded = true;
-            this.filesToUpload = [...updatedData];
-            console.log(res);
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
+      this.cloudService.uploadFile(file, this.location).subscribe(
+        (res) => {
+          const updatedData = [...this.filesToUpload];
+          updatedData[index].isUploaded = true;
+          this.filesToUpload = [...updatedData];
+          console.log(res);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     });
   }
   onCreateFolder() {

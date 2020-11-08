@@ -171,7 +171,10 @@
   style="opacity: 0; pointer-events: none; position: fixed; top: 0"
 />
 <div *ngIf="filesToUpload.length > 0">
-  <app-file-upload-loading [files]="filesToUpload"></app-file-upload-loading>
+  <app-file-upload-loading
+    [files]="filesToUpload"
+    (closeLoader)="filesToUpload = []"
+  ></app-file-upload-loading>
 </div>
 <form
   *ngIf="isCreateFolder"

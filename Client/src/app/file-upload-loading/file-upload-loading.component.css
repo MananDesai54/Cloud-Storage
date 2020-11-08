@@ -1,0 +1,64 @@
+.loading-dialog {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background: var(--background-floating);
+  padding: 1rem;
+  border-radius: 10px;
+  color: var(--header-primary);
+  width: 100%;
+  max-width: 300px;
+  z-index: 1000000000;
+  opacity: 0;
+  transform: translateY(100vw);
+  animation: popup 400ms var(--animation-function) forwards;
+}
+.loading-dialog .close-btn {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.uploading-files .file-data {
+  margin: 0.5rem auto;
+  padding: 0.3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+}
+.uploading-files .file-data img {
+  height: 30px;
+  width: 30px;
+}
+.uploading-files .file-data span {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.uploading-files .file-data svg {
+  animation: showup 400ms forwards;
+}
+
+@keyframes popup {
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes showup {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 699px) {
+  .loading-dialog {
+    right: 25%;
+  }
+}

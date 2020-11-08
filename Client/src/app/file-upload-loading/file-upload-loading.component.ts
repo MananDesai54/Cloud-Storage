@@ -20,6 +20,11 @@ export class FileUploadLoadingComponent implements OnInit, OnChanges {
   ngOnInit(): void {}
 
   ngOnChanges() {
-    // console.log(this.files);
+    console.log(this.files);
+  }
+  onCloseLoader() {
+    setTimeout(() => {
+      this.closeLoader.emit();
+    }, 400);
   }
 }
