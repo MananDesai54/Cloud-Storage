@@ -48,6 +48,7 @@ import { FolderResolver } from './components/cloud/folder.resolver';
 import { VerifyComponent } from './components/cloud/verify/verify.component';
 import { CloudGuard } from './components/cloud/cloud.guard';
 import { FileUploadLoadingComponent } from './file-upload-loading/file-upload-loading.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -85,6 +86,7 @@ import { FileUploadLoadingComponent } from './file-upload-loading/file-upload-lo
     ReactiveFormsModule,
     HttpClientModule,
     NgxDocViewerModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
     {

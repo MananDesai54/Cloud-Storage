@@ -1,6 +1,6 @@
 # Cloud-Storage
 
-Web app that store your files and you can download them whenever you want.
+Web app that store your files and you can download them whenever you want. You think as Google Drive in Discord UI.
 <br/>
 
 # Live At
