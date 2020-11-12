@@ -1,14 +1,14 @@
 import {
   Component,
   ElementRef,
-  Input,
+  OnDestroy,
   OnInit,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { from, of } from 'rxjs';
-import { map, mergeAll, mergeMap, take } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { CloudService } from '../../services/cloud.service';
 
@@ -18,7 +18,7 @@ import { CloudService } from '../../services/cloud.service';
   styleUrls: ['./navbar.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   @ViewChild('menuToggle') menuToggle: ElementRef;
   @ViewChild('menu') menu: ElementRef;
   @ViewChild('addMenu') addMenu: ElementRef;
@@ -28,6 +28,8 @@ export class NavbarComponent implements OnInit {
   isCreateFolder = false;
   message: string;
   filesToUpload = [];
+  user: User;
+  userSubscription: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -41,6 +43,10 @@ export class NavbarComponent implements OnInit {
 
     this.folderNameForm = new FormGroup({
       name: new FormControl(null, Validators.required),
+    });
+
+    this.authService.user.subscribe((user) => {
+      this.user = user;
     });
   }
 
@@ -98,5 +104,9 @@ export class NavbarComponent implements OnInit {
 
   onLogout() {
     this.authService.logout();
+  }
+
+  ngOnDestroy() {
+    this.userSubscription?.unsubscribe();
   }
 }

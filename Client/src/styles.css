@@ -9,11 +9,11 @@
   scroll-behavior: smooth;
 }
 *::-webkit-scrollbar-thumb {
-  background: var(--interactive-muted);
+  background: var(--background-floating);
   border-radius: 10px;
 }
 *::-webkit-scrollbar {
-  background: var(--background-tertiary);
+  background: var(--background-primary);
   width: 10px;
 }
 *::selection {

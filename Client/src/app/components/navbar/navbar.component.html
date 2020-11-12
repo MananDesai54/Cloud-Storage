@@ -74,7 +74,11 @@
         </div>
       </div>
       <div class="bottom section upload-btn">
-        <div class="item" (click)="onOpenUploadOption()">
+        <div
+          class="item"
+          (click)="onOpenUploadOption()"
+          *ngIf="user.email.verified"
+        >
           <div class="logo success">
             <i class="fas fa-plus"></i>
           </div>
@@ -122,7 +126,12 @@
       <div class="title">User</div>
     </a>
   </div>
-  <div class="add-btn" style="cursor: pointer" (click)="onOpenUploadOption()">
+  <div
+    class="add-btn"
+    style="cursor: pointer"
+    *ngIf="user.email.verified"
+    (click)="onOpenUploadOption()"
+  >
     <i class="fas fa-plus"></i>
   </div>
 </div>

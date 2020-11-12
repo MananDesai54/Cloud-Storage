@@ -24,7 +24,7 @@ export class RootComponent implements OnInit {
         this.cloud = data.cloud;
       },
       (error) => {
-        console.log(error);
+        console.log('error');
       }
     );
     this.cloudService.currentLocation.next('root');

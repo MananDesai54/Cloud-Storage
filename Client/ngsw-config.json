@@ -12,9 +12,14 @@
           "/manifest.webmanifest",
           "/*.css",
           "/*.js"
+        ],
+        "urls": [
+          "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js",
+          "https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap"
         ]
       }
-    }, {
+    },
+    {
       "name": "assets",
       "installMode": "lazy",
       "updateMode": "prefetch",
@@ -23,6 +28,19 @@
           "/assets/**",
           "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
         ]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "posts",
+      "urls": ["https://cloud-storage-server.herokuapp.com/api/cloud"],
+      "version": 1,
+      "cacheConfig": {
+        "maxSize": 5,
+        "maxAge": "1h",
+        "timeout": "10s",
+        "strategy": "freshness"
       }
     }
   ]

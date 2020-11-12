@@ -151,19 +151,24 @@ router.put("/", [auth, verifyItsYou], async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
 
-    if (email) {
-      if (email.toLowerCase() !== user.email.value.toLowerCase()) {
-        user.email = {
-          value: email.toLowerCase(),
-          verified: false,
-        };
-        sendMail(
-          req.header("x-auth-token"),
-          user.email.value.toLowerCase(),
-          "VERIFY EMAIL",
-          true
-        );
+    if (email && email.toLowerCase() !== user.email.value.toLowerCase()) {
+      const alreadyExists = await User.findOne({ "email.value": email });
+      if (alreadyExists) {
+        return res.status(400).json({
+          message: "This email is already in use.",
+        });
       }
+
+      user.email = {
+        value: email.toLowerCase(),
+        verified: false,
+      };
+      sendMail(
+        req.header("x-auth-token"),
+        user.email.value.toLowerCase(),
+        "VERIFY EMAIL",
+        true
+      );
     }
     if (username) user.username = username;
     if (newPassword) {

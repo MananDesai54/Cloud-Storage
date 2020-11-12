@@ -1,4 +1,10 @@
 const nodeMailer = require("nodemailer");
+const NODE_ENV = process.env.NODE_ENV;
+
+const url =
+  NODE_ENV === "development"
+    ? `http://localhost:5000/api/auth/verification`
+    : `https://cloud-storage-server.herokuapp.com/api/auth/verification`;
 
 const verifyHtml = (token) => `
   <div class="mail" style="padding:10px;background: #36393f;width: 90%;font-family: Verdana, Geneva, Tahoma, sans-serif;color: #eee;">
@@ -7,7 +13,7 @@ const verifyHtml = (token) => `
       Before accessing to all amazing features of Buckiee first confirm you
       email by pressing the below button.
     </p>
-    <a href="https://cloud-storage-server.herokuapp.com/api/auth/verification/${token}" style="text-decoration:none;padding: 10px;outline: none;border: none;border-radius: 5px;background: #7289da;color: #eee;
+    <a href="${url}/${token}" style="text-decoration:none;padding: 10px;outline: none;border: none;border-radius: 5px;background: #7289da;color: #eee;
     font-size: 18px;cursor: pointer;">Confirm</a>
   </div>
 `;
@@ -18,7 +24,7 @@ const forgotPasswordHtml = (token) => `
     <p>
       Click the button below to reset your password
     </p>
-    <a href="https://cloud-storage-server.herokuapp.com/api/users/request-reset-password/${token}" style="text-decoration:none;padding: 10px;outline: none;border: none;border-radius: 5px;background: #7289da;color: #eee;
+    <a href="${url}/${token}" style="text-decoration:none;padding: 10px;outline: none;border: none;border-radius: 5px;background: #7289da;color: #eee;
     font-size: 18px;cursor: pointer;">Reset Password</a>
   </div>
 `;

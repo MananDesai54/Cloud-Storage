@@ -3,10 +3,10 @@ const auth = require("../middleware/auth");
 const User = require("../models/userModel");
 const { check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
-const bCrypt = require("bcryptjs");
 const passport = require("passport");
 const showError = require("../config/showError");
 const sendMail = require("../config/sendMail");
+const NODE_ENV = process.env.NODE_ENV;
 
 const { authUser, loginUser } = require("../controllers/authController");
 
@@ -32,26 +32,30 @@ router.post(
 //@access   Public
 router.get("/verification/:token", async (req, res) => {
   const { token } = req.params;
+  const url =
+    NODE_ENV === "development"
+      ? `http://localhost:4200`
+      : `https://cloud-storage-client-b121d.web.app`;
   try {
     const decoded = jwt.decode(token, process.env.JWT_SECRET_KEY);
+    const user = await User.findById(decoded.user.id);
     if (!decoded) {
       return res
         .status(400)
         .redirect(
-          `https://cloud-storage-client-b121d.web.app/cloud/setting?email=false&message=Invalid&user=${user.id}`
+          `${url}/cloud/setting?email=false&message=Invalid&user=${user.id}`
         );
     }
-    const user = await User.findById(decoded.user.id);
     if (!user) {
       return res
         .status(404)
         .redirect(
-          `https://cloud-storage-client-b121d.web.app/cloud/setting?email=false&message=Not found&user=${user.id}`
+          `${url}/cloud/setting?email=false&message=Not found&user=${user.id}`
         );
     }
     if (user.email.verified) {
       return res.redirect(
-        `https://cloud-storage-client-b121d.web.app/cloud/setting?email=true&message=Already&user=${user.id}`
+        `${url}/cloud/setting?email=true&message=Already&user=${user.id}`
       );
     }
     user.email = {
@@ -61,15 +65,13 @@ router.get("/verification/:token", async (req, res) => {
     // user.markModified("email");
     user.save();
     return res.redirect(
-      `https://cloud-storage-client-b121d.web.app/cloud/setting?email=true&message=Email verified successfully&user=${user.id}`
+      `${url}/cloud/setting?email=true&message=Email verified successfully&user=${user.id}`
     );
   } catch (error) {
     console.log(error.message);
     return res
       .status(400)
-      .redirect(
-        `https://cloud-storage-client-b121d.web.app/cloud/setting?email=false&message=Invalid`
-      );
+      .redirect(`${url}/cloud/setting?email=false&message=Invalid`);
   }
 });
 
