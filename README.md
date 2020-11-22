@@ -13,6 +13,17 @@ Web app that store your files and you can download them whenever you want. You t
 
 <br/>
 
+# How to run it
+
+    - Clone the repo
+    - Go to the folder
+    - Run the command npm run server to start Node.js + Express server, Server will start at localhost:5000
+    - Run the command npm run client to start Angular development server,
+    Server will start at localhost:4200
+    - You are good to go. Add features, improve some, do whatever you want, have fun
+    - If there is some issue you can contact me <a href="mailto:manan5401desai@gmail.com">here</a>
+    - Also open to accept PRs.
+
 # Technology Stack
 
 ### ( MEAN + AWS(S3) )
@@ -60,3 +71,5 @@ Web app that store your files and you can download them whenever you want. You t
         View some format like image, doc, codes etc..
     </li>
 </ul>
+
+<p>Give a star if you likes it 😉🙂</p>
