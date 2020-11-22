@@ -21,7 +21,7 @@ Web app that store your files and you can download them whenever you want. You t
     - Run the command npm run client to start Angular development server,
     Server will start at localhost:4200
     - You are good to go. Add features, improve some, do whatever you want, have fun
-    - If there is some issue you can contact me <a href="mailto:manan5401desai@gmail.com">here</a>
+    - If there is some issue you can contact me [Here]mailto:manan5401desai@gmail.com)
     - Also open to accept PRs.
 
 # Technology Stack
