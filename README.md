@@ -3,10 +3,6 @@
 Web app that store your files and you can download them whenever you want. You think as Google Drive in Discord UI.
 <br/>
 
-# Live At
-
-<a href="https://cloud-storage-client-b121d.web.app">Cloud Storage</a>
-
 # Demo Video
 
 <a href="https://t.co/z1KjIpsYnO">Open Twitter</a>
